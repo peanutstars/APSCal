@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidTest</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="strAC">AC</string>
+    <string name="strDgt0">0</string>
+    <string name="strDgt1">1</string>
+    <string name="strDgt2">2</string>
+    <string name="strDgt3">3</string>
+    <string name="strDgt4">4</string>
+    <string name="strDgt5">5</string>
+    <string name="strDgt6">6</string>
+    <string name="strDgt7">7</string>
+    <string name="strDgt8">8</string>
+    <string name="strDgt9">9</string>
+    
+    <string name="strOpDiv">\u00f7</string>
+    <string name="strOpMul">\u00d7</string>
+    <string name="strOpMinus">-</string>
+    <string name="strOpPlus">+</string>
+
+    <string name="strPLeft">(</string>
+    <string name="strPRight">)</string>
+    <string name="strEnter">=</string>
+    <string name="strDot">.</string>
+    <string name="strDel">Del</string>
+
+    <string name="strFormula">Formula</string>
+    <string name="strResult">Result</string>
+    
+    <string name="strNone"></string>
+    
+</resources>

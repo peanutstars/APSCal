@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <array name="cal_btns">
+        <item>@+id/btnDgt0</item>
+        <item>@+id/btnDgt1</item>
+        <item>@+id/btnDgt2</item>
+        <item>@+id/btnDgt3</item>
+        <item>@+id/btnDgt4</item>
+        <item>@+id/btnDgt5</item>
+        <item>@+id/btnDgt6</item>
+        <item>@+id/btnDgt7</item>
+        <item>@+id/btnDgt8</item>
+        <item>@+id/btnDgt9</item>
+        <item>@+id/btnOpDiv</item>
+        <item>@+id/btnOpMul</item>
+        <item>@+id/btnOpMinus</item>
+        <item>@+id/btnOpPlus</item>
+        <item>@+id/btnEnter</item>
+        <item>@+id/btnDot</item>
+        <item>@+id/btnAC</item>
+        <item>@+id/btnDel</item>
+        <item>@+id/btnPLeft</item>
+        <item>@+id/btnPRight</item>
+    </array>
+    
+</resources>
