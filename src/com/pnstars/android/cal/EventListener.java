@@ -1,10 +1,10 @@
-package com.example.androidtest;
+package com.pnstars.android.cal;
 
-import com.pnstars.android.helper.PNSDbg;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.pnstars.android.R;
+import com.pnstars.android.helper.PNSDbg;
 
 
 public class EventListener implements View.OnClickListener

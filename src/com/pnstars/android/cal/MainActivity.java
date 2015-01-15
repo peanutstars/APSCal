@@ -1,4 +1,4 @@
-package com.example.androidtest;
+package com.pnstars.android.cal;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pnstars.android.R;
 import com.pnstars.android.helper.PNSScreen;
 
 public class MainActivity extends Activity {

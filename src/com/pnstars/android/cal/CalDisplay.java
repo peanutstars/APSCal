@@ -1,14 +1,15 @@
-package com.example.androidtest;
+package com.pnstars.android.cal;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.text.Editable;
 import android.widget.TextView;
+
+import com.pnstars.android.R;
 
 public class CalDisplay {
 	
