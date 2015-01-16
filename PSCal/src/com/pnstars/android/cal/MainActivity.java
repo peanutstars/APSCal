@@ -39,6 +39,8 @@ public class MainActivity extends Activity {
 	
 	public void connectBtnEvent() {
 
+/*
+		Align Center  
 		if (mScreen.getWidthDpi() > PNSScreen.BASE_WIDTH_DP) {
 			LinearLayout ll = (LinearLayout) findViewById(R.id.layoutButtonArray);
 			ViewGroup.MarginLayoutParams mparams = (ViewGroup.MarginLayoutParams) ll.getLayoutParams();
@@ -50,6 +52,7 @@ public class MainActivity extends Activity {
 			
 			mparams.setMargins(left, top, right, bottom);
 		}
+*/
 	
 		final TypedArray btns = getResources().obtainTypedArray(R.array.cal_btns);
 		for (int i = 0; i < btns.length(); i++) {
