@@ -1,36 +1,47 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="5dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_pad"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/tvFormula"
-                style="@style/styleFormula"
-                android:layout_weight="1"
-                android:fadeScrollbars="true"
-                android:text="@string/strFormula"
-                android:textSize="28sp" />
+        <EditText
+            android:id="@+id/tvFormula"
+            style="@style/styleFormula"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1.0"
+            android:fadeScrollbars="true"
+            android:text="@string/strFormula"
+            android:textSize="28sp" />
 
-            <TextView
-                android:id="@+id/tvResult"
-                style="@style/styleResult"
-                android:gravity="right"
-                android:text="@string/strResult"
-                android:textSize="28sp" />
+        <TextView
+            android:id="@+id/tvResult"
+            style="@style/styleResult"
+            android:gravity="right"
+            android:text="@string/strResult"
+            android:textSize="28sp" />
     </LinearLayout>
 
-	<include layout="@layout/pad_normal" />
+    <LinearLayout
+        android:id="@+id/btn_pad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <include layout="@layout/pad_normal" />
+    </LinearLayout>
+
+</RelativeLayout>

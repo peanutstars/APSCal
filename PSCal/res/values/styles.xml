@@ -18,8 +18,6 @@
     </style>
 
     <style name="styleFormula">
-       <item name="android:layout_width">match_parent</item>
-       <item name="android:layout_height">0dp</item>
        <item name="android:gravity">top</item>
        <item name="android:scrollbars">vertical</item>
        <item name="android:inputType">textMultiLine|textNoSuggestions</item>
@@ -29,9 +27,11 @@
        <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="btnStyleHaiti" parent="@android:style/Widget.Button">
-       <item name="android:layout_width">75dp</item>
+       <!-- <item name="android:layout_width">75dp</item>  -->
+       <item name="android:layout_weight">1</item>
+       <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">28sp</item>
+       <item name="android:textSize">26sp</item>
        <item name="android:textStyle">bold</item>
        <item name="android:textColor">#A0A0A0</item>
        <item name="android:gravity">center</item>
@@ -45,9 +45,11 @@
        <item name="android:layout_marginRight">5dp</item>
     </style>
     <style name="btnStylepale_brown" parent="@android:style/Widget.Button">
-       <item name="android:layout_width">75dp</item>
+       <!-- <item name="android:layout_width">75dp</item>  -->
+       <item name="android:layout_weight">1</item>
+       <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">28sp</item>
+       <item name="android:textSize">26sp</item>
        <item name="android:textStyle">bold</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
