@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_pad"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/round_rect"
         android:layout_marginTop="10dp"
         android:orientation="vertical" >
 
@@ -20,7 +22,6 @@
             style="@style/styleFormula"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="15dp"
             android:layout_weight="1.0"
             android:fadeScrollbars="true"
             android:text="@string/strFormula"
@@ -30,8 +31,16 @@
             android:id="@+id/tvResult"
             style="@style/styleResult"
             android:gravity="right"
+            android:layout_marginRight="4dp"
             android:text="@string/strResult"
+            android:clickable="true"
             android:textSize="28sp" />
+
+        <ListView
+            android:id="@+id/lv_history"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout

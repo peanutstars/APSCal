@@ -1,0 +1,8 @@
+*.bak
+PSCal/.settings/
+PSCal/bin/
+PSCal/gen/
+PSCalTest/.settings/
+PSCalTest/bin/
+PSCalTest/gen/
+

@@ -3,9 +3,9 @@ package com.pnstars.android.cal;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
@@ -30,11 +30,27 @@ public class MainActivity extends Activity {
 		mScreen = new PNSScreen(this);
 		mDisplay = new CalDisplay(this);
 		mLogic = new CalLogic(mDisplay);
-		mListener = new EventListener(mLogic);
+		mListener = new EventListener(this, mLogic);
 
 		mScreen.setOrientationPortrait();
 		
 		connectBtnEvent();
+		testListView();
+	}
+	
+	public void testListView() {
+		String [] listHistory = {
+				"Test List View 1",
+				"Test List View 2",
+				"Test List View 3",
+				"Test List View 4",
+				"Test List View 5",
+				"Test List View 6",
+		};
+		ListView lv = (ListView) findViewById(R.id.lv_history);
+		ArrayAdapter<String> adapter;
+		adapter = new ArrayAdapter<String>(this,  R.layout.history_item, R.id.item_name, listHistory);
+		lv.setAdapter(adapter);
 	}
 	
 	public void connectBtnEvent() {
@@ -60,6 +76,9 @@ public class MainActivity extends Activity {
 			b.setOnClickListener(mListener);
         }
 		btns.recycle();
+		
+		mTvResult = (TextView) findViewById(R.id.tvResult);
+		mTvResult.setOnClickListener(mListener);
 	}
 
 }
