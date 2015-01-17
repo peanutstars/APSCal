@@ -10,6 +10,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.text.Editable;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -18,6 +19,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
+import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
 
 public class CalDisplay {
 	
@@ -30,6 +32,7 @@ public class CalDisplay {
 	private LinearLayout mLFormula;
 	private LinearLayout mLHistory;
 	private LinearLayout mLPad;
+	private ListAdapter mAdapter;
 
 	public CalDisplay (Activity activity) {
 		mActivity = activity;
@@ -87,11 +90,36 @@ public class CalDisplay {
 	}
 	
 	private void fillHistory (CalHistory history) {
-		ArrayList<HashMap<String, String>> lhistory = history.getHistory();
-		ListAdapter adapter = new SimpleAdapter(mActivity, lhistory,R.layout.list_history,
-				new String[] { CalItem.TAG_FORMULA, CalItem.TAG_Result },
-				new int[] { R.id.itemFormula, R.id.itemResult} );
-		mLvHistory.setAdapter(adapter);
+		ArrayList<CalItem> lhistory = history.getHistory();
+		mAdapter = new CalListViewAdapter(mActivity, R.layout.list_history, lhistory);
+		mLvHistory.setAdapter(mAdapter);
+		
+//		ArrayList<HashMap<String, String>> lhistory = history.getHistory();
+//		mAdapter = new SimpleAdapter(mActivity, lhistory,R.layout.list_history,
+//				new String[] { CalItem.TAG_FORMULA, CalItem.TAG_Result },
+//				new int[] { R.id.itemFormula, R.id.itemResult} );
+//		mLvHistory.setAdapter(mAdapter);
+		
+//		SwipeDismissListViewTouchListener touchListener = 
+//				new SwipeDismissListViewTouchListener(
+//						mLvHistory,
+//						new SwipeDismissListViewTouchListener.DismissCallbacks() {
+//							
+//							@Override
+//							public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+//								for (int position : reverseSortedPositions) {
+//									mAdapter.remove(mAdapter.getItem(position));
+//									mAdapter.
+//								}
+//								mAdapter.notify();	
+//							}
+//							
+//							@Override
+//							public boolean canDismiss(int position) {
+//								return true;
+//							}
+//						});
+//		mLvHistory.setOnTouchListener(touchListener);
 	}
 	
 	public void history(CalHistory history) {
