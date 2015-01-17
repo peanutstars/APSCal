@@ -127,6 +127,9 @@ public class CalLogic {
 	public void history() {
 		mDisplay.history(mCalHistory);
 	}
+	public void historyClear() {
+		mDisplay.historyClear(mCalHistory);
+	}
 	
 	public class LogicState{
 		int			countParenthesis;

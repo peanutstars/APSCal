@@ -22,6 +22,8 @@
         <item>@+id/btnDel</item>
         <item>@+id/btnPLeft</item>
         <item>@+id/btnPRight</item>
+        <item>@+id/btnHistoryClear</item>
+        <item>@+id/btnHistoryClose</item>
     </array>
     
 </resources>

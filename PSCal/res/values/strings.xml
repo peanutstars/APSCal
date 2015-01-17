@@ -30,6 +30,8 @@
     <string name="strFormula">Formula</string>
     <string name="strResult">Result</string>
     
+    <string name="strHistoryClear">Clear All</string>
+    <string name="strHistoryClose">Close</string>
     <string name="strNone"></string>
     
 </resources>

@@ -10,6 +10,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -23,18 +24,22 @@ public class CalDisplay {
 	public enum ResultFormat { RESULT, MESSAGE };
 	
 	private Activity mActivity;
-	private TextView mFormula;
+	private EditText mFormula;
 	private TextView mResult;
 	private ListView mLvHistory;
-	private LinearLayout mBtnPad;
+	private LinearLayout mLFormula;
+	private LinearLayout mLHistory;
+	private LinearLayout mLPad;
 
 	public CalDisplay (Activity activity) {
 		mActivity = activity;
 		
-		mFormula = (TextView) mActivity.findViewById(R.id.tvFormula);
+		mFormula = (EditText) mActivity.findViewById(R.id.tvFormula);
 		mResult = (TextView) mActivity.findViewById(R.id.tvResult);
 		mLvHistory = (ListView) mActivity.findViewById(R.id.lv_history);
-		mBtnPad = (LinearLayout) mActivity.findViewById(R.id.btn_pad);
+		mLFormula = (LinearLayout) mActivity.findViewById(R.id.layoutFormula);
+		mLHistory = (LinearLayout) mActivity.findViewById(R.id.layoutHistory);
+		mLPad = (LinearLayout) mActivity.findViewById(R.id.layoutPad);
 
 		mFormula.setText("");
 		mFormula.setFocusable(false);
@@ -87,13 +92,20 @@ public class CalDisplay {
 	}
 	
 	public void history(CalHistory history) {
-		if (mLvHistory.getVisibility() == View.GONE) {
+		if (mLHistory.getVisibility() == View.GONE) {
 			fillHistory(history);
-			mLvHistory.setVisibility(View.VISIBLE);
-			mBtnPad.setVisibility(View.GONE);
+			mLFormula.setVisibility(View.GONE);
+			mLHistory.setVisibility(View.VISIBLE);
+			mLPad.setVisibility(View.GONE);
 		} else {
-			mLvHistory.setVisibility(View.GONE);
-			mBtnPad.setVisibility(View.VISIBLE);
+			mLFormula.setVisibility(View.VISIBLE);
+			mLHistory.setVisibility(View.GONE);
+			mLPad.setVisibility(View.VISIBLE);
 		}
+	}
+	
+	public void historyClear (CalHistory history){
+		history.clear();
+		fillHistory(history);
 	}
 }

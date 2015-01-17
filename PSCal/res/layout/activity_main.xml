@@ -8,14 +8,15 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <LinearLayout
+        android:id="@+id/layoutFormula"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_pad"
+        android:layout_above="@+id/layoutPad"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/round_rect"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_rect"
         android:orientation="vertical" >
 
         <EditText
@@ -31,21 +32,49 @@
         <TextView
             android:id="@+id/tvResult"
             style="@style/styleResult"
-            android:gravity="right"
             android:layout_marginRight="4dp"
-            android:text="@string/strResult"
             android:clickable="true"
+            android:gravity="right"
+            android:text="@string/strResult"
             android:textSize="28sp" />
-
-        <ListView
-            android:id="@+id/lv_history"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btn_pad"
+        android:id="@+id/layoutHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone" 
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnHistoryClear"
+                style="@style/btnStyleHaiti"
+                android:text="@string/strHistoryClear" />
+
+            <Button
+                android:id="@+id/btnHistoryClose"
+                style="@style/btnStyleHaiti"
+                android:text="@string/strHistoryClose" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_rect" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutPad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

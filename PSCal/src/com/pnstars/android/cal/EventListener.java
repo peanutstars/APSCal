@@ -37,6 +37,12 @@ public class EventListener implements View.OnClickListener
 		case R.id.tvResult:
 			mLogic.history();
 			break;
+		case R.id.btnHistoryClose:
+			mLogic.history();
+			break;
+		case R.id.btnHistoryClear:
+			mLogic.historyClear();
+			break;
 		default:
 			if (view instanceof Button) {
 				String text = ((Button) view).getText().toString();
