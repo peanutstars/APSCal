@@ -14,11 +14,9 @@ public class EventListener implements View.OnClickListener
 										   // , View.OnLongClickListener 
 										   {
 	public final String TAG = "PnStars";
-	private Activity mActivity;
 	private CalLogic mLogic;
 	
-	public EventListener(Activity activity, CalLogic logic) {
-		mActivity = activity;
+	public EventListener(CalLogic logic) {
 		mLogic = logic;
 	}
 
@@ -37,15 +35,7 @@ public class EventListener implements View.OnClickListener
 			mLogic.enter();
 			break;
 		case R.id.tvResult:
-			ListView lv = (ListView) mActivity.findViewById(R.id.lv_history);
-			LinearLayout ll = (LinearLayout) mActivity.findViewById(R.id.btn_pad);
-			if (lv.getVisibility() == View.GONE) {
-				lv.setVisibility(View.VISIBLE);
-				ll.setVisibility(View.GONE);
-			} else {
-				lv.setVisibility(View.GONE);
-				ll.setVisibility(View.VISIBLE);
-			}
+			mLogic.history();
 			break;
 		default:
 			if (view instanceof Button) {

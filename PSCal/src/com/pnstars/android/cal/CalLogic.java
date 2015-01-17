@@ -7,12 +7,15 @@ import com.pnstars.android.helper.PNSDbg;
 
 public class CalLogic {
 	
-	private Stack<LogicState> mStack;
+	private Stack<LogicState> mInputStack;
+	private CalHistory mCalHistory;
 	private LogicState mLS;
 	private CalDisplay mDisplay;
 	
+	
 	public CalLogic (CalDisplay display) {
-		mStack = new Stack<LogicState>();
+		mInputStack = new Stack<LogicState>();
+		mCalHistory = new CalHistory();
 		mLS = new LogicState();
 		mDisplay = display;
 	}
@@ -37,7 +40,7 @@ public class CalLogic {
 				// PNSDbg.d(mLS.operator + ":" + CalParser.OPERATOR.indexOf(mLS.operator));
 				if (mLS.operator.length() == 0 ) {
 					// It can only set minus operator to first character among the operators.
-					if (mStack.size() == 0 && v.compareTo(CalParser.OP_MINUS) != 0) {
+					if (mInputStack.size() == 0 && v.compareTo(CalParser.OP_MINUS) != 0) {
 						break ;
 					}
 					// PNSDbg.d("" + v);
@@ -64,22 +67,22 @@ public class CalLogic {
 				}
 			}
 			PNSDbg.d("PU(" + copyLS.countParenthesis + "," + copyLS.fgDot + "," + copyLS.operator + ")" );
-			mStack.push(copyLS);
+			mInputStack.push(copyLS);
 			mDisplay.append(v);
 		} while (false) ;
 	}
 	
 	public void delete () {
-		if (mStack.empty() == false) {
-			mLS = mStack.pop();
+		if (mInputStack.empty() == false) {
+			mLS = mInputStack.pop();
 		}
 		PNSDbg.d("PO Update(" + mLS.countParenthesis + "," + mLS.fgDot + "," + mLS.operator + ")" );
 		mDisplay.delete();
 	}
 	private void deleteNoUpdateLS() {
 		LogicState popLS = null;
-		if (mStack.empty() == false) {
-			popLS = mStack.pop();
+		if (mInputStack.empty() == false) {
+			popLS = mInputStack.pop();
 		}
 		if (popLS != null) {
 			PNSDbg.d("PO Delete(" + popLS.countParenthesis + "," + popLS.fgDot + "," + popLS.operator + ")" );
@@ -92,8 +95,8 @@ public class CalLogic {
 	public void reset() {
 		mDisplay.resetFormula();
 		mDisplay.resetResult();
-		while (mStack.empty() == false) {
-			mLS = mStack.pop();
+		while (mInputStack.empty() == false) {
+			mLS = mInputStack.pop();
 		}
 	}
 	
@@ -107,7 +110,9 @@ public class CalLogic {
 			if (result.getResult() == CalParser.Result.PASS) {
 				String [] ci = result.getFormula().split(" ");
 				String [] co = CalParser.infixToRPN(ci);
-				mDisplay.setResult(CalDisplay.ResultFormat.RESULT, CalParser.RPNtoString(co));
+				String formulaResult = CalParser.RPNtoString(co);
+				mCalHistory.addItem(formula, formulaResult);
+				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
 			} else {
 				fgErrSyntax = true;
 			}
@@ -117,6 +122,10 @@ public class CalLogic {
 		if (fgErrSyntax == true) {
 			mDisplay.setResult(CalDisplay.ResultFormat.MESSAGE, "Syntax Error");
 		}
+	}
+	
+	public void history() {
+		mDisplay.history(mCalHistory);
 	}
 	
 	public class LogicState{

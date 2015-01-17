@@ -23,9 +23,6 @@ public class MainActivity extends Activity {
 	CalDisplay mDisplay;
 	CalLogic mLogic;
 	TextView mTvResult;
-	ArrayList<HashMap<String, String>> mHistoryList;
-	final static String TAG_FORMULA = "HL_FORMULA";
-	final static String TAG_RESULT = "HL_RESULT";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,44 +32,14 @@ public class MainActivity extends Activity {
 		mScreen = new PNSScreen(this);
 		mDisplay = new CalDisplay(this);
 		mLogic = new CalLogic(mDisplay);
-		mListener = new EventListener(this, mLogic);
-		mHistoryList = new ArrayList<HashMap<String, String>>();
+		mListener = new EventListener(mLogic);
 
 		mScreen.setOrientationPortrait();
 		
 		connectBtnEvent();
-		testListView();
-	}
-	
-	public void testListView() {
-		
-		mHistoryList.clear();
-
-		String [] itemValue = {
-				"Test List View 1",
-				"Test List View 2",
-				"Test List View 3",
-				"Test List View 4",
-				"Test List View 5",
-				"Test List View 6",
-		};
-		
-		for (String a : itemValue) {
-			HashMap<String, String> item = new HashMap<String, String>();
-			item.put(TAG_FORMULA, a);
-			item.put(TAG_RESULT, a);
-			mHistoryList.add(item);
-		}
-
-		ListView lv = (ListView) findViewById(R.id.lv_history);
-		ListAdapter adapter = new SimpleAdapter(this, mHistoryList, R.layout.list_history, 
-				new String[] { TAG_FORMULA, TAG_RESULT }, 
-				new int[] { R.id.itemFormula, R.id.itemResult });
-		lv.setAdapter(adapter);
 	}
 	
 	public void connectBtnEvent() {
-
 /*
 		Align Center  
 		if (mScreen.getWidthDpi() > PNSScreen.BASE_WIDTH_DP) {
