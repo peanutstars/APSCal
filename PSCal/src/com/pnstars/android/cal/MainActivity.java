@@ -1,11 +1,16 @@
 package com.pnstars.android.cal;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
@@ -17,20 +22,21 @@ public class MainActivity extends Activity {
 	EventListener mListener;
 	CalDisplay mDisplay;
 	CalLogic mLogic;
-	TextView mTvFormula;
 	TextView mTvResult;
+	ArrayList<HashMap<String, String>> mHistoryList;
+	final static String TAG_FORMULA = "HL_FORMULA";
+	final static String TAG_RESULT = "HL_RESULT";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
 		setContentView(R.layout.activity_main);
 
 		mScreen = new PNSScreen(this);
 		mDisplay = new CalDisplay(this);
 		mLogic = new CalLogic(mDisplay);
 		mListener = new EventListener(this, mLogic);
+		mHistoryList = new ArrayList<HashMap<String, String>>();
 
 		mScreen.setOrientationPortrait();
 		
@@ -39,7 +45,10 @@ public class MainActivity extends Activity {
 	}
 	
 	public void testListView() {
-		String [] listHistory = {
+		
+		mHistoryList.clear();
+
+		String [] itemValue = {
 				"Test List View 1",
 				"Test List View 2",
 				"Test List View 3",
@@ -47,9 +56,18 @@ public class MainActivity extends Activity {
 				"Test List View 5",
 				"Test List View 6",
 		};
+		
+		for (String a : itemValue) {
+			HashMap<String, String> item = new HashMap<String, String>();
+			item.put(TAG_FORMULA, a);
+			item.put(TAG_RESULT, a);
+			mHistoryList.add(item);
+		}
+
 		ListView lv = (ListView) findViewById(R.id.lv_history);
-		ArrayAdapter<String> adapter;
-		adapter = new ArrayAdapter<String>(this,  R.layout.history_item, R.id.item_name, listHistory);
+		ListAdapter adapter = new SimpleAdapter(this, mHistoryList, R.layout.list_history, 
+				new String[] { TAG_FORMULA, TAG_RESULT }, 
+				new int[] { R.id.itemFormula, R.id.itemResult });
 		lv.setAdapter(adapter);
 	}
 	
