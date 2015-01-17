@@ -57,14 +57,17 @@ public class CalDisplay {
 	public void resetResult () {
 		mResult.setText("");
 	}
+	public String getResultFormuat (String v) {
+		Locale locale = mActivity.getResources().getConfiguration().locale;
+		DecimalFormat df = new DecimalFormat("###,###.#####", new DecimalFormatSymbols(locale));
+		BigDecimal bd = new BigDecimal(v);
+		return df.format(bd.doubleValue());
+	}
 	public void setResult (ResultFormat rf, String v) {
 		if (rf == ResultFormat.MESSAGE) {
 			mResult.setText(v);
 		} else {
-			Locale locale = mActivity.getResources().getConfiguration().locale;
-			DecimalFormat df = new DecimalFormat("###,###.#####", new DecimalFormatSymbols(locale));
-			BigDecimal bd = new BigDecimal(v);
-			mResult.setText(df.format(bd.doubleValue()));
+			mResult.setText(v);
 		}
 	}
 	

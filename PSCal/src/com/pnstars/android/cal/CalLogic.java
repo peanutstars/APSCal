@@ -110,7 +110,7 @@ public class CalLogic {
 			if (result.getResult() == CalParser.Result.PASS) {
 				String [] ci = result.getFormula().split(" ");
 				String [] co = CalParser.infixToRPN(ci);
-				String formulaResult = CalParser.RPNtoString(co);
+				String formulaResult = mDisplay.getResultFormuat(CalParser.RPNtoString(co));
 				mCalHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
 			} else {
