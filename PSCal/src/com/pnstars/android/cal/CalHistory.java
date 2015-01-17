@@ -34,31 +34,12 @@ public class CalHistory {
 		mListHistory.add(item);
 	}
 	public void delItem (int index) {
-		mListHistory.remove(index);
+		// Reverse Order
+		mListHistory.remove(mListHistory.size() - index - 1);
 	}
 	public void clear() {
 		mListHistory.clear();
 	}
-//	public ArrayList<HashMap<String,String>> getHistory() {
-//		ArrayList<HashMap<String, String>> larray = new ArrayList<HashMap<String,String>>();
-//		/*
-//		for (CalItem item : mListHistory) {
-//			HashMap<String, String> list = new HashMap<String, String>();
-//			list.put(CalItem.TAG_FORMULA, item.getFormula());
-//			list.put(CalItem.TAG_Result, item.getResult());
-//			larray.add(list);
-//		}
-//		*/
-//		ListIterator<CalItem> li = mListHistory.listIterator(mListHistory.size());
-//		while (li.hasPrevious()) {
-//			CalItem item = li.previous();
-//			HashMap<String, String> list = new HashMap<String, String>();
-//			list.put(CalItem.TAG_FORMULA, item.getFormula());
-//			list.put(CalItem.TAG_Result, item.getResult());
-//			larray.add(list);
-//		}
-//		return larray;
-//	}
 	public ArrayList<CalItem> getHistory() {
 		ArrayList<CalItem> larray = new ArrayList<CalItem>();
 		ListIterator<CalItem> li = mListHistory.listIterator(mListHistory.size());
