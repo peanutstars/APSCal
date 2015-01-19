@@ -22,6 +22,9 @@ public class CalLogic {
 	
 	public void input (String v) {
 		LogicState copyLS = mLS.copy();
+
+		/* Clear Result Value */
+		mDisplay.resetResult();
 		
 		do
 		{
@@ -59,6 +62,7 @@ public class CalLogic {
 			// check dot 
 			if (CalParser.SPLITTER.indexOf(v) != -1) {
 				mLS.fgDot = false;
+				mLS.countDecimals = 0;
 			} else if (v.equals(CalParser.DOT) == true) {
 				if (mLS.fgDot == true) {
 					break ;
@@ -66,7 +70,17 @@ public class CalLogic {
 					mLS.fgDot = true;
 				}
 			}
-			PNSDbg.d("PU(" + copyLS.countParenthesis + "," + copyLS.fgDot + "," + copyLS.operator + ")" );
+			if (mLS.fgDot) {
+				if (mLS.countDecimals <= CalParser.INPUT_MAX_DESIMALS) {
+					/* It is counting with dot */
+					mLS.countDecimals++;
+				} else {
+					PNSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
+					break;
+				}
+			}
+			
+			PNSDbg.d("PU " + copyLS.toString() );
 			mInputStack.push(copyLS);
 			mDisplay.append(v);
 		} while (false) ;
@@ -76,7 +90,7 @@ public class CalLogic {
 		if (mInputStack.empty() == false) {
 			mLS = mInputStack.pop();
 		}
-		PNSDbg.d("PO Update(" + mLS.countParenthesis + "," + mLS.fgDot + "," + mLS.operator + ")" );
+		PNSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
 	}
 	private void deleteNoUpdateLS() {
@@ -85,7 +99,7 @@ public class CalLogic {
 			popLS = mInputStack.pop();
 		}
 		if (popLS != null) {
-			PNSDbg.d("PO Delete(" + popLS.countParenthesis + "," + popLS.fgDot + "," + popLS.operator + ")" );
+			PNSDbg.d("PO Delete" + popLS.toString());
 		} else {
 			PNSDbg.d("PO Delete( None )");
 		}
@@ -101,11 +115,15 @@ public class CalLogic {
 	}
 	
 	public void enter() {
-		boolean fgErrSyntax = false;
+		boolean fgErrSyntax = true;
 		String formula = mDisplay.getFormula();
 		PNSDbg.d("Formula : " + formula);
 		
-		if (mLS.countParenthesis == 0 && formula.length() > 0) {
+		if (mLS.operator.length() > 0) { // && CalParser.OPERATOR.indexOf(mLS.operator) == -1) {
+			PNSDbg.d("Syntax Err : Formula is ended with operator.");
+		} else if (mLS.fgDot && mLS.countDecimals <= 1) {
+			PNSDbg.d("Syntax Err : The last input is Dot and then need more inputs.");
+		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
 			CalParser.CalResult result = CalParser.setFormulaToBoundary(formula);
 			if (result.getResult() == CalParser.Result.PASS) {
 				String [] ci = result.getFormula().split(" ");
@@ -113,12 +131,12 @@ public class CalLogic {
 				String formulaResult = mDisplay.getResultFormuat(CalParser.RPNtoString(co));
 				mCalHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
-			} else {
-				fgErrSyntax = true;
+				fgErrSyntax = false;
 			}
 		} else {
-			fgErrSyntax = true;
+			PNSDbg.d("Syntax Err : Caused others ...\n" + mLS.toString());
 		}
+		
 		if (fgErrSyntax == true) {
 			mDisplay.setResult(CalDisplay.ResultFormat.MESSAGE, "Syntax Error");
 		}
@@ -131,24 +149,33 @@ public class CalLogic {
 		mDisplay.historyClear(mCalHistory);
 	}
 	
-	public class LogicState{
+	private class LogicState{
 		int			countParenthesis;
 		boolean	fgDot;
+		int			countDecimals;
 		String		operator;
 		
 		public LogicState() {
 			countParenthesis = 0;
 			fgDot = false;
+			countDecimals = 0;
 			operator = "";	// new String();
 		}
 		public LogicState(LogicState o) {
 			countParenthesis = o.countParenthesis;
 			fgDot = o.fgDot;
+			countDecimals = o.countDecimals;
 			operator = new String(o.operator);
 		}
 		public LogicState copy() {
 			LogicState n = new LogicState(this);
 			return n;
+		}
+		@Override
+		public String toString() {
+			return "[Parenthesis:" + countParenthesis +
+					" Dot(" + (fgDot?"T:":"F:") + String.valueOf(countDecimals) + ")" +
+					" Op(" + operator + ")]";
 		}
 	}
 

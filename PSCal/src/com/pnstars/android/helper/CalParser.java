@@ -14,8 +14,9 @@ public class CalParser
     // Associativity constants for operators  
     private static final int LEFT_ASSOC  = 0;  
     private static final int RIGHT_ASSOC = 1;
-    private static final int ROUND_UP_POSITION = 5;
-   
+    private static final int ROUND_UP_POSITION = 10;
+    
+    public static final int INPUT_MAX_DESIMALS = ROUND_UP_POSITION;
     public static final String OP_PLUS		= "+";
     public static final String OP_MINUS	= "-";
     public static final String OP_DIV		= "\u00f7";

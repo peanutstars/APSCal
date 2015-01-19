@@ -59,7 +59,7 @@ public class CalDisplay {
 	}
 	public String getResultFormuat (String v) {
 		Locale locale = mActivity.getResources().getConfiguration().locale;
-		DecimalFormat df = new DecimalFormat("###,###.#####", new DecimalFormatSymbols(locale));
+		DecimalFormat df = new DecimalFormat("###,###.##########", new DecimalFormatSymbols(locale));
 		BigDecimal bd = new BigDecimal(v);
 		return df.format(bd.doubleValue());
 	}
