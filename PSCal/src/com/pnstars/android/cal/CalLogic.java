@@ -29,7 +29,7 @@ public class CalLogic {
 	public void input (String v) {
 		LogicState copyLS = mLS.copy();
 
-		/* Clear Result Value */
+		/* Clear Result */
 		mDisplay.resetResult();
 		
 		do
@@ -56,8 +56,10 @@ public class CalLogic {
 					mLS.operator = new String(v);
 				} else if (CalParser.OPERATOR.indexOf(mLS.operator) != -1) { // if changed operator
 					// PNSDbg.d("" + v + ":" + mLS.operator);
+					mDisplay.delete();
+					mDisplay.append(v);
 					mLS.operator = new String(v);
-					deleteNoUpdateLS();
+					break;
 				} else {
 					PNSDbg.d("Do not print this message !!");
 				}
@@ -99,6 +101,7 @@ public class CalLogic {
 		PNSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
 	}
+/*
 	private void deleteNoUpdateLS() {
 		LogicState popLS = null;
 		if (mInputStack.empty() == false) {
@@ -111,13 +114,13 @@ public class CalLogic {
 		}
 		mDisplay.delete();
 	}
+*/
 	
 	public void reset() {
 		mDisplay.resetFormula();
 		mDisplay.resetResult();
-		while (mInputStack.empty() == false) {
-			mLS = mInputStack.pop();
-		}
+		mInputStack.clear();
+		mLS = new LogicState();
 	}
 	
 	public void enter() {

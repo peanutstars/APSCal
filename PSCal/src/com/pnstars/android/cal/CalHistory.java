@@ -23,7 +23,7 @@ public class CalHistory {
 		int index;
 		
 		index = mListHistory.indexOf(item);
-		PNSDbg.d("index : " + index);
+		// PNSDbg.d("index : " + index);
 		if (index >= 0) {
 			/* Already has item and then replace position */
 			mListHistory.remove(index);
