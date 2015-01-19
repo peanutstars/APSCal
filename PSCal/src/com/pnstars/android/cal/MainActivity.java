@@ -1,16 +1,9 @@
 package com.pnstars.android.cal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
@@ -18,11 +11,10 @@ import com.pnstars.android.helper.PNSScreen;
 
 public class MainActivity extends Activity {
 
-	PNSScreen mScreen;
-	EventListener mListener;
-	CalDisplay mDisplay;
-	CalLogic mLogic;
-	TextView mTvResult;
+	private PNSScreen mScreen;
+	private EventListener mListener;
+	private CalHistory mHistory;
+	private CalLogic mLogic;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +22,19 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		mScreen = new PNSScreen(this);
-		mDisplay = new CalDisplay(this);
-		mLogic = new CalLogic(mDisplay);
+		mHistory = new CalHistory();
+		mLogic = new CalLogic(this, mHistory);
 		mListener = new EventListener(mLogic);
 
 		mScreen.setOrientationPortrait();
 		
 		connectBtnEvent();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mLogic.save();
 	}
 	
 	public void connectBtnEvent() {
@@ -62,8 +60,8 @@ public class MainActivity extends Activity {
         }
 		btns.recycle();
 		
-		mTvResult = (TextView) findViewById(R.id.tvResult);
-		mTvResult.setOnClickListener(mListener);
+		TextView tvResult = (TextView) findViewById(R.id.tvResult);
+		tvResult.setOnClickListener(mListener);
 	}
 
 }

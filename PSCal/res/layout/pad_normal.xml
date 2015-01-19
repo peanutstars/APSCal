@@ -29,9 +29,9 @@
             android:text="@string/strPRight" />
 
         <Button
-            android:id="@+id/btnDel"
+            android:id="@+id/btnOpDiv"
             style="@style/btnStylepale_brown"
-            android:text="@string/strDel" />
+            android:text="@string/strOpDiv" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,9 +57,9 @@
             android:text="@string/strDgt9" />
 
         <Button
-            android:id="@+id/btnOpDiv"
+            android:id="@+id/btnOpMul"
             style="@style/btnStylepale_brown"
-            android:text="@string/strOpDiv" />
+            android:text="@string/strOpMul" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,9 +85,9 @@
             android:text="@string/strDgt6" />
 
         <Button
-            android:id="@+id/btnOpMul"
+            android:id="@+id/btnOpMinus"
             style="@style/btnStylepale_brown"
-            android:text="@string/strOpMul" />
+            android:text="@string/strOpMinus" />
     </LinearLayout>
 
     <LinearLayout
@@ -113,9 +113,9 @@
             android:text="@string/strDgt3" />
 
         <Button
-            android:id="@+id/btnOpMinus"
+            android:id="@+id/btnOpPlus"
             style="@style/btnStylepale_brown"
-            android:text="@string/strOpMinus" />
+            android:text="@string/strOpPlus" />
     </LinearLayout>
 
     <LinearLayout
@@ -136,14 +136,14 @@
             android:text="@string/strDot" />
 
         <Button
+            android:id="@+id/btnDel"
+            style="@style/btnStylepale_brown"
+            android:text="@string/strDel" />
+
+        <Button
             android:id="@+id/btnEnter"
             style="@style/btnStylepale_brown"
             android:text="@string/strEnter" />
-
-        <Button
-            android:id="@+id/btnOpPlus"
-            style="@style/btnStylepale_brown"
-            android:text="@string/strOpPlus" />
     </LinearLayout>
 
 </LinearLayout>

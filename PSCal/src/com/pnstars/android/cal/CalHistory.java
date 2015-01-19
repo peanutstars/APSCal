@@ -1,7 +1,9 @@
 package com.pnstars.android.cal;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -49,5 +51,24 @@ public class CalHistory {
 		}
 		return larray;
 		
+	}
+	
+	public void load(int version, DataInput in) throws IOException {
+		int size = in.readInt();
+		String formula;
+		String result;
+		for (int i=0; i<size; i++) {
+			formula = in.readUTF();
+			result  = in.readUTF();
+			addItem (formula, result);
+		}
+	}
+	
+	public void save(DataOutput out) throws IOException {
+		out.writeInt(mListHistory.size());
+		for (CalItem item : mListHistory) {
+			out.writeUTF(item.getFormula());
+			out.writeUTF(item.getResult());
+		}
 	}
 }

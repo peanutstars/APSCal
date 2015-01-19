@@ -2,6 +2,8 @@ package com.pnstars.android.cal;
 
 import java.util.Stack;
 
+import android.app.Activity;
+
 import com.pnstars.android.helper.CalParser;
 import com.pnstars.android.helper.PNSDbg;
 
@@ -9,15 +11,19 @@ public class CalLogic {
 	
 	private Stack<LogicState> mInputStack;
 	private CalHistory mCalHistory;
-	private LogicState mLS;
 	private CalDisplay mDisplay;
+	private LogicState mLS;
+	private CalFile mFile;
 	
 	
-	public CalLogic (CalDisplay display) {
+	public CalLogic (Activity activity, CalHistory history) {
 		mInputStack = new Stack<LogicState>();
-		mCalHistory = new CalHistory();
+		mCalHistory = history;
+		mDisplay = new CalDisplay(activity);
 		mLS = new LogicState();
-		mDisplay = display;
+		mFile = new CalFile(activity, history);
+		
+		mFile.load();
 	}
 	
 	public void input (String v) {
@@ -147,6 +153,10 @@ public class CalLogic {
 	}
 	public void historyClear() {
 		mDisplay.historyClear(mCalHistory);
+	}
+	
+	public void save() {
+		mFile.save();
 	}
 	
 	private class LogicState{
