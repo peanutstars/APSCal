@@ -1,5 +1,6 @@
 package com.pnstars.android.cal;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -126,7 +127,9 @@ public class CalLogic {
 			CalResult result = CalParser.spliteFormulaToSeparator(formula);
 			if (result.getResult() == CalResult.Result.PASS) {
 				String [] ci = result.getFormula().split(" ");
+				PNSDbg.d("ci : " + Arrays.toString(ci));
 				String [] co = CalParser.infixToRPN(ci);
+				PNSDbg.d("co : " + Arrays.toString(co));
 				String formulaResult = mDisplay.getResultFormuat(CalParser.RPNtoString(co));
 				mCalHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);

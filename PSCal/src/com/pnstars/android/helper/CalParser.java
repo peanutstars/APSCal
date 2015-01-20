@@ -201,36 +201,67 @@ public class CalParser
 
 	public static CalResult spliteFormulaToSeparator (String instr) {
 		StringBuilder sb = new StringBuilder();
-		String splitter = SPLITTER; // ()+-/*
-		boolean fgPrevDelimiter = false;
 		CalResult result = new CalResult();
+		CalResult.Result emResult =  CalResult.Result.SYNTAX_ERROR;
+		boolean fgPreviousDelimiter = false;
+		boolean fgPR = false;	/* Parenthesis Right */
+		boolean fgPLStart = false;
+		int countPLR = 0;  /* Parenthesis Left Right */
 
-		if (CalParser.OPERATOR.indexOf(instr.charAt(0)) != -1) {
-			if (instr.charAt(0) == '-') {
-				sb.append('0');
-				sb.append(' ');
-			} else {
-				result.setResult(CalResult.Result.SYNTAX_ERROR);
-				return result;
-			}
-		}
-		
-		for (int i=0; i<instr.length(); i++) {
-			char c = instr.charAt(i);
-			if (splitter.indexOf(c) == -1) {
-				sb.append(c);
-				fgPrevDelimiter = false;
-			} else {
-				if (i != 0 && ! fgPrevDelimiter ) {
+		do {
+			if (OPERATOR.indexOf(instr.charAt(0)) != -1) {
+				if (instr.charAt(0) == '-') {
+					sb.append('0');
 					sb.append(' ');
+				} else {
+					break;
 				}
-				sb.append(c);
-				sb.append(' ');
-				fgPrevDelimiter = true;
 			}
-		}
+
+			int numCount = 0;
+			for (int i = 0; i < instr.length(); i++) {
+				char c = instr.charAt(i);
+				if (SPLITTER.indexOf(c) == -1) {
+					/* Non Delimiter */
+					sb.append(c);
+					numCount ++;
+					fgPreviousDelimiter = false;
+					fgPR = false;
+				} else {
+					/* Delimiter */
+					if (i != 0 && !fgPreviousDelimiter) {
+						sb.append(' ');
+					}
+					if (c == '(') {
+						fgPLStart = true;
+					}
+					if (fgPLStart) {
+						if (c == '(')	countPLR ++;
+						if (c == ')') countPLR --;
+					}
+					if (fgPR && c == '(') {
+						sb.append(OP_MUL);
+						sb.append(' ');
+					}
+					sb.append(c);
+					sb.append(' ');
+					fgPreviousDelimiter = true;
+					if (c == ')') {
+						fgPR = true;
+					} else {
+						fgPR = false;
+					}
+				}
+			}
+
+			if (numCount == 0) 	break;
+			if (countPLR != 0)	break;
+			
+			emResult = CalResult.Result.PASS;
+			
+		} while (false);
 		
-		result.setResult(CalResult.Result.PASS);
+		result.setResult(emResult);
 		result.setFormula(sb.toString());
 		return result;
 	}
