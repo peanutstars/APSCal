@@ -199,30 +199,7 @@ public class CalParser
 //		return sb.toString();
 //	}
 
-	public enum Result { SYNTAX_ERROR, PASS };
-	public static class CalResult {
-		private Result	result;
-		private String	formula;
-		
-		public CalResult() {
-			result = Result.SYNTAX_ERROR;
-			formula = "";
-		}
-		public void setResult (Result result) {
-			this.result = result;
-		}
-		public Result getResult () {
-			return result;
-		}
-		public void setFormula (String formula) {
-			this.formula = formula;
-		}
-		public String getFormula () {
-			return formula;
-		}
-	}
-	
-	public static CalResult setFormulaToBoundary (String instr) {
+	public static CalResult spliteFormulaToSeparator (String instr) {
 		StringBuilder sb = new StringBuilder();
 		String splitter = SPLITTER; // ()+-/*
 		boolean fgPrevDelimiter = false;
@@ -233,7 +210,7 @@ public class CalParser
 				sb.append('0');
 				sb.append(' ');
 			} else {
-				result.setResult(Result.SYNTAX_ERROR);
+				result.setResult(CalResult.Result.SYNTAX_ERROR);
 				return result;
 			}
 		}
@@ -253,7 +230,7 @@ public class CalParser
 			}
 		}
 		
-		result.setResult(Result.PASS);
+		result.setResult(CalResult.Result.PASS);
 		result.setFormula(sb.toString());
 		return result;
 	}

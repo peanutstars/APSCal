@@ -4,11 +4,14 @@ import java.util.Stack;
 
 import android.app.Activity;
 
+import com.pnstars.android.R;
 import com.pnstars.android.helper.CalParser;
+import com.pnstars.android.helper.CalResult;
 import com.pnstars.android.helper.PNSDbg;
 
 public class CalLogic {
 	
+	private Activity mActivity;
 	private Stack<LogicState> mInputStack;
 	private CalHistory mCalHistory;
 	private CalDisplay mDisplay;
@@ -17,6 +20,7 @@ public class CalLogic {
 	
 	
 	public CalLogic (Activity activity, CalHistory history) {
+		mActivity = activity;
 		mInputStack = new Stack<LogicState>();
 		mCalHistory = history;
 		mDisplay = new CalDisplay(activity);
@@ -101,21 +105,7 @@ public class CalLogic {
 		PNSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
 	}
-/*
-	private void deleteNoUpdateLS() {
-		LogicState popLS = null;
-		if (mInputStack.empty() == false) {
-			popLS = mInputStack.pop();
-		}
-		if (popLS != null) {
-			PNSDbg.d("PO Delete" + popLS.toString());
-		} else {
-			PNSDbg.d("PO Delete( None )");
-		}
-		mDisplay.delete();
-	}
-*/
-	
+
 	public void reset() {
 		mDisplay.resetFormula();
 		mDisplay.resetResult();
@@ -133,8 +123,8 @@ public class CalLogic {
 		} else if (mLS.fgDot && mLS.countDecimals <= 1) {
 			PNSDbg.d("Syntax Err : The last input is Dot and then need more inputs.");
 		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
-			CalParser.CalResult result = CalParser.setFormulaToBoundary(formula);
-			if (result.getResult() == CalParser.Result.PASS) {
+			CalResult result = CalParser.spliteFormulaToSeparator(formula);
+			if (result.getResult() == CalResult.Result.PASS) {
 				String [] ci = result.getFormula().split(" ");
 				String [] co = CalParser.infixToRPN(ci);
 				String formulaResult = mDisplay.getResultFormuat(CalParser.RPNtoString(co));
@@ -147,7 +137,7 @@ public class CalLogic {
 		}
 		
 		if (fgErrSyntax == true) {
-			mDisplay.setResult(CalDisplay.ResultFormat.MESSAGE, "Syntax Error");
+			mDisplay.setResult(CalDisplay.ResultFormat.MESSAGE, mActivity.getString(R.string.strErrSyntax));
 		}
 	}
 	

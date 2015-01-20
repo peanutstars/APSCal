@@ -34,4 +34,6 @@
     <string name="strHistoryClose">Close</string>
     <string name="strNone"></string>
     
+    <string name="strErrSyntax">Syntax Error</string>
+    
 </resources>
