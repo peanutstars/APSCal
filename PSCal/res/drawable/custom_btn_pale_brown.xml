@@ -11,14 +11,21 @@
          <shape android:shape="rectangle"  >
              <corners android:radius="5dip" />
              <stroke android:width="1dip" android:color="#675c3e" />
-             <solid  android:color="#705c39"/>       
+             <solid  android:color="#705c39"/>
          </shape>
-     </item>  
+     </item>
+     <item android:state_enabled="false">
+        <shape android:shape="rectangle"  >
+             <corners android:radius="5dip" />
+             <stroke android:width="1dip" android:color="#aaaaaa" />
+             <gradient  android:angle="-90"  android:startColor="#cccccc" android:endColor="#555555" />
+         </shape>
+     </item>
     <item >
         <shape android:shape="rectangle"  >
              <corners android:radius="5dip" />
              <stroke android:width="1dip" android:color="#675c3e" />
-             <gradient  android:angle="-90"  android:startColor="#ac956c" android:endColor="#705c39" />            
+             <gradient  android:angle="-90"  android:startColor="#ac956c" android:endColor="#705c39" /> 
          </shape>
      </item>
 </selector>
