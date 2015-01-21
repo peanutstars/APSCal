@@ -9,28 +9,106 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnNone1"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strNone" />
+
+        <Button
+            android:id="@+id/btnNone2"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strNone" />
+
+        <Button
+            android:id="@+id/btnNone3"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strNone" />
+
+        <Button
+            android:id="@+id/btnF16"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strF16" />
+
+        <Button
+            android:id="@+id/btnF8"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strF8" />
+
+        <Button
+            android:id="@+id/btnF2"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strF2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnHexaA"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaA" />
+
+        <Button
+            android:id="@+id/btnHexaB"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaB" />
+
+        <Button
+            android:id="@+id/btnHexaC"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaC" />
+
+        <Button
+            android:id="@+id/btnHexaD"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaD" />
+
+        <Button
+            android:id="@+id/btnHexaE"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaE" />
+
+        <Button
+            android:id="@+id/btnHexaF"
+            style="@style/style_sbtn_genoa"
+            android:text="@string/strHexaF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btnAC"
-            style="@style/style_btn_orange"
+            style="@style/style_sbtn_orange"
             android:text="@string/strAC" />
 
         <Button
             android:id="@+id/btnPLeft"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strPLeft" />
 
         <Button
             android:id="@+id/btnPRight"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strPRight" />
 
         <Button
             android:id="@+id/btnOpDiv"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strOpDiv" />
     </LinearLayout>
 
@@ -43,22 +121,22 @@
 
         <Button
             android:id="@+id/btnDgt7"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt7" />
 
         <Button
             android:id="@+id/btnDgt8"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt8" />
 
         <Button
             android:id="@+id/btnDgt9"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt9" />
 
         <Button
             android:id="@+id/btnOpMul"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strOpMul" />
     </LinearLayout>
 
@@ -71,22 +149,22 @@
 
         <Button
             android:id="@+id/btnDgt4"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt4" />
 
         <Button
             android:id="@+id/btnDgt5"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt5" />
 
         <Button
             android:id="@+id/btnDgt6"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt6" />
 
         <Button
             android:id="@+id/btnOpMinus"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strOpMinus" />
     </LinearLayout>
 
@@ -99,22 +177,22 @@
 
         <Button
             android:id="@+id/btnDgt1"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt1" />
 
         <Button
             android:id="@+id/btnDgt2"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt2" />
 
         <Button
             android:id="@+id/btnDgt3"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt3" />
 
         <Button
             android:id="@+id/btnOpPlus"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strOpPlus" />
     </LinearLayout>
 
@@ -127,22 +205,22 @@
 
         <Button
             android:id="@+id/btnDgt0"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDgt0" />
 
         <Button
             android:id="@+id/btnDot"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDot" />
 
         <Button
             android:id="@+id/btnDel"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strDel" />
 
         <Button
             android:id="@+id/btnEnter"
-            style="@style/style_btn_sandrift"
+            style="@style/style_sbtn_sandrift"
             android:text="@string/strEnter" />
     </LinearLayout>
 
