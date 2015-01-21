@@ -153,7 +153,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -162,7 +162,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_pale_brown</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
@@ -170,7 +170,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -179,7 +179,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_orange</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
@@ -187,7 +187,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -196,7 +196,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_sandrift</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
@@ -204,7 +204,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -213,7 +213,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_genoa</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
@@ -221,7 +221,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -230,7 +230,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_arsenic</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
@@ -238,7 +238,7 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">22sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:textStyle">bold</item>
        <item name="android:gravity">center</item>
@@ -247,7 +247,7 @@
        <item name="android:shadowDy">1</item>
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_btn_opal</item>
-       <item name="android:padding">8dp</item>
+       <item name="android:padding">2dp</item>
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
