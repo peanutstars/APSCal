@@ -232,6 +232,8 @@ public class CalParser
 					if (i != 0 && !fgPreviousDelimiter) {
 						sb.append(' ');
 					}
+					
+					/* check parenthesis */
 					if (c == '(') {
 						fgPLStart = true;
 					}
@@ -239,18 +241,21 @@ public class CalParser
 						if (c == '(')	countPLR ++;
 						if (c == ')') countPLR --;
 					}
+					
+					/* in case of ")(" */
 					if (fgPR && c == '(') {
 						sb.append(OP_MUL);
 						sb.append(' ');
 					}
-					sb.append(c);
-					sb.append(' ');
-					fgPreviousDelimiter = true;
 					if (c == ')') {
 						fgPR = true;
 					} else {
 						fgPR = false;
 					}
+
+					sb.append(c);
+					sb.append(' ');
+					fgPreviousDelimiter = true;
 				}
 			}
 

@@ -57,12 +57,12 @@
 
             <Button
                 android:id="@+id/btnHistoryClear"
-                style="@style/btnStyleHaiti"
+                style="@style/style_btn_small"
                 android:text="@string/strHistoryClear" />
 
             <Button
                 android:id="@+id/btnHistoryClose"
-                style="@style/btnStyleHaiti"
+                style="@style/style_btn_small"
                 android:text="@string/strHistoryClose" />
         </LinearLayout>
 
@@ -80,7 +80,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
-        <include layout="@layout/pad_normal" />
+        <include layout="@layout/pad_hexa" />
     </LinearLayout>
 
 </RelativeLayout>
