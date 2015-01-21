@@ -27,6 +27,7 @@
             android:layout_weight="1.0"
             android:fadeScrollbars="true"
             android:text="@string/strFormula"
+            android:textStyle="normal"
             android:textSize="28sp" />
 
         <TextView
@@ -36,6 +37,7 @@
             android:clickable="true"
             android:gravity="right"
             android:text="@string/strResult"
+            android:textStyle="normal"
             android:textSize="28sp" />
     </LinearLayout>
 
