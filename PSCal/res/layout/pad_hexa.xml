@@ -17,31 +17,37 @@
         <Button
             android:id="@+id/btnOpAND"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size2"
             android:text="@string/strOpAND" />
 
         <Button
             android:id="@+id/btnOpOR"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size2"
             android:text="@string/strOpOR" />
 
         <Button
             android:id="@+id/btnOpXOR"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size2"
             android:text="@string/strOpXOR" />
 
         <Button
             android:id="@+id/btnHexa"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strF16" />
 
         <Button
             android:id="@+id/btnOtal"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strF8" />
 
         <Button
             android:id="@+id/btnBinary"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strF2" />
     </LinearLayout>
 
@@ -56,31 +62,37 @@
         <Button
             android:id="@+id/btnHexaA"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaA" />
 
         <Button
             android:id="@+id/btnHexaB"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaB" />
 
         <Button
             android:id="@+id/btnHexaC"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaC" />
 
         <Button
             android:id="@+id/btnHexaD"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaD" />
 
         <Button
             android:id="@+id/btnHexaE"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaE" />
 
         <Button
             android:id="@+id/btnHexaF"
             style="@style/style_sbtn_genoa"
+            android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strHexaF" />
     </LinearLayout>
 
