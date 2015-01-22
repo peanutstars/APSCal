@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 		mScreen = new PNSScreen(this);
 		mHistory = new CalHistory();
 		mLogic = new CalLogic(this, mHistory);
-		mListener = new EventListener(this, mLogic);
+		mListener = new EventListener(mLogic);
 
 		mScreen.setOrientationPortrait();
 		

@@ -1,15 +1,11 @@
 package com.pnstars.android.helper;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
 import com.pnstars.android.cal.CalResult;
-
-import android.text.GetChars;
    
 public class CalParser   
 {  
@@ -19,34 +15,35 @@ public class CalParser
     private static final int ROUND_UP_POSITION = 10;
     
     public static final int INPUT_MAX_DESIMALS = ROUND_UP_POSITION;
-    public static final String OP_PLUS		= "+";
-    public static final String OP_MINUS	= "-";
-    public static final String OP_DIV		= "\u00f7";
-    public static final String OP_MUL		= "\u00d7";
-    public static final String OP_AND		= "&";
-    public static final String OP_OR		= "|";
-    public static final String OP_XOR		= "^";
-    public static final String P_LEFT		= "(";
-    public static final String P_RIGHT		= ")";
-    public static final String DOT			= ".";
-    public static final String SPLITTER	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + P_LEFT + P_RIGHT 
-    											+ OP_AND + OP_OR + OP_XOR;
-    public static final String OPERATOR	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL
-    											+ OP_AND + OP_OR + OP_XOR;
+    public static final String OP_PLUS		= "+" ;
+    public static final String OP_MINUS	= "-" ;
+    public static final String OP_DIV		= "\u00f7" ;
+    public static final String OP_MUL		= "\u00d7" ;
+    public static final String OP_AND		= "&" ;
+    public static final String OP_OR			= "|" ;
+    public static final String OP_XOR		= "^" ;
+    public static final String P_LEFT		= "(" ;
+    public static final String P_RIGHT		= ")" ;
+    public static final String DOT			= "." ;
+    public static final String OPERATOR	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + OP_AND + OP_OR + OP_XOR ;
+    public static final String SPLITTER	= OPERATOR + P_LEFT + P_RIGHT ;
     
     // Operators  
-	private static final Map<String, int[]> OPERATORS = new HashMap<String, int[]>();
+	private static final Map<String, int[]> PoolOPERATORS = new HashMap<String, int[]>();
 	static {
 		// Map<"token", []{precendence, associativity}>
-		OPERATORS.put(OP_PLUS, new int[] { 0, LEFT_ASSOC });
-		OPERATORS.put(OP_MINUS, new int[] { 0, LEFT_ASSOC });
-		OPERATORS.put(OP_MUL, new int[] { 5, LEFT_ASSOC });
-		OPERATORS.put(OP_DIV, new int[] { 5, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_AND, new int[] { -5, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_OR, new int[] { -5, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_XOR, new int[] { -5, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_PLUS, new int[] { 0, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_MINUS, new int[] { 0, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_MUL, new int[] { 5, LEFT_ASSOC });
+		PoolOPERATORS.put(OP_DIV, new int[] { 5, LEFT_ASSOC });
 	}
 
 	// Test if token is an operator
 	private static boolean isOperator(String token) {
-		return OPERATORS.containsKey(token);
+		return PoolOPERATORS.containsKey(token);
 	}
 
 	// Test associativity of operator token
@@ -55,7 +52,7 @@ public class CalParser
 			throw new IllegalArgumentException("Invalid token: " + token);
 		}
 
-		if (OPERATORS.get(token)[1] == type) {
+		if (PoolOPERATORS.get(token)[1] == type) {
 			return true;
 		}
 		return false;
@@ -66,10 +63,9 @@ public class CalParser
     {  
         if (!isOperator(token1) || !isOperator(token2))   
         {  
-            throw new IllegalArgumentException("Invalid tokens: " + token1  
-                    + " " + token2);  
+            throw new IllegalArgumentException("Invalid tokens: " + token1 + " " + token2);  
         }  
-        return OPERATORS.get(token1)[0] - OPERATORS.get(token2)[0];  
+        return PoolOPERATORS.get(token1)[0] - PoolOPERATORS.get(token2)[0];  
     }  
    
     // Convert infix expression format into reverse Polish notation  
@@ -225,7 +221,10 @@ public class CalParser
 				}
 			}
 
+			boolean fgErr = false;
 			int numCount = 0;
+			Stack<Integer> numCountStack = new Stack<Integer>();
+			
 			for (int i = 0; i < instr.length(); i++) {
 				char c = instr.charAt(i);
 				if (SPLITTER.indexOf(c) == -1) {
@@ -245,8 +244,20 @@ public class CalParser
 						fgPLStart = true;
 					}
 					if (fgPLStart) {
-						if (c == '(')	countPLR ++;
-						if (c == ')') countPLR --;
+						if (c == '(') {
+							countPLR ++;
+							numCountStack.push(numCount);
+						}
+						if (c == ')') {
+							countPLR --;
+							
+							/* it is error, if it is inputed "()" or "(((())))" */
+							int prevNumCount = numCountStack.pop();
+							if (prevNumCount == numCount) {
+								fgErr = true;
+								break;
+							}
+						}
 					}
 					
 					/* in case of ")(" */
@@ -266,6 +277,7 @@ public class CalParser
 				}
 			}
 
+			if (fgErr == true)	break;
 			if (numCount == 0) 	break;
 			if (countPLR != 0)	break;
 			

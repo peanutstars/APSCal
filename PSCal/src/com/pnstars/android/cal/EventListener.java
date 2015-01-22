@@ -13,47 +13,37 @@ public class EventListener implements View.OnClickListener
 										   // , View.OnLongClickListener 
 										   {
 	public final String TAG = "PnStars";
-	private final int VIBRATOR_MSEC = 50;
+//	private final int VIBRATOR_MSEC = 50;
 	private CalLogic mLogic;
-	private Vibrator mVib;
+//	private Vibrator mVib;
 	
-	public EventListener(Activity activity, CalLogic logic) {
+	public EventListener(CalLogic logic) {
 		mLogic = logic;
-		mVib = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
+//		mVib = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
 	}
 
 	@Override
 	public void onClick(View view) {
 		int id = view.getId();
-		mVib.vibrate(VIBRATOR_MSEC);
+//		mVib.vibrate(VIBRATOR_MSEC);
 		
 		switch (id)
 		{
-		case R.id.btnOpAND:
-		case R.id.btnOpOR:
-		case R.id.btnOpXOR:
-		case R.id.btnHexa:
-		case R.id.btnOtal:
-		case R.id.btnBinary:
-			break;
-		case R.id.btnAC:
-			mLogic.reset();
-			break;
-		case R.id.btnDel:
-			mLogic.delete();
-			break;
-		case R.id.btnEnter:
-			mLogic.enter();
-			break;
-		case R.id.tvResult:
-			mLogic.history();
-			break;
-		case R.id.btnHistoryClose:
-			mLogic.history();
-			break;
-		case R.id.btnHistoryClear:
-			mLogic.historyClear();
-			break;
+		case R.id.btnOpAND:			mLogic.input("&");		break;
+		case R.id.btnOpOR:			mLogic.input("|");		break;
+		case R.id.btnOpXOR:			mLogic.input("^");		break;
+		case R.id.btnHexa:			mLogic.input("0");
+										mLogic.input("x");		break;
+		case R.id.btnOtal:			mLogic.input("0");
+										mLogic.input("o");		break;
+		case R.id.btnBinary:			mLogic.input("0");		
+										mLogic.input("b");		break;
+		case R.id.btnAC:				mLogic.reset();			break;
+		case R.id.btnDel:			mLogic.delete();			break;
+		case R.id.btnEnter:			mLogic.enter();			break;
+		case R.id.tvResult:			mLogic.history();			break;
+		case R.id.btnHistoryClose:	mLogic.history();			break;
+		case R.id.btnHistoryClear:	mLogic.historyClear();	break;
 		default:
 			if (view instanceof Button) {
 				String text = ((Button) view).getText().toString();

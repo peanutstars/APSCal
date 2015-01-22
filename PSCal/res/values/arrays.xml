@@ -12,16 +12,28 @@
         <item>@+id/btnDgt7</item>
         <item>@+id/btnDgt8</item>
         <item>@+id/btnDgt9</item>
+        <item>@+id/btnHexaA</item>
+        <item>@+id/btnHexaB</item>
+        <item>@+id/btnHexaC</item>
+        <item>@+id/btnHexaD</item>
+        <item>@+id/btnHexaE</item>
+        <item>@+id/btnHexaF</item>
         <item>@+id/btnOpDiv</item>
         <item>@+id/btnOpMul</item>
         <item>@+id/btnOpMinus</item>
         <item>@+id/btnOpPlus</item>
+        <item>@+id/btnOpAND</item>
+        <item>@+id/btnOpOR</item>
+        <item>@+id/btnOpXOR</item>
         <item>@+id/btnEnter</item>
         <item>@+id/btnDot</item>
         <item>@+id/btnAC</item>
         <item>@+id/btnDel</item>
         <item>@+id/btnPLeft</item>
         <item>@+id/btnPRight</item>
+        <item>@id/btnHexa</item>
+        <item>@id/btnOtal</item>
+        <item>@id/btnBinary</item>
         <item>@+id/btnHistoryClear</item>
         <item>@+id/btnHistoryClose</item>
     </array>

@@ -35,14 +35,16 @@ public class CalParserTest extends TestCase {
 	@SmallTest
 	public void testSpliteFormulaToSeparator() {
 		ArrayList<TestBedOne> testBed = new ArrayList<TestBedOne>() {{
-			add( new TestBedOne("()", "( ) ", CalResult.Result.SYNTAX_ERROR) );
+			add( new TestBedOne("()", "", CalResult.Result.SYNTAX_ERROR) );
 			add( new TestBedOne(")(", ") "+CalParser.OP_MUL+" ( ", CalResult.Result.SYNTAX_ERROR) );
 			add( new TestBedOne(")1(", ") 1 ( ", CalResult.Result.SYNTAX_ERROR) );
-			add( new TestBedOne("(())", "( ( ) ) ", CalResult.Result.SYNTAX_ERROR) );
+			add( new TestBedOne("(())", "", CalResult.Result.SYNTAX_ERROR) );
 			add( new TestBedOne("((1))", "( ( 1 ) ) ", CalResult.Result.PASS) );
 			add( new TestBedOne("(1)", "( 1 ) ", CalResult.Result.PASS) );
 			add( new TestBedOne("(4)(4)", "( 4 ) "+CalParser.OP_MUL+" ( 4 ) ", CalResult.Result.PASS) );
 			add( new TestBedOne("((4))((4))", "( ( 4 ) ) "+CalParser.OP_MUL+" ( ( 4 ) ) ", CalResult.Result.PASS) );
+			add( new TestBedOne("4(4)", "4 "+CalParser.OP_MUL+" ( 4 ) ", CalResult.Result.PASS) );
+			add( new TestBedOne("4((4))", "4 "+CalParser.OP_MUL+" ( ( 4 ) ) ", CalResult.Result.PASS) );
 		}};
 		
 		int count = 0;
@@ -50,7 +52,9 @@ public class CalParserTest extends TestCase {
 			PNSDbg.d("" + ++count + " : " + tb.inFormula);
 			CalResult result = CalParser.spliteFormulaToSeparator(tb.inFormula);
 			assertEquals("CalParser.spliteformulaToSeparator Result Error",  tb.exResult,  result.getResult());
-			assertEquals("CalParser.spliteformulaToSeparator Formula Error", tb.exFormula, result.getFormula());
+			if (tb.exFormula.length() > 0) {
+				assertEquals("CalParser.spliteformulaToSeparator Formula Error", tb.exFormula, result.getFormula());
+			}
 		}
 	}
 }
