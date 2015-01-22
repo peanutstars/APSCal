@@ -27,6 +27,9 @@
     <string name="strOpMul">\u00d7</string>
     <string name="strOpMinus">-</string>
     <string name="strOpPlus">+</string>
+	<string name="strOpAND">AND</string>
+	<string name="strOpOR">OR</string>
+	<string name="strOpXOR">XOR</string>
 
     <string name="strPLeft">(</string>
     <string name="strPRight">)</string>

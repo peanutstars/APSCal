@@ -7,7 +7,6 @@ import android.app.Activity;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.CalParser;
-import com.pnstars.android.helper.CalResult;
 import com.pnstars.android.helper.PNSDbg;
 
 public class CalLogic {

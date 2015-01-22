@@ -7,8 +7,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.pnstars.android.cal.CalResult;
 import com.pnstars.android.helper.CalParser;
-import com.pnstars.android.helper.CalResult;
 import com.pnstars.android.helper.PNSDbg;
 
 public class CalParserTest extends TestCase {

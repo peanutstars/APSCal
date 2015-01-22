@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
+import com.pnstars.android.cal.CalResult;
+
 import android.text.GetChars;
    
 public class CalParser   
@@ -21,11 +23,16 @@ public class CalParser
     public static final String OP_MINUS	= "-";
     public static final String OP_DIV		= "\u00f7";
     public static final String OP_MUL		= "\u00d7";
+    public static final String OP_AND		= "&";
+    public static final String OP_OR		= "|";
+    public static final String OP_XOR		= "^";
     public static final String P_LEFT		= "(";
     public static final String P_RIGHT		= ")";
     public static final String DOT			= ".";
-    public static final String SPLITTER		= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + P_LEFT + P_RIGHT;
-    public static final String OPERATOR		= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL;
+    public static final String SPLITTER	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + P_LEFT + P_RIGHT 
+    											+ OP_AND + OP_OR + OP_XOR;
+    public static final String OPERATOR	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL
+    											+ OP_AND + OP_OR + OP_XOR;
     
     // Operators  
 	private static final Map<String, int[]> OPERATORS = new HashMap<String, int[]>();
