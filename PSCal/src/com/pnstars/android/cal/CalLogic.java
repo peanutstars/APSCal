@@ -161,13 +161,24 @@ public class CalLogic {
 						mDisplay.delete();
 						mDisplay.append(v);
 						mVib.vibrate(VIBRATOR_MSEC);
+						PNSDbg.d("");
 						break;
 					}
 					
-					if (mLS.numType == NumType.LS_BINARY && AcceptBINARY.indexOf(v) == -1) {
+					PNSDbg.d(mLS.numTypeToString());
+					if (mLS.numType == NumType.LS_DECIMAL && AcceptDECIMAL.indexOf(v) == -1) {
+						PNSDbg.d("");
+						break;
+					} else if (mLS.numType == NumType.LS_HEXA && AcceptHEXA.indexOf(v) == -1) {
+						PNSDbg.d("");
+						break;
+					} else if (mLS.numType == NumType.LS_OCTAL && AcceptOCTAL.indexOf(v) == -1) {
+						PNSDbg.d("");
+						break;
+					} else if (mLS.numType == NumType.LS_BINARY && AcceptBINARY.indexOf(v) == -1) {
+						PNSDbg.d("");
 						break;
 					}
-
 				}
 				mLS.countInputNumbers++;
 				mLS.operator = "";
@@ -273,9 +284,9 @@ public class CalLogic {
 			LogicState n = new LogicState(this);
 			return n;
 		}
-		private String numTypeToString(CalLogic.NumType nt) {
+		public String numTypeToString() {
 			String rv = "";
-			switch (nt) {
+			switch (numType) {
 				case LS_DECIMAL:	rv = "Decimal";	break;
 				case LS_BINARY:	rv = "Binary";	break;
 				case LS_OCTAL:	rv = "Octal";		break;
@@ -290,7 +301,7 @@ public class CalLogic {
 					" Dot(" + (fgDot?"T:":"F:") + String.valueOf(countDecimals) + ")" +
 					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(countInputNumbers) +
 					" Op(" + operator + ")]" +
-					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString(numType)+ ")";
+					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString()+ ")";
 		}
 	}
 
