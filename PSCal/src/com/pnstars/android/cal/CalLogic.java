@@ -12,6 +12,16 @@ import com.pnstars.android.helper.PNSDbg;
 
 public class CalLogic {
 	
+	public enum NumType { LS_DECIMAL, LS_BINARY, LS_OCTAL, LS_HEXA }
+	public static final String MARK_HEXA		= "x";
+	public static final String MARK_OCTAL		= "o";
+	public static final String MARK_BIN		= "b";
+	public static final String NON_DECIMAL		= MARK_HEXA + MARK_OCTAL + MARK_BIN;
+	public static final String AcceptDECIMAL	= "0123456789";
+	public static final String AcceptHEXA		= "0123456789ABCDEF";
+	public static final String AcceptOCTAL		= "01234567";
+	public static final String AcceptBINARY	= "01";
+	
 	private final int VIBRATOR_MSEC = 50;
 	private Activity mActivity;
 	private Stack<LogicState> mInputStack;
@@ -54,16 +64,16 @@ public class CalLogic {
 				mLS.countParenthesis ++;
 				mLS.countInputNumbers = 0;
 				mLS.fgFirstZero = false;
+				mLS.numType = NumType.LS_DECIMAL;
 			} else if (v.equals(CalParser.P_RIGHT) == true) {
 				mLS.countParenthesis --;
 				mLS.countInputNumbers = 0;
 				mLS.fgFirstZero = false;
+				mLS.numType = NumType.LS_DECIMAL;
 			}
 			
 			// check operator and change operator
 			else if (CalParser.OPERATOR.indexOf(v) != -1) { // if operator
-				mLS.countInputNumbers = 0;
-				mLS.fgFirstZero = false;
 				
 				if (mLS.operator.compareTo(v) == 0) {
 					// PNSDbg.d("" + v);
@@ -87,8 +97,11 @@ public class CalLogic {
 				} else {
 					PNSDbg.d("Do not print this message !!");
 				}
+				mLS.countInputNumbers = 0;
+				mLS.fgFirstZero = false;
+				mLS.numType = NumType.LS_DECIMAL;
 			} else {
-				mLS.operator = "";	// new String();
+				/* input numbers */
 
 				// check dot 
 				if (CalParser.SPLITTER.indexOf(v) != -1) {
@@ -120,14 +133,44 @@ public class CalLogic {
 					}
 				} else {
 					mLS.fgFirstZero = false;
-					if (copyLS.fgFirstZero == true) {
+					
+					/* process Hexa, octal, binary */
+					if (NON_DECIMAL.contains(v)) {
+						NumType tmpNT;
+
+						if (v.equals(MARK_HEXA)) {
+							tmpNT = NumType.LS_HEXA;
+						} else if (v.equals(MARK_BIN)) {
+							tmpNT = NumType.LS_BINARY;
+						} else if (v.equals(MARK_OCTAL)) {
+							tmpNT = NumType.LS_OCTAL;
+						} else {
+							tmpNT = NumType.LS_DECIMAL;
+						}
+					
+						/* check double input */
+						if (mLS.countInputNumbers != 1) {
+							delete(); /* remove Zero */
+							break;
+						}
+
+						mLS.numType = tmpNT;
+						mLS.fgIntegerMode = true;
+					}
+					else if (copyLS.fgFirstZero == true) {
 						mDisplay.delete();
 						mDisplay.append(v);
 						mVib.vibrate(VIBRATOR_MSEC);
 						break;
 					}
+					
+					if (mLS.numType == NumType.LS_BINARY && AcceptBINARY.indexOf(v) == -1) {
+						break;
+					}
+
 				}
 				mLS.countInputNumbers++;
+				mLS.operator = "";
 			}
 
 			appendInput(copyLS, v);
@@ -202,6 +245,9 @@ public class CalLogic {
 		boolean	fgFirstZero;
 		int			countInputNumbers;
 		String		operator;
+		boolean	fgIntegerMode;
+		NumType	numType;
+
 		
 		public LogicState() {
 			countParenthesis = 0;
@@ -210,6 +256,8 @@ public class CalLogic {
 			fgFirstZero = false;
 			countInputNumbers = 0;
 			operator = "";	// new String();
+			fgIntegerMode = false;
+			numType = NumType.LS_DECIMAL;
 		}
 		public LogicState(LogicState o) {
 			countParenthesis = o.countParenthesis;
@@ -218,17 +266,31 @@ public class CalLogic {
 			fgFirstZero = o.fgFirstZero;
 			countInputNumbers = o.countInputNumbers;
 			operator = new String(o.operator);
+			fgIntegerMode = o.fgIntegerMode;
+			numType = o.numType;
 		}
 		public LogicState copy() {
 			LogicState n = new LogicState(this);
 			return n;
+		}
+		private String numTypeToString(CalLogic.NumType nt) {
+			String rv = "";
+			switch (nt) {
+				case LS_DECIMAL:	rv = "Decimal";	break;
+				case LS_BINARY:	rv = "Binary";	break;
+				case LS_OCTAL:	rv = "Octal";		break;
+				case LS_HEXA:		rv = "Hexa";		break;
+				default:			rv = "Unknown";	break;
+			}
+			return rv;
 		}
 		@Override
 		public String toString() {
 			return "[Parenthesis:" + countParenthesis +
 					" Dot(" + (fgDot?"T:":"F:") + String.valueOf(countDecimals) + ")" +
 					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(countInputNumbers) +
-					" Op(" + operator + ")]";
+					" Op(" + operator + ")]" +
+					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString(numType)+ ")";
 		}
 	}
 
