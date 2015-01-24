@@ -25,4 +25,10 @@ public class PNSDbg {
 	public static int v(String msg) {
 		return Log.d (TAG, getTag() + msg);
 	}
+	public static int w(String msg) {
+		return Log.w (TAG, getTag() + msg);
+	}
+	public static int e(String msg) {
+		return Log.w (TAG, getTag() + msg);
+	}
 }

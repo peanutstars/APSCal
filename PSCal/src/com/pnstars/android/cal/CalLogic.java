@@ -54,36 +54,37 @@ public class CalLogic {
 		mDisplay.resetResult();
 	}
 	
-	public void input (String v) {
-		LogicState copyLS = mLS.copy();
-
+	private boolean inputParenthesis(LogicState cLS, String v) {
+		boolean pass = false;
+		if (v.equals(CalParser.P_LEFT) == true) {
+			mLS.incParenthesis();
+			mLS.resetForNewNumber();
+			appendInput(cLS, v);
+			pass = true;
+		} else if (v.equals(CalParser.P_RIGHT) == true) {
+			mLS.decParenthesis();
+			mLS.resetForNewNumber();
+			appendInput(cLS, v);
+			pass = true;
+		}
+		return pass;
+	}
+	private boolean inputOperator(LogicState cLS, String v) {
+		boolean pass = false;
 		do
 		{
-			// check parenthesis
-			if (v.equals(CalParser.P_LEFT) == true) {
-				mLS.countParenthesis ++;
-				mLS.countInputNumbers = 0;
-				mLS.fgFirstZero = false;
-				mLS.numType = NumType.LS_DECIMAL;
-			} else if (v.equals(CalParser.P_RIGHT) == true) {
-				mLS.countParenthesis --;
-				mLS.countInputNumbers = 0;
-				mLS.fgFirstZero = false;
-				mLS.numType = NumType.LS_DECIMAL;
-			}
-			
-			// check operator and change operator
-			else if (CalParser.OPERATOR.indexOf(v) != -1) { // if operator
-				
+			if (CalParser.OPERATOR.indexOf(v) != -1) { // if operator
+				pass = true;
 				if (mLS.operator.compareTo(v) == 0) {
 					// PNSDbg.d("" + v);
-					break ;
+					break;
 				}
-				// PNSDbg.d(mLS.operator + ":" + CalParser.OPERATOR.indexOf(mLS.operator));
-				if (mLS.operator.length() == 0 ) {
+				// PNSDbg.d(mLS.operator + ":" +
+				if (mLS.operator.length() == 0) {
 					// It can only set minus operator to first character among the operators.
-					if (mInputStack.size() == 0 && v.compareTo(CalParser.OP_MINUS) != 0) {
-						break ;
+					if (mInputStack.size() == 0
+							&& v.compareTo(CalParser.OP_MINUS) != 0) {
+						break;
 					}
 					// PNSDbg.d("" + v);
 					mLS.operator = new String(v);
@@ -95,49 +96,62 @@ public class CalLogic {
 					mVib.vibrate(VIBRATOR_MSEC);
 					break;
 				} else {
-					PNSDbg.d("Do not print this message !!");
+					PNSDbg.e("Do not print this message !!");
 				}
-				mLS.countInputNumbers = 0;
-				mLS.fgFirstZero = false;
-				mLS.numType = NumType.LS_DECIMAL;
+				mLS.resetForNewNumber();
+				appendInput(cLS, v);
 			} else {
-				/* input numbers */
-
-				// check dot 
-				if (CalParser.SPLITTER.indexOf(v) != -1) {
-					mLS.fgDot = false;
-					mLS.countDecimals = 0;
-				} else if (v.equals(CalParser.DOT) == true) {
-					if (mLS.fgDot == true) {
-						break ;
-					} else {
-						mLS.fgDot = true;
-					}
+				pass = false;
+			}
+		} while (false);
+		return pass;
+	}
+	private boolean inputDot (LogicState cLS, String v) {
+		boolean pass = false;
+ 
+		if (v.equals(CalParser.DOT) == true) {
+			pass = true;
+			if (mLS.getDot() == true) {
+				/* Nothing */
+			} else {
+				if (mLS.getInputNumbers() == 0) {
+					input("0");
+					cLS = mLS.copy();
 				}
-				if (mLS.fgDot) {
-					if (mLS.countDecimals <= CalParser.INPUT_MAX_DESIMALS) {
-						/* It is counting with dot */
-						mLS.countDecimals++;
-					} else {
-						PNSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
-						break;
-					}
-				}
-				
-				// filtering zero
-				if (v.equals("0") == true) {
-					if (mLS.countInputNumbers == 0) {
-						mLS.fgFirstZero = true;
-					} else if (copyLS.fgFirstZero == true) {
-						break;
-					}
+				mLS.setDot();
+				if (mLS.getDecimals() <= CalParser.INPUT_MAX_DESIMALS) {
+					mLS.incDecimals();
+					mLS.incInputNumbers();
+					mLS.setFirstZero(false);
+					appendInput(cLS, v);
 				} else {
-					mLS.fgFirstZero = false;
-					
-					/* process Hexa, octal, binary */
+					PNSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
+				}
+			}
+		} else {
+			PNSDbg.d("");
+		}
+		return pass;
+	}
+	private boolean inputNumber (LogicState cLS, String v) {
+		
+		if (inputDot(cLS, v)) {
+		} else {
+			if (v.equals("0") == true) {
+				if (mLS.getInputNumbers() == 0) {
+					mLS.setFirstZero(true);
+					mLS.incInputNumbers();
+					mLS.setOperator("");
+					appendInput(cLS, v);
+				} else if (cLS.getFirstZero() == true) {
+					/* remove duplicated zeros */
+				}
+			} else {
+				do
+				{
+					/* process Hexa, octal and binary marks */
 					if (NON_DECIMAL.contains(v)) {
 						NumType tmpNT;
-
 						if (v.equals(MARK_HEXA)) {
 							tmpNT = NumType.LS_HEXA;
 						} else if (v.equals(MARK_BIN)) {
@@ -147,47 +161,62 @@ public class CalLogic {
 						} else {
 							tmpNT = NumType.LS_DECIMAL;
 						}
-					
+						
 						/* check double input */
-						if (mLS.countInputNumbers != 1) {
+						if (mLS.getInputNumbers() != 1) {
 							delete(); /* remove Zero */
 							break;
 						}
-
-						mLS.numType = tmpNT;
-						mLS.fgIntegerMode = true;
+		
+						mLS.setFirstZero(false);
+						mLS.setNumType(tmpNT);
+						mLS.setIntegerMode();
+						mLS.incInputNumbers();
+						mLS.setOperator("");
+						appendInput(cLS, v);
+						break;
 					}
-					else if (copyLS.fgFirstZero == true) {
+	
+					if (mLS.getNumType() == NumType.LS_DECIMAL && AcceptDECIMAL.indexOf(v) == -1) {
+						break;
+					} else if (mLS.getNumType() == NumType.LS_HEXA && AcceptHEXA.indexOf(v) == -1) {
+						break;
+					} else if (mLS.getNumType() == NumType.LS_OCTAL && AcceptOCTAL.indexOf(v) == -1) {
+						break;
+					} else if (mLS.getNumType() == NumType.LS_BINARY && AcceptBINARY.indexOf(v) == -1) {
+						break;
+					}
+	
+					if (mLS.getFirstZero() == true) {
+						/* first input is zero and then replace from zero to numbers */
+						mLS.setFirstZero(false);
 						mDisplay.delete();
 						mDisplay.append(v);
 						mVib.vibrate(VIBRATOR_MSEC);
-						PNSDbg.d("");
 						break;
 					}
-					
-					PNSDbg.d(mLS.numTypeToString());
-					if (mLS.numType == NumType.LS_DECIMAL && AcceptDECIMAL.indexOf(v) == -1) {
-						PNSDbg.d("");
-						break;
-					} else if (mLS.numType == NumType.LS_HEXA && AcceptHEXA.indexOf(v) == -1) {
-						PNSDbg.d("");
-						break;
-					} else if (mLS.numType == NumType.LS_OCTAL && AcceptOCTAL.indexOf(v) == -1) {
-						PNSDbg.d("");
-						break;
-					} else if (mLS.numType == NumType.LS_BINARY && AcceptBINARY.indexOf(v) == -1) {
-						PNSDbg.d("");
-						break;
-					}
-				}
-				mLS.countInputNumbers++;
-				mLS.operator = "";
+				
+					mLS.setFirstZero(false);
+					mLS.incInputNumbers();
+					mLS.setOperator("");
+					appendInput(cLS, v);
+				} while (false);
 			}
-
-			appendInput(copyLS, v);
-		} while (false) ;
+		}
+		return true;
 	}
-	
+		
+	public void input (String v) {
+		LogicState cLS = mLS.copy();
+		
+			if (inputParenthesis(cLS, v)) {
+			} else if (inputOperator(cLS, v)) {
+			} else if (inputNumber(cLS, v)) {
+			} else {
+				PNSDbg.e("Do not print this message !!");
+			}
+	}
+
 	public void delete () {
 		if (mInputStack.empty() == false) {
 			mLS = mInputStack.pop();
@@ -250,14 +279,14 @@ public class CalLogic {
 	}
 	
 	private class LogicState{
-		int			countParenthesis;
-		boolean	fgDot;
-		int			countDecimals;
-		boolean	fgFirstZero;
-		int			countInputNumbers;
-		String		operator;
-		boolean	fgIntegerMode;
-		NumType	numType;
+		private int			countParenthesis;
+		private boolean		fgDot;
+		private int			countDecimals;
+		private boolean		fgFirstZero;
+		private int			countInputNumbers;
+		private String		operator;
+		private boolean		fgIntegerMode;
+		private NumType		numType;
 
 		
 		public LogicState() {
@@ -302,6 +331,55 @@ public class CalLogic {
 					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(countInputNumbers) +
 					" Op(" + operator + ")]" +
 					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString()+ ")";
+		}
+
+		public void incParenthesis() {
+			countParenthesis ++;
+		}
+		public void decParenthesis() {
+			countParenthesis --;
+		}
+		public void setDot () {
+			fgDot = true;
+		}
+		public void setIntegerMode() {
+		}
+		public void setFirstZero(boolean firstZero) {
+			fgFirstZero = firstZero;
+		}
+		public void setNumType (NumType nt) {
+			numType = nt;
+		}
+		public void setOperator (String o) {
+			operator = o;
+		}
+		public boolean getDot () {
+			return fgDot;
+		}
+		public boolean getFirstZero() {
+			return fgFirstZero;
+		}
+		public int getInputNumbers() {
+			return countInputNumbers;
+		}
+		public int getDecimals() {
+			return countDecimals;
+		}
+		public NumType getNumType() {
+			return numType;
+		}
+		public void incDecimals() {
+			countDecimals ++;
+		}
+		public void incInputNumbers() {
+			countInputNumbers ++;
+		}
+		public void resetForNewNumber() {
+			countInputNumbers = 0;
+			fgFirstZero = false;
+			fgDot = false;
+			countDecimals = 0;
+			numType = NumType.LS_DECIMAL;
 		}
 	}
 

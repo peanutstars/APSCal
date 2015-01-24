@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.pnstars.android.R;
 import com.pnstars.android.helper.PNSScreen;
 
-public class MainActivity extends Activity {
+public class CalMain extends Activity {
 
 	private PNSScreen mScreen;
 	private EventListener mListener;

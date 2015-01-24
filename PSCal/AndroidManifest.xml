@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="com.pnstars.android.cal.MainActivity"
+            android:name="com.pnstars.android.cal.CalMain"
             android:theme="@android:style/Theme.Holo.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name" >
