@@ -1,7 +1,5 @@
 package com.pnstars.android.cal;
 
-import android.app.Activity;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,7 +32,7 @@ public class EventListener implements View.OnClickListener
 		case R.id.btnOpXOR:			mLogic.input("^");		break;
 		case R.id.btnHexa:			mLogic.input("0");
 										mLogic.input("x");		break;
-		case R.id.btnOtal:			mLogic.input("0");
+		case R.id.btnOctal:			mLogic.input("0");
 										mLogic.input("o");		break;
 		case R.id.btnBinary:			mLogic.input("0");		
 										mLogic.input("b");		break;

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import com.pnstars.android.helper.PNSDbg;
-
 public class CalHistory {
 	public static final int LIST_MAX_SIZE = 10;
 	

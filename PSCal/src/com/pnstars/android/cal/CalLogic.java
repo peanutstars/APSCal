@@ -39,7 +39,7 @@ public class CalLogic {
 		mDisplay = new CalDisplay(activity);
 		mLS = new LogicState();
 		mFile = new CalFile(activity, history);
-		mVib = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
+		mVib = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
 		
 		mFile.load();
 	}
@@ -128,8 +128,6 @@ public class CalLogic {
 					PNSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
 				}
 			}
-		} else {
-			PNSDbg.d("");
 		}
 		return pass;
 	}
@@ -145,6 +143,11 @@ public class CalLogic {
 					appendInput(cLS, v);
 				} else if (cLS.getFirstZero() == true) {
 					/* remove duplicated zeros */
+				} else {
+					mLS.setFirstZero(false);
+					mLS.incInputNumbers();
+					mLS.setOperator("");
+					appendInput(cLS, v);					
 				}
 			} else {
 				do
@@ -163,7 +166,21 @@ public class CalLogic {
 						}
 						
 						/* check double input */
-						if (mLS.getInputNumbers() != 1) {
+						if (mLS.getInputNumbers() == 3) {
+							if (mLS.getNumType() != NumType.LS_DECIMAL) {
+								if (mLS.getNumType() == tmpNT) {
+									delete(); /* remove zero */
+									break;
+								} else {
+									delete(); /* remove zero */
+									delete(); /* remove b or x or o */
+									/* go to next step */
+								} 
+							} else {
+								delete(); /* remove zero */
+								break;								
+							}
+						} else if (mLS.getInputNumbers() != 1) {
 							delete(); /* remove Zero */
 							break;
 						}

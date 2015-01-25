@@ -39,7 +39,7 @@
             android:text="@string/strF16" />
 
         <Button
-            android:id="@+id/btnOtal"
+            android:id="@+id/btnOctal"
             style="@style/style_sbtn_genoa"
             android:textSize="@dimen/btn_small_text_size"
             android:text="@string/strF8" />

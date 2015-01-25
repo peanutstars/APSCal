@@ -60,6 +60,9 @@ public class CalMainTest extends
 		final Button btnOpAND	= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnOpAND);
 		final Button btnOpOR		= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnOpOR);
 		final Button btnOpXOR	= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnOpXOR);
+		final Button btnHexa		= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnHexa);
+		final Button btnOctal	= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnOctal);
+		final Button btnBinary	= (Button) mActivity.findViewById(com.pnstars.android.R.id.btnBinary);
 		
 		
 		
@@ -77,7 +80,8 @@ public class CalMainTest extends
 			put('+', btnOpPlus);			put('-', btnOpMinus);
 			put('*', btnOpMul);			put('/', btnOpDiv);
 			put('&', btnOpAND);			put('|', btnOpOR);
-			put('^', btnOpXOR);
+			put('^', btnOpXOR);			put('B', btnBinary);
+			put('O', btnOctal);			put('X', btnHexa);
 		}};
 	}
 
@@ -86,9 +90,32 @@ public class CalMainTest extends
 		
 		HashMap<String, String> testBed = new HashMap<String, String>() {{
 			put( "0",					"0" );
+			put( "0123000",			"123000" );
 			put( ".1",					"0.1");
+			put( ".1.1.3.4",			"0.1134");
+			put( "-1234",				"-1234");
+			put( "*1234",				"1234");
+			put( "/1234",				"1234");
+			put( "+1234",				"1234");
 			put( "0.123+0.1234",		"0.123+0.1234");
 			put( "00001234",			"1234");
+			put( "0....4567",			"0.4567");
+			put( "0.456.456",			"0.456456");
+			put( "1234...23456",		"1234.23456");
+			put( "abc12345",			"12345");
+			put( "abc+1234",			"1234");
+			put( "123+6B",			"123+6");
+			put( "12300+X12DDB111",	"12300+0b111");
+			put( "12300+X12DDB333",	"12300+0b");
+			put( "12300+X12DDO333",	"12300+0o333");
+			put( "789+XX456",			"789+0x456");
+			put( "789+XaX456",		"789+0xA456");
+			put( "789+XabX456",		"789+0xAB456");
+			put( "789+XabcX456",		"789+0xABC456");
+			put( "789+XO456",			"789+0o456");
+			put( "789+XaO456",		"789+0xA456");
+			put( "789+XabO456",		"789+0xAB456");
+			put( "789+XabcO456",		"789+0xABC456");
 		}};
 		
 		Iterator it = testBed.entrySet().iterator();
@@ -97,12 +124,20 @@ public class CalMainTest extends
 			String in  = (String) pairs.getKey();
 			String out = (String) pairs.getValue();
 			
+			/* make key events */
 			for (int i=0; i<in.length(); i++) {
 				btnMap.get(in.charAt(i)).performClick();
 			}
-			PNSDbg.d("@@@ TestBed I:" + in + " O:" + out);
-			PNSDbg.d("@@@ Result : " + tvFormula.getText().toString());
-			assertEquals("key input test", out, tvFormula.getText().toString());
+			
+			String rvFormula = tvFormula.getText().toString();
+			if (out.equals(rvFormula) == false) {
+				PNSDbg.e("@@@ TestBed I:" + in + " O:" + out);
+				PNSDbg.e("@@@ Result Err  : " + rvFormula);
+			} else {
+				PNSDbg.d("@@@ TestBed I:" + in + " O:" + out);
+				PNSDbg.d("@@@ Result Pass : " + rvFormula);
+			}
+			assertEquals("key input test", out, rvFormula);
 			
 			btnMap.get('A').performClick();
 		}

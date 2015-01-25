@@ -32,7 +32,7 @@
         <item>@+id/btnPLeft</item>
         <item>@+id/btnPRight</item>
         <item>@id/btnHexa</item>
-        <item>@id/btnOtal</item>
+        <item>@id/btnOctal</item>
         <item>@id/btnBinary</item>
         <item>@+id/btnHistoryClear</item>
         <item>@+id/btnHistoryClose</item>

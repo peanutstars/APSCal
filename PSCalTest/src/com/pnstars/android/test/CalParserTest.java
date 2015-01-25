@@ -45,6 +45,7 @@ public class CalParserTest extends TestCase {
 			add( new TestBedOne("((4))((4))", "( ( 4 ) ) "+CalParser.OP_MUL+" ( ( 4 ) ) ", CalResult.Result.PASS) );
 			add( new TestBedOne("4(4)", "4 "+CalParser.OP_MUL+" ( 4 ) ", CalResult.Result.PASS) );
 			add( new TestBedOne("4((4))", "4 "+CalParser.OP_MUL+" ( ( 4 ) ) ", CalResult.Result.PASS) );
+			add( new TestBedOne("4(((4)))", "4 "+CalParser.OP_MUL+" ( ( ( 4 ) ) ) ", CalResult.Result.PASS) );
 		}};
 		
 		int count = 0;
