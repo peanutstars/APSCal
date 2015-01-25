@@ -222,25 +222,48 @@ public class CalParser
 			}
 
 			boolean fgErr = false;
+			boolean fgPrevInputNumber = false;
+			boolean fgInputNumber = false;
+			boolean fgInputPRight = false;
+			boolean fgPrevInputPRight = false;
 			int numCount = 0;
 			Stack<Integer> numCountStack = new Stack<Integer>();
 			
 			for (int i = 0; i < instr.length(); i++) {
 				char c = instr.charAt(i);
+				fgPrevInputNumber = fgInputNumber;
+				fgPrevInputPRight = fgInputPRight;
+				
 				if (SPLITTER.indexOf(c) == -1) {
 					/* Non Delimiter */
+					fgInputNumber = true;
+					fgInputPRight = false;
+					
+					if (fgPrevInputPRight) {
+						/* In case of converting from ")Number" to ")*Number" */
+						sb.append(CalParser.OP_MUL);
+						sb.append(' ');
+					}
+					
 					sb.append(c);
 					numCount ++;
 					fgPreviousDelimiter = false;
 					fgPR = false;
 				} else {
 					/* Delimiter */
+					fgInputNumber = false;
+					fgInputPRight = false;
 					if (i != 0 && !fgPreviousDelimiter) {
 						sb.append(' ');
 					}
 					
 					/* check parenthesis */
 					if (c == '(') {
+						if (fgPrevInputNumber) {
+							/* In case of converting from "Number(" to "Number*(" */ 
+							sb.append(CalParser.OP_MUL);
+							sb.append(' ');
+						}
 						fgPLStart = true;
 					}
 					if (fgPLStart) {
@@ -249,6 +272,7 @@ public class CalParser
 							numCountStack.push(numCount);
 						}
 						if (c == ')') {
+							fgInputPRight = true;
 							countPLR --;
 							
 							/* it is error, if it is inputed "()" or "(((())))" */
