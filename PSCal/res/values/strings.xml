@@ -24,7 +24,8 @@
     <string name="strHexaF">F</string>
     
     <string name="strOpDiv">\u00f7</string>
-    <string name="strOpMul">\u00d7</string>
+    <!-- <string name="strOpMul">\u00d7</string> -->
+    <string name="strOpMul">*</string>
     <string name="strOpMinus">-</string>
     <string name="strOpPlus">+</string>
 	<string name="strOpAND">AND</string>

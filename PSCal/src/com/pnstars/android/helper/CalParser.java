@@ -1,10 +1,12 @@
 package com.pnstars.android.helper;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import com.pnstars.android.cal.CalInteger;
 import com.pnstars.android.cal.CalResult;
    
 public class CalParser   
@@ -18,14 +20,15 @@ public class CalParser
     public static final String OP_PLUS		= "+" ;
     public static final String OP_MINUS	= "-" ;
     public static final String OP_DIV		= "\u00f7" ;
-    public static final String OP_MUL		= "\u00d7" ;
+    public static final String OP_MUL		= "*"; //"\u00d7" ;
     public static final String OP_AND		= "&" ;
-    public static final String OP_OR			= "|" ;
+    public static final String OP_OR		= "|" ;
     public static final String OP_XOR		= "^" ;
     public static final String P_LEFT		= "(" ;
     public static final String P_RIGHT		= ")" ;
     public static final String DOT			= "." ;
-    public static final String OPERATOR	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + OP_AND + OP_OR + OP_XOR ;
+    public static final String BITWISE		= OP_AND + OP_OR + OP_XOR;
+    public static final String OPERATOR	= OP_PLUS + OP_MINUS + OP_DIV + OP_MUL + BITWISE ;
     public static final String SPLITTER	= OPERATOR + P_LEFT + P_RIGHT ;
     
     // Operators  
@@ -152,7 +155,7 @@ public class CalParser
 		return Double.valueOf(stack.pop());
 	}
 	
-	public static String RPNtoString (String[] tokens) {
+	public static String RPNtoBigDecimal (String[] tokens) {
 		Stack<String> stack = new Stack<String>();
 
 		// For each token
@@ -179,28 +182,56 @@ public class CalParser
 
 		return stack.pop();
 	}
-	
-//	public static String setFormulaToBoundary (String instr) {
-//		StringBuilder sb = new StringBuilder();
-//		String splitter = SPLITTER; // ()+-/*
-//		boolean fgPrevDelimiter = false;
-//		
-//		for (int i=0; i<instr.length(); i++) {
-//			char c = instr.charAt(i);
-//			if (splitter.indexOf(c) == -1) {
-//				sb.append(c);
-//				fgPrevDelimiter = false;
-//			} else {
-//				if (i != 0 && ! fgPrevDelimiter ) {
-//					sb.append(' ');
-//				}
-//				sb.append(c);
-//				sb.append(' ');
-//				fgPrevDelimiter = true;
-//			}
-//		}
-//		return sb.toString();
-//	}
+
+	public static String RPNtoCalInteger (String[] tokens) {
+		Stack<String> stack = new Stack<String>();
+		boolean fgErr = false;
+
+		// For each token
+		for (String token : tokens) {
+			// If the token is a value push it onto the stack
+			if (!isOperator(token)) {
+				CalInteger d = new CalInteger(CalInteger.getForm(token));
+				stack.push(d.toString(10));
+			} else {
+				// Token is an operator: pop top two entries
+				CalInteger d2 = new CalInteger(CalInteger.getForm(stack.pop()));
+				CalInteger d1 = new CalInteger(CalInteger.getForm(stack.pop()));
+
+				// Get the result
+				BigInteger result;
+				if (token.compareTo(OP_PLUS) == 0) {
+					result = d1.add(d2) ;
+				} else if (token.compareTo(OP_MINUS) == 0) {
+					result = d1.subtract(d2);
+				} else if (token.compareTo(OP_MUL) == 0) {
+					result = d1.multiply(d2);
+				} else if (token.compareTo(OP_DIV) == 0) {
+					if (d2.compareTo(BigInteger.ZERO) == 0) {
+						fgErr = true;
+						result = BigInteger.ZERO;
+						break;
+					} else {
+						result = d1.divide(d2);
+					}
+				} else if (token.compareTo(OP_AND) == 0) {
+					result = d1.and(d2);
+				} else if (token.compareTo(OP_OR) == 0) {
+					result = d1.and(d2);
+				} else if (token.compareTo(OP_XOR) == 0) {
+					result = d1.xor(d2);
+				} else {
+					fgErr = true;
+					result = BigInteger.ZERO;
+				}
+
+				// Push result onto stack
+				stack.push(result.toString(10));
+			}
+		}
+
+		return stack.pop();
+	}
 
 	public static CalResult spliteFormulaToSeparator (String instr) {
 		StringBuilder sb = new StringBuilder();

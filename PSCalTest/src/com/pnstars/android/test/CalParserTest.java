@@ -13,6 +13,8 @@ import com.pnstars.android.helper.PNSDbg;
 
 public class CalParserTest extends TestCase {
 
+	static final String OP_MUL = CalParser.OP_MUL;
+	
 	public CalParserTest(String name) {
 		super(name);
 	}
@@ -21,11 +23,11 @@ public class CalParserTest extends TestCase {
 		super.setUp();
 	}
 
-	private class TestBedOne {
+	private class TBFormula {
 		String				inFormula;
 		String				exFormula;
 		CalResult.Result	exResult;
-		public TestBedOne(String iF, String eF, CalResult.Result eR) {
+		public TBFormula(String iF, String eF, CalResult.Result eR) {
 			inFormula = iF;
 			exFormula = eF;
 			exResult  = eR;
@@ -34,25 +36,26 @@ public class CalParserTest extends TestCase {
 
 	@SmallTest
 	public void testSpliteFormulaToSeparator() {
-		ArrayList<TestBedOne> testBed = new ArrayList<TestBedOne>() {{
-			add( new TestBedOne("()",			"",													CalResult.Result.SYNTAX_ERROR) );
-			add( new TestBedOne(")(",			") "+CalParser.OP_MUL+" ( ",					CalResult.Result.SYNTAX_ERROR) );
-			add( new TestBedOne(")1(",			") 1 ( ",											CalResult.Result.SYNTAX_ERROR) );
-			add( new TestBedOne("(())",			"",													CalResult.Result.SYNTAX_ERROR) );
-			add( new TestBedOne("((1))",		"( ( 1 ) ) ",										CalResult.Result.PASS) );
-			add( new TestBedOne("(1)",			"( 1 ) ",											CalResult.Result.PASS) );
-			add( new TestBedOne("(4)(4)",		"( 4 ) "+CalParser.OP_MUL+" ( 4 ) ",			CalResult.Result.PASS) );
-			add( new TestBedOne("((4))((4))",	"( ( 4 ) ) "+CalParser.OP_MUL+" ( ( 4 ) ) ",	CalResult.Result.PASS) );
-			add( new TestBedOne("4(4)",			"4 "+CalParser.OP_MUL+" ( 4 ) ",				CalResult.Result.PASS) );
-			add( new TestBedOne("4((4))",		"4 "+CalParser.OP_MUL+" ( ( 4 ) ) ",			CalResult.Result.PASS) );
-			add( new TestBedOne("4(((4)))",		"4 "+CalParser.OP_MUL+" ( ( ( 4 ) ) ) ",		CalResult.Result.PASS) );
-			add( new TestBedOne("(4)4",			"( 4 ) "+CalParser.OP_MUL+" 4",					CalResult.Result.PASS) );
-			add( new TestBedOne("((4))4",		"( ( 4 ) ) "+CalParser.OP_MUL+" 4",			CalResult.Result.PASS) );
-			add( new TestBedOne("(((4)))4",		"( ( ( 4 ) ) ) "+CalParser.OP_MUL+" 4",		CalResult.Result.PASS) );
+		ArrayList<TBFormula> testBed = new ArrayList<TBFormula>() {{
+			add( new TBFormula("()",				"Invalid",										CalResult.Result.SYNTAX_ERROR) );
+			add( new TBFormula(")(",				") "+OP_MUL+" ( ",							CalResult.Result.SYNTAX_ERROR) );
+			add( new TBFormula(")1(",			"Invalid",										CalResult.Result.SYNTAX_ERROR) );
+			add( new TBFormula("(())",			"Invalid",										CalResult.Result.SYNTAX_ERROR) );
+			add( new TBFormula("((1))",			"( ( 1 ) ) ",									CalResult.Result.PASS) );
+			add( new TBFormula("(1)",			"( 1 ) ",										CalResult.Result.PASS) );
+			add( new TBFormula("(4)(4)",		"( 4 ) "+OP_MUL+" ( 4 ) ",					CalResult.Result.PASS) );
+			add( new TBFormula("((4))((4))",	"( ( 4 ) ) "+OP_MUL+" ( ( 4 ) ) ",			CalResult.Result.PASS) );
+			add( new TBFormula("4(4)",			"4 "+OP_MUL+" ( 4 ) ",						CalResult.Result.PASS) );
+			add( new TBFormula("4((4))",		"4 "+OP_MUL+" ( ( 4 ) ) ",					CalResult.Result.PASS) );
+			add( new TBFormula("4(((4)))",		"4 "+OP_MUL+" ( ( ( 4 ) ) ) ",				CalResult.Result.PASS) );
+			add( new TBFormula("(4)4",			"( 4 ) "+OP_MUL+" 4",						CalResult.Result.PASS) );
+			add( new TBFormula("((4))4",		"( ( 4 ) ) "+OP_MUL+" 4",					CalResult.Result.PASS) );
+			add( new TBFormula("(((4)))4",		"( ( ( 4 ) ) ) "+OP_MUL+" 4",				CalResult.Result.PASS) );
+			add( new TBFormula("(4)4(4)",		"( 4 ) "+OP_MUL+" 4 "+OP_MUL+" ( 4 ) ",	CalResult.Result.PASS) );
 		}};
 		
 		int count = 0;
-		for (TestBedOne tb : testBed ) {
+		for (TBFormula tb : testBed ) {
 			CalResult result = CalParser.spliteFormulaToSeparator(tb.inFormula);
 			PNSDbg.d("" + ++count + " : " + tb.inFormula + " : " + result.getFormula());
 			assertEquals("CalParser.spliteformulaToSeparator Result Error",  tb.exResult,  result.getResult());

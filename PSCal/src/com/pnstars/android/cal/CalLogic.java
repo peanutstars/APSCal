@@ -82,8 +82,7 @@ public class CalLogic {
 				// PNSDbg.d(mLS.operator + ":" +
 				if (mLS.operator.length() == 0) {
 					// It can only set minus operator to first character among the operators.
-					if (mInputStack.size() == 0
-							&& v.compareTo(CalParser.OP_MINUS) != 0) {
+					if (mInputStack.size() == 0	&& v.compareTo(CalParser.OP_MINUS) != 0) {
 						break;
 					}
 					// PNSDbg.d("" + v);
@@ -91,12 +90,20 @@ public class CalLogic {
 				} else if (CalParser.OPERATOR.indexOf(mLS.operator) != -1) { // if changed operator
 					// PNSDbg.d("" + v + ":" + mLS.operator);
 					mDisplay.delete();
+					if (CalParser.BITWISE.indexOf(v) != -1) {
+						mLS.setIntegerMode(true);
+					} else {
+						mLS.setIntegerMode(false);
+					}
 					mDisplay.append(v);
 					mLS.operator = new String(v);
 					mVib.vibrate(VIBRATOR_MSEC);
 					break;
 				} else {
 					PNSDbg.e("Do not print this message !!");
+				}
+				if (CalParser.BITWISE.indexOf(v) != -1) {
+					mLS.setIntegerMode(true);
 				}
 				mLS.resetForNewNumber();
 				appendInput(cLS, v);
@@ -187,7 +194,7 @@ public class CalLogic {
 		
 						mLS.setFirstZero(false);
 						mLS.setNumType(tmpNT);
-						mLS.setIntegerMode();
+						mLS.setIntegerMode(true);
 						mLS.incInputNumbers();
 						mLS.setOperator("");
 						appendInput(cLS, v);
@@ -251,6 +258,22 @@ public class CalLogic {
 		mVib.vibrate(VIBRATOR_MSEC);
 	}
 	
+	public String runCalculate(boolean isInteger, String strFormula) {
+		String [] ci = strFormula.split(" ");
+//		PNSDbg.d("ci : " + Arrays.toString(ci));
+		String [] co = CalParser.infixToRPN(ci);
+//		PNSDbg.d("co : " + Arrays.toString(co));
+		String strResult;
+		if (isInteger) {
+			PNSDbg.d("I:T - " + Arrays.toString(co));
+			strResult = CalParser.RPNtoCalInteger(co);
+		} else {
+			PNSDbg.d("I:F - " + Arrays.toString(co));
+			strResult = mDisplay.getResultFormat(CalParser.RPNtoBigDecimal(co));
+		}
+		return strResult;
+	}
+	
 	public void enter() {
 		boolean fgErrSyntax = true;
 		String formula = mDisplay.getFormula();
@@ -263,12 +286,9 @@ public class CalLogic {
 //			PNSDbg.d("Syntax Err : The last input is Dot and then need more inputs.");
 		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
 			CalResult result = CalParser.spliteFormulaToSeparator(formula);
-			if (result.getResult() == CalResult.Result.PASS) {
-				String [] ci = result.getFormula().split(" ");
-				PNSDbg.d("ci : " + Arrays.toString(ci));
-				String [] co = CalParser.infixToRPN(ci);
-				PNSDbg.d("co : " + Arrays.toString(co));
-				String formulaResult = mDisplay.getResultFormuat(CalParser.RPNtoString(co));
+			if (result.getResult() == CalResult.Result.PASS)
+			{
+				String formulaResult = runCalculate(mLS.getIntergerMode(), result.getFormula());
 				mCalHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
 				fgErrSyntax = false;
@@ -359,7 +379,8 @@ public class CalLogic {
 		public void setDot () {
 			fgDot = true;
 		}
-		public void setIntegerMode() {
+		public void setIntegerMode(boolean mode) {
+			fgIntegerMode = mode;
 		}
 		public void setFirstZero(boolean firstZero) {
 			fgFirstZero = firstZero;
@@ -384,6 +405,9 @@ public class CalLogic {
 		}
 		public NumType getNumType() {
 			return numType;
+		}
+		public boolean getIntergerMode() {
+			return fgIntegerMode;
 		}
 		public void incDecimals() {
 			countDecimals ++;
