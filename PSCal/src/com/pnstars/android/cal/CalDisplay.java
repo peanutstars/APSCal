@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
+import com.pnstars.android.helper.PNSDbg;
 import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
 
 public class CalDisplay {
@@ -75,11 +76,15 @@ public class CalDisplay {
 		((Editable) mFormula.getText()).append(v);
 	}
 	
-	public void delete() {
+	public char delete() {
+		char ch = (char)0;
 		int length = mFormula.getText().length();
 		if (length > 0) {
+			ch = mFormula.getText().charAt(length-1);
 			((Editable) mFormula.getText()).delete(length-1, length);
 		}
+		// PNSDbg.d("Delete : " + ch);
+		return ch;
 	}
 	
 	public String getFormula() {

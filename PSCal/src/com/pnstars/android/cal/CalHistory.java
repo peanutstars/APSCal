@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class CalHistory {
-	public static final int LIST_MAX_SIZE = 10;
+	public static final int LIST_MAX_SIZE = 50;
 	
 	private LinkedList<CalItem> mListHistory;
 	

@@ -2,8 +2,6 @@ package com.pnstars.android.cal;
 
 import java.math.BigInteger;
 
-import com.pnstars.android.helper.PNSDbg;
-
 public class CalInteger extends BigInteger {
 
 	private static final long serialVersionUID = 978859537129632573L;
@@ -32,7 +30,7 @@ public class CalInteger extends BigInteger {
 		if (value.length()>2) {
 			prefix = value.substring(0,2);
 			data = value.substring(2);
-			PNSDbg.d("prefix:" + prefix + ", data:"+data);
+			// PNSDbg.d("prefix:" + prefix + ", data:"+data);
 			
 			if (prefix.compareTo(PREFIX_HEXA) == 0) {
 				form.radix = 16;
@@ -51,7 +49,7 @@ public class CalInteger extends BigInteger {
 			form.radix = 10;
 			form.value = value;
 		}
-		PNSDbg.d("value:" + form.value + ", radix:"+form.radix);
+		// PNSDbg.d("value:" + form.value + ", radix:"+form.radix);
 		return form;
 	}
 }
