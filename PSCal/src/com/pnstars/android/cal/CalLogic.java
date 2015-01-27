@@ -13,14 +13,18 @@ import com.pnstars.android.helper.PNSDbg;
 public class CalLogic {
 	
 	public enum NumType { LS_DECIMAL, LS_BINARY, LS_OCTAL, LS_HEXA }
-	public static final String MARK_HEXA		= "x";
+	public static final int BitBinary			= 1 << NumType.LS_BINARY.ordinal();
+	public static final int BitOctal				= 1 << NumType.LS_OCTAL.ordinal();
+	public static final int BitHexa				= 1 << NumType.LS_HEXA.ordinal();
+	
+	public static final String MARK_HEXA			= "x";
 	public static final String MARK_OCTAL		= "o";
-	public static final String MARK_BIN		= "b";
+	public static final String MARK_BIN			= "b";
 	public static final String NON_DECIMAL		= MARK_HEXA + MARK_OCTAL + MARK_BIN;
 	public static final String AcceptDECIMAL	= "0123456789";
 	public static final String AcceptHEXA		= "0123456789ABCDEF";
 	public static final String AcceptOCTAL		= "01234567";
-	public static final String AcceptBINARY	= "01";
+	public static final String AcceptBINARY		= "01";
 	
 	private final int VIBRATOR_MSEC = 50;
 	private Activity mActivity;
@@ -45,7 +49,8 @@ public class CalLogic {
 	}
 	
 	private void appendInput (LogicState copyLS, String v) {
-		PNSDbg.d("PU " + copyLS.toString() );
+		PNSDbg.d("PU  " + copyLS.toString() );
+//		PNSDbg.d("mLS " + mLS.toString());
 		mInputStack.push(copyLS);
 		mDisplay.append(v);
 		mVib.vibrate(VIBRATOR_MSEC);
@@ -129,6 +134,7 @@ public class CalLogic {
 				if (mLS.getDecimals() <= CalParser.INPUT_MAX_DESIMALS) {
 					mLS.incDecimals();
 					mLS.incInputNumbers();
+					PNSDbg.d("inc");
 					mLS.setFirstZero(false);
 					appendInput(cLS, v);
 				} else {
@@ -146,6 +152,7 @@ public class CalLogic {
 				if (mLS.getInputNumbers() == 0) {
 					mLS.setFirstZero(true);
 					mLS.incInputNumbers();
+					PNSDbg.d("inc");
 					mLS.setOperator("");
 					appendInput(cLS, v);
 				} else if (cLS.getFirstZero() == true) {
@@ -153,6 +160,7 @@ public class CalLogic {
 				} else {
 					mLS.setFirstZero(false);
 					mLS.incInputNumbers();
+					PNSDbg.d("inc");
 					mLS.setOperator("");
 					appendInput(cLS, v);					
 				}
@@ -176,26 +184,30 @@ public class CalLogic {
 						if (mLS.getInputNumbers() == 3) {
 							if (mLS.getNumType() != NumType.LS_DECIMAL) {
 								if (mLS.getNumType() == tmpNT) {
-									delete(); /* remove zero */
+									internalDelete(); /* remove zero */
 									break;
 								} else {
-									delete(); /* remove zero */
-									delete(); /* remove b or x or o */
+									internalDelete(); /* remove zero */
+									internalDelete(); /* remove b or x or o */
+									cLS = mLS.copy();
 									/* go to next step */
 								} 
 							} else {
-								delete(); /* remove zero */
+								internalDelete(); /* remove zero */
 								break;								
 							}
 						} else if (mLS.getInputNumbers() != 1) {
-							delete(); /* remove Zero */
+							internalDelete(); /* remove Zero */
 							break;
 						}
 		
+						mLS.incErrRadix();
+						mLS.setNumTypes(1 << tmpNT.ordinal());
 						mLS.setFirstZero(false);
 						mLS.setNumType(tmpNT);
 						mLS.setIntegerMode(true);
 						mLS.incInputNumbers();
+						PNSDbg.d("inc");
 						mLS.setOperator("");
 						appendInput(cLS, v);
 						break;
@@ -222,7 +234,11 @@ public class CalLogic {
 				
 					mLS.setFirstZero(false);
 					mLS.incInputNumbers();
+					PNSDbg.d("inc");
 					mLS.setOperator("");
+					if (mLS.getNumType() != NumType.LS_DECIMAL && mLS.getInputNumbers() == 3) {
+						mLS.decErrRadix();
+					}
 					appendInput(cLS, v);
 				} while (false);
 			}
@@ -246,8 +262,20 @@ public class CalLogic {
 			mLS = mInputStack.pop();
 		}
 		PNSDbg.d("PO Update" + mLS.toString());
+		char delChar = mDisplay.delete();
+		if (NON_DECIMAL.contains(""+delChar)) {
+			delete();
+		} else {
+			mVib.vibrate(VIBRATOR_MSEC);
+		}
+	}
+	private void internalDelete () {
+		if (mInputStack.empty() == false) {
+			mLS = mInputStack.pop();
+		}
+		PNSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
-		mVib.vibrate(VIBRATOR_MSEC);
+		mVib.vibrate(VIBRATOR_MSEC);		
 	}
 
 	public void reset() {
@@ -284,6 +312,8 @@ public class CalLogic {
 			PNSDbg.d("Syntax Err : Formula is ended with operator.");
 //		} else if (mLS.fgDot && mLS.countDecimals <= 1) {
 //			PNSDbg.d("Syntax Err : The last input is Dot and then need more inputs.");
+		} else if (mLS.getErrRadix() != 0) {
+			PNSDbg.d("Syntax Err : Radix");
 		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
 			CalResult result = CalParser.spliteFormulaToSeparator(formula);
 			if (result.getResult() == CalResult.Result.PASS)
@@ -294,7 +324,11 @@ public class CalLogic {
 				fgErrSyntax = false;
 			}
 		} else {
-			PNSDbg.d("Syntax Err : Caused others ...\n" + mLS.toString());
+			if (formula.length() == 0) {
+				fgErrSyntax = false;
+			} else {
+				PNSDbg.d("Syntax Err : Caused others ...\n" + mLS.toString());
+			}
 		}
 		
 		if (fgErrSyntax == true) {
@@ -324,7 +358,8 @@ public class CalLogic {
 		private String		operator;
 		private boolean		fgIntegerMode;
 		private NumType		numType;
-
+		private int			numTypes;
+		private int			countErrRadix;
 		
 		public LogicState() {
 			countParenthesis = 0;
@@ -335,6 +370,8 @@ public class CalLogic {
 			operator = "";	// new String();
 			fgIntegerMode = false;
 			numType = NumType.LS_DECIMAL;
+			numTypes = 0;
+			countErrRadix = 0;
 		}
 		public LogicState(LogicState o) {
 			countParenthesis = o.countParenthesis;
@@ -345,6 +382,8 @@ public class CalLogic {
 			operator = new String(o.operator);
 			fgIntegerMode = o.fgIntegerMode;
 			numType = o.numType;
+			numTypes = o.numTypes;
+			countErrRadix = o.countErrRadix;
 		}
 		public LogicState copy() {
 			LogicState n = new LogicState(this);
@@ -363,11 +402,12 @@ public class CalLogic {
 		}
 		@Override
 		public String toString() {
-			return "[Parenthesis:" + countParenthesis +
+			return "[P:" + countParenthesis +
 					" Dot(" + (fgDot?"T:":"F:") + String.valueOf(countDecimals) + ")" +
 					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(countInputNumbers) +
 					" Op(" + operator + ")]" +
-					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString()+ ")";
+					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString()+ ":0x"+ String.format("%X",numTypes) +")" +
+					" E(" + String.valueOf(countErrRadix) +")";
 		}
 
 		public void incParenthesis() {
@@ -390,6 +430,18 @@ public class CalLogic {
 		}
 		public void setOperator (String o) {
 			operator = o;
+		}
+		public void setNumTypes (int nt) {
+			numTypes |= nt;
+		}
+		public void incErrRadix () {
+			countErrRadix ++;
+		}
+		public void decErrRadix () {
+			countErrRadix --;
+		}
+		public int getErrRadix () {
+			return countErrRadix;
 		}
 		public boolean getDot () {
 			return fgDot;

@@ -18,11 +18,11 @@ public class CalParser
     
     public static final int INPUT_MAX_DESIMALS = ROUND_UP_POSITION;
     public static final String OP_PLUS		= "+" ;
-    public static final String OP_MINUS	= "-" ;
+    public static final String OP_MINUS		= "-" ;
     public static final String OP_DIV		= "\u00f7" ;
     public static final String OP_MUL		= "*"; //"\u00d7" ;
     public static final String OP_AND		= "&" ;
-    public static final String OP_OR		= "|" ;
+    public static final String OP_OR			= "|" ;
     public static final String OP_XOR		= "^" ;
     public static final String P_LEFT		= "(" ;
     public static final String P_RIGHT		= ")" ;
