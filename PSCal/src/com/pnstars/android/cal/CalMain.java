@@ -2,8 +2,10 @@ package com.pnstars.android.cal;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,6 +24,11 @@ public class CalMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+//		/* set background color */
+//		View root = findViewById(R.id.CalMainLayout).getRootView();
+//		root.setBackgroundColor(0xff34495e);
+//		root.setBackgroundColor(0xff69db62);
+		
 		mScreen = new PNSScreen(this);
 		mHistory = new CalHistory();
 		mLogic = new CalLogic(this, mHistory);
