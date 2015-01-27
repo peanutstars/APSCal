@@ -37,7 +37,7 @@
             android:clickable="true"
             android:gravity="right"
             android:text="@string/strResult"
-            android:textStyle="normal"
+            android:textStyle="italic"
             android:textSize="28sp" />
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.pnstars.android.cal;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,9 +54,11 @@ public class CalMain extends Activity {
 		}
 */
 	
+		Typeface font = Typeface.createFromAsset(getAssets(), CalDisplay.CalFont);
 		final TypedArray btns = getResources().obtainTypedArray(R.array.cal_btns);
 		for (int i = 0; i < btns.length(); i++) {
 			Button b = (Button) findViewById(btns.getResourceId(i, 0));
+			b.setTypeface(font);
 			b.setOnClickListener(mListener);
         }
 		btns.recycle();

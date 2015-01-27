@@ -106,25 +106,21 @@
         <Button
             android:id="@+id/btnAC"
             style="@style/style_sbtn_orange"
-            android:textStyle="bold"
             android:text="@string/strAC" />
 
         <Button
             android:id="@+id/btnPLeft"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strPLeft" />
 
         <Button
             android:id="@+id/btnPRight"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strPRight" />
 
         <Button
             android:id="@+id/btnOpDiv"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strOpDiv" />
     </LinearLayout>
 
@@ -138,25 +134,21 @@
         <Button
             android:id="@+id/btnDgt7"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt7" />
 
         <Button
             android:id="@+id/btnDgt8"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt8" />
 
         <Button
             android:id="@+id/btnDgt9"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt9" />
 
         <Button
             android:id="@+id/btnOpMul"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strOpMul" />
     </LinearLayout>
 
@@ -170,25 +162,21 @@
         <Button
             android:id="@+id/btnDgt4"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt4" />
 
         <Button
             android:id="@+id/btnDgt5"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt5" />
 
         <Button
             android:id="@+id/btnDgt6"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt6" />
 
         <Button
             android:id="@+id/btnOpMinus"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strOpMinus" />
     </LinearLayout>
 
@@ -202,25 +190,21 @@
         <Button
             android:id="@+id/btnDgt1"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt1" />
 
         <Button
             android:id="@+id/btnDgt2"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt2" />
 
         <Button
             android:id="@+id/btnDgt3"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt3" />
 
         <Button
             android:id="@+id/btnOpPlus"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strOpPlus" />
     </LinearLayout>
 
@@ -234,13 +218,11 @@
         <Button
             android:id="@+id/btnDgt0"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDgt0" />
 
         <Button
             android:id="@+id/btnDot"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strDot" />
 
         <Button
@@ -251,7 +233,6 @@
         <Button
             android:id="@+id/btnEnter"
             style="@style/style_sbtn_sandrift"
-            android:textStyle="bold"
             android:text="@string/strEnter" />
     </LinearLayout>
 

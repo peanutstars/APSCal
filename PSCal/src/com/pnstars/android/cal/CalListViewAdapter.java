@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public class CalListViewAdapter extends ArrayAdapter<CalItem> {
 	private Activity mActivity;
 	private List<CalItem> mData;
 	private static LayoutInflater mInflater = null;
+	private Typeface mFont;
 	
 	public CalListViewAdapter (Activity activity, int resourceId, List<CalItem> data) {
 		super (activity, resourceId, data);
@@ -25,6 +27,7 @@ public class CalListViewAdapter extends ArrayAdapter<CalItem> {
 		mActivity = activity;
 		mData = data;
 		mInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mFont = Typeface.createFromAsset(mActivity.getAssets(), CalDisplay.CalFont);
 	}
 	
 	@Override
@@ -42,7 +45,9 @@ public class CalListViewAdapter extends ArrayAdapter<CalItem> {
 		item = mData.get(position);
 		
 		formula.setText(item.getFormula());
+		formula.setTypeface(mFont);
 		result.setText(item.getResult());
+		result.setTypeface(mFont);
 		
 		return convertView;
 	}

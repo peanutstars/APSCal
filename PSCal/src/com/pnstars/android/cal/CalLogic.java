@@ -294,10 +294,10 @@ public class CalLogic {
 		String strResult;
 		if (isInteger) {
 			PNSDbg.d("I:T - " + Arrays.toString(co));
-			strResult = CalParser.RPNtoCalInteger(co);
+			strResult = CalParser.RPNtoCalInteger(co) + " ";
 		} else {
 			PNSDbg.d("I:F - " + Arrays.toString(co));
-			strResult = mDisplay.getResultFormat(CalParser.RPNtoBigDecimal(co));
+			strResult = mDisplay.getResultFormat(CalParser.RPNtoBigDecimal(co)) + " ";
 		}
 		return strResult;
 	}

@@ -16,14 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
-import com.pnstars.android.helper.PNSDbg;
 import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
 
 public class CalDisplay {
 	
 	public enum ResultFormat { RESULT, MESSAGE };
-	public static final String CalFont			= "fonts/Lato-Light.ttf";
-	public static final String CalFontItalic	= "fonts/Lato-LightItalic.ttf";
+	public static final String CalFont			= "fonts/Lato-Regular.ttf";
 	
 	private Activity mActivity;
 	private EditText mFormula;
@@ -45,18 +43,17 @@ public class CalDisplay {
 		mLHistory = (LinearLayout) mActivity.findViewById(R.id.layoutHistory);
 		mLPad = (LinearLayout) mActivity.findViewById(R.id.layoutPad);
 
-		Typeface fontNormal = Typeface.createFromAsset(mActivity.getAssets(), CalFont);
-		Typeface fontItalic = Typeface.createFromAsset(mActivity.getAssets(), CalFontItalic);
+		Typeface font = Typeface.createFromAsset(mActivity.getAssets(), CalFont);
 		
 		mFormula.setText("");
 		mFormula.setFocusable(false);
 		mFormula.setCursorVisible(false);
-		mFormula.setTypeface(fontNormal);
+		mFormula.setTypeface(font);
 //		mFormula.setVerticalScrollBarEnabled(true);
 		
 		mResult.setText("");
 		mResult.setSingleLine();
-		mResult.setTypeface(fontItalic);
+		mResult.setTypeface(font);
 	}
 
 	public void resetFormula () {
