@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
 public class CalDisplay {
 	
 	public enum ResultFormat { RESULT, MESSAGE };
+	public static final String CalFont			= "fonts/Lato-Light.ttf";
+	public static final String CalFontItalic	= "fonts/Lato-LightItalic.ttf";
 	
 	private Activity mActivity;
 	private EditText mFormula;
@@ -33,7 +36,7 @@ public class CalDisplay {
 
 	public CalDisplay (Activity activity) {
 		mActivity = activity;
-		
+
 		mFormula = (EditText) mActivity.findViewById(R.id.tvFormula);
 		mResult = (TextView) mActivity.findViewById(R.id.tvResult);
 		mLvHistory = (ListView) mActivity.findViewById(R.id.lv_history);
@@ -41,13 +44,18 @@ public class CalDisplay {
 		mLHistory = (LinearLayout) mActivity.findViewById(R.id.layoutHistory);
 		mLPad = (LinearLayout) mActivity.findViewById(R.id.layoutPad);
 
+		Typeface fontNormal = Typeface.createFromAsset(mActivity.getAssets(), CalFont);
+		Typeface fontItalic = Typeface.createFromAsset(mActivity.getAssets(), CalFontItalic);
+		
 		mFormula.setText("");
 		mFormula.setFocusable(false);
 		mFormula.setCursorVisible(false);
+		mFormula.setTypeface(fontNormal);
 //		mFormula.setVerticalScrollBarEnabled(true);
 		
 		mResult.setText("");
 		mResult.setSingleLine();
+		mResult.setTypeface(fontItalic);
 	}
 
 	public void resetFormula () {
