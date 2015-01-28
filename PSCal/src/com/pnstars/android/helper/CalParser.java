@@ -217,7 +217,7 @@ public class CalParser
 				} else if (token.compareTo(OP_AND) == 0) {
 					result = d1.and(d2);
 				} else if (token.compareTo(OP_OR) == 0) {
-					result = d1.and(d2);
+					result = d1.or(d2);
 				} else if (token.compareTo(OP_XOR) == 0) {
 					result = d1.xor(d2);
 				} else {

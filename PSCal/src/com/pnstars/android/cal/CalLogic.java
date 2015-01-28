@@ -1,5 +1,7 @@
 package com.pnstars.android.cal;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -12,10 +14,25 @@ import com.pnstars.android.helper.PNSDbg;
 
 public class CalLogic {
 	
-	public enum NumType { LS_DECIMAL, LS_BINARY, LS_OCTAL, LS_HEXA }
+	public static enum NumType { 
+		LS_DECIMAL, LS_HEXA, LS_BINARY, LS_OCTAL;
+		private static NumType[] vals = values();
+		private static int [] radix = { 10, 16, 2, 8 };
+		private static String [] prefix = { "", "0x", "0b", "0o"	};
+		public NumType next() {
+			return vals[(this.ordinal()+1) % vals.length];
+		}
+		public int getRadix() {
+			 return radix[this.ordinal()];
+		}
+		public String getPrefix() {
+			return prefix[this.ordinal()];
+		}
+	}
 	public static final int BitBinary			= 1 << NumType.LS_BINARY.ordinal();
 	public static final int BitOctal				= 1 << NumType.LS_OCTAL.ordinal();
 	public static final int BitHexa				= 1 << NumType.LS_HEXA.ordinal();
+	public static final int BitDecimal			= 1 << NumType.LS_DECIMAL.ordinal();
 	
 	public static final String MARK_HEXA			= "x";
 	public static final String MARK_OCTAL		= "o";
@@ -34,6 +51,7 @@ public class CalLogic {
 	private LogicState mLS;
 	private CalFile mFile;
 	private Vibrator mVib;
+	private OutputResult mOR;
 	
 	
 	public CalLogic (Activity activity, CalHistory history) {
@@ -44,6 +62,7 @@ public class CalLogic {
 		mLS = new LogicState();
 		mFile = new CalFile(activity, history);
 		mVib = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
+		mOR = new OutputResult();
 		
 		mFile.load();
 	}
@@ -57,6 +76,7 @@ public class CalLogic {
 
 		/* Clear Result */
 		mDisplay.resetResult();
+		mOR.reset();
 	}
 	
 	private boolean inputParenthesis(LogicState cLS, String v) {
@@ -98,7 +118,7 @@ public class CalLogic {
 					if (CalParser.BITWISE.indexOf(v) != -1) {
 						mLS.setIntegerMode(true);
 					} else {
-						mLS.setIntegerMode(false);
+						mLS.setIntegerMode(false|cLS.getIntegerMode());
 					}
 					mDisplay.append(v);
 					mLS.operator = new String(v);
@@ -286,20 +306,45 @@ public class CalLogic {
 		mVib.vibrate(VIBRATOR_MSEC);
 	}
 	
-	public String runCalculate(boolean isInteger, String strFormula) {
+	private class OutputResult {
+		NumType numType;
+		public OutputResult() {
+			reset();
+		}
+		public void reset() {
+			numType = NumType.LS_DECIMAL;
+		}
+	}
+	
+	public String resultToStringInteger(String strInteger) {
+		String strResult;
+		if (mOR.numType == NumType.LS_DECIMAL) {
+			strResult = mDisplay.getResultFormat(strInteger);
+		} else {
+			BigInteger bi = new BigInteger(strInteger);
+			strResult = mOR.numType.getPrefix() + bi.toString(mOR.numType.getRadix()).toUpperCase();
+		}
+		mOR.numType = mOR.numType.next();
+		return strResult;
+	}
+	
+	public String runCalculate(String strFormula) {
 		String [] ci = strFormula.split(" ");
 //		PNSDbg.d("ci : " + Arrays.toString(ci));
 		String [] co = CalParser.infixToRPN(ci);
 //		PNSDbg.d("co : " + Arrays.toString(co));
 		String strResult;
-		if (isInteger) {
-			PNSDbg.d("I:T - " + Arrays.toString(co));
-			strResult = CalParser.RPNtoCalInteger(co) + " ";
+		if (mLS.getIntegerMode() || (mLS.getNumTypes() != BitDecimal)) {
+			strResult = resultToStringInteger(CalParser.RPNtoCalInteger(co));
 		} else {
-			PNSDbg.d("I:F - " + Arrays.toString(co));
-			strResult = mDisplay.getResultFormat(CalParser.RPNtoBigDecimal(co)) + " ";
+			BigDecimal bd = new BigDecimal(CalParser.RPNtoBigDecimal(co));
+			if (bd.stripTrailingZeros().scale() <= 0) {
+				strResult = resultToStringInteger(bd.toString());
+			} else {
+				strResult = mDisplay.getResultFormat(bd.toString());
+			}
 		}
-		return strResult;
+		return strResult + " ";
 	}
 	
 	public void enter() {
@@ -318,7 +363,7 @@ public class CalLogic {
 			CalResult result = CalParser.spliteFormulaToSeparator(formula);
 			if (result.getResult() == CalResult.Result.PASS)
 			{
-				String formulaResult = runCalculate(mLS.getIntergerMode(), result.getFormula());
+				String formulaResult = runCalculate(result.getFormula());
 				mCalHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
 				fgErrSyntax = false;
@@ -349,7 +394,7 @@ public class CalLogic {
 		mFile.save();
 	}
 	
-	private class LogicState{
+	private class LogicState {
 		private int			countParenthesis;
 		private boolean		fgDot;
 		private int			countDecimals;
@@ -458,7 +503,10 @@ public class CalLogic {
 		public NumType getNumType() {
 			return numType;
 		}
-		public boolean getIntergerMode() {
+		public int getNumTypes() {
+			return numTypes;
+		}
+		public boolean getIntegerMode() {
 			return fgIntegerMode;
 		}
 		public void incDecimals() {
