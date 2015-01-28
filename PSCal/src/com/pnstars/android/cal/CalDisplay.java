@@ -65,12 +65,37 @@ public class CalDisplay {
 	public void resetResult () {
 		mResult.setText("");
 	}
-	public String getResultFormat (String v) {
+	public String convertResultFormatDecimal (String v) {
 		Locale locale = mActivity.getResources().getConfiguration().locale;
 		DecimalFormat df = new DecimalFormat("###,###.##########", new DecimalFormatSymbols(locale));
 		BigDecimal bd = new BigDecimal(v);
 		return df.format(bd.doubleValue());
 	}
+	
+	public String convertResultFormat (int radix, String v) {
+		String strFormat = v;
+		StringBuilder sb = new StringBuilder();
+		int i;
+		int c;
+		if (radix == 10) {
+			strFormat = convertResultFormatDecimal(v);
+		} else if (radix == 16 || radix == 2 || radix == 8) {
+			c = 4 - (v.length()- 2) % 4;
+			for (i=0; i<v.length(); i++) {
+				if (i < 2) {
+					sb.append(v.charAt(i));
+				} else {
+					sb.append(v.charAt(i));
+					if ((++c % 4) == 0) {
+						sb.append(' ');
+					}
+				}
+			}
+			strFormat = sb.toString();
+		}
+		return strFormat;
+	}
+	
 	public void setResult (ResultFormat rf, String v) {
 		if (rf == ResultFormat.MESSAGE) {
 			mResult.setText(v);

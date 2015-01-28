@@ -319,11 +319,12 @@ public class CalLogic {
 	public String resultToStringInteger(String strInteger) {
 		String strResult;
 		if (mOR.numType == NumType.LS_DECIMAL) {
-			strResult = mDisplay.getResultFormat(strInteger);
+			strResult = mDisplay.convertResultFormatDecimal(strInteger);
 		} else {
 			BigInteger bi = new BigInteger(strInteger);
 			strResult = mOR.numType.getPrefix() 
 					+ bi.toString(mOR.numType.getRadix()).toUpperCase(mActivity.getResources().getConfiguration().locale);
+			strResult = mDisplay.convertResultFormat(mOR.numType.getRadix(), strResult);
 		}
 		mOR.numType = mOR.numType.next();
 		return strResult;
@@ -342,7 +343,7 @@ public class CalLogic {
 			if (bd.stripTrailingZeros().scale() <= 0) {
 				strResult = resultToStringInteger(bd.toString());
 			} else {
-				strResult = mDisplay.getResultFormat(bd.toString());
+				strResult = mDisplay.convertResultFormatDecimal(bd.toString());
 			}
 		}
 		return strResult + " ";
