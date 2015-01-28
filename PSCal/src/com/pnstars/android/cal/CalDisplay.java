@@ -32,6 +32,7 @@ public class CalDisplay {
 	private CalHistory mCalHistory;
 	private LinearLayout mLPad;
 	private CalListViewAdapter mAdapter;
+	private boolean mFgVisibleHistory;
 
 	public CalDisplay (Activity activity) {
 		mActivity = activity;
@@ -42,6 +43,7 @@ public class CalDisplay {
 		mLFormula = (LinearLayout) mActivity.findViewById(R.id.layoutFormula);
 		mLHistory = (LinearLayout) mActivity.findViewById(R.id.layoutHistory);
 		mLPad = (LinearLayout) mActivity.findViewById(R.id.layoutPad);
+		mFgVisibleHistory = false;
 
 		Typeface font = Typeface.createFromAsset(mActivity.getAssets(), CalFont);
 		
@@ -129,10 +131,12 @@ public class CalDisplay {
 			fillHistory(history);
 			mLFormula.setVisibility(View.GONE);
 			mLHistory.setVisibility(View.VISIBLE);
+			mFgVisibleHistory = true;
 			mLPad.setVisibility(View.GONE);
 		} else {
 			mLFormula.setVisibility(View.VISIBLE);
 			mLHistory.setVisibility(View.GONE);
+			mFgVisibleHistory = false;
 			mLPad.setVisibility(View.VISIBLE);
 		}
 	}
@@ -140,5 +144,9 @@ public class CalDisplay {
 	public void historyClear (CalHistory history){
 		history.clear();
 		fillHistory(history);
+	}
+	
+	public boolean isVisibleHistory() {
+		return mFgVisibleHistory;
 	}
 }

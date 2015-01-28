@@ -67,4 +67,12 @@ public class CalMain extends Activity {
 		tvResult.setOnClickListener(mListener);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (mLogic.isVisibleHistory()) {
+			mLogic.history();
+		} else {
+			finish();
+		}
+	}
 }

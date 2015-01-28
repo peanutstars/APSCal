@@ -322,7 +322,8 @@ public class CalLogic {
 			strResult = mDisplay.getResultFormat(strInteger);
 		} else {
 			BigInteger bi = new BigInteger(strInteger);
-			strResult = mOR.numType.getPrefix() + bi.toString(mOR.numType.getRadix()).toUpperCase();
+			strResult = mOR.numType.getPrefix() 
+					+ bi.toString(mOR.numType.getRadix()).toUpperCase(mActivity.getResources().getConfiguration().locale);
 		}
 		mOR.numType = mOR.numType.next();
 		return strResult;
@@ -392,6 +393,10 @@ public class CalLogic {
 	
 	public void save() {
 		mFile.save();
+	}
+	
+	public boolean isVisibleHistory() {
+		return mDisplay.isVisibleHistory();
 	}
 	
 	private class LogicState {
