@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import com.pnstars.android.cal.CalInteger;
-import com.pnstars.android.cal.CalResult;
+import com.pnstars.android.cal.CalParseResult;
    
 public class CalParser   
 {  
@@ -155,8 +155,9 @@ public class CalParser
 		return Double.valueOf(stack.pop());
 	}
 	
-	public static String RPNtoBigDecimal (String[] tokens) {
+	public static CalResult RPNtoBigDecimal (String[] tokens) {
 		Stack<String> stack = new Stack<String>();
+		CalResult cr = new CalResult(CalError.CErr_OK);
 
 		// For each token
 		for (String token : tokens) {
@@ -169,23 +170,40 @@ public class CalParser
 				BigDecimal d1 = new BigDecimal(stack.pop());
 
 				// Get the result
-				BigDecimal result = token.compareTo(OP_PLUS) == 0 ? d1.add(d2) :
-								      token.compareTo(OP_MINUS) == 0 ? d1.subtract(d2) :
-								      token.compareTo(OP_MUL) == 0 ? d1.multiply(d2).setScale(ROUND_UP_POSITION, BigDecimal.ROUND_HALF_UP) : 
-								      d2.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO :
-								      d1.divide(d2, ROUND_UP_POSITION+1, BigDecimal.ROUND_HALF_UP);
+				BigDecimal result;
+				if (token.compareTo(OP_PLUS) == 0) {
+					result = d1.add(d2);
+				} else if (token.compareTo(OP_MINUS) == 0) {
+					result = d1.subtract(d2);
+				} else if (token.compareTo(OP_MUL) == 0) {
+					result = d1.multiply(d2).setScale(ROUND_UP_POSITION, BigDecimal.ROUND_HALF_UP);
+				} else if (token.compareTo(OP_DIV) == 0) {
+					if (d2.compareTo(BigDecimal.ZERO) == 0) {
+						cr.setErr(CalError.CErr_DivideZero);
+						break;
+					} else {
+						result = d1.divide(d2, ROUND_UP_POSITION+1, BigDecimal.ROUND_HALF_UP);
+					}
+				} else {
+					cr.setErr(CalError.CErr_NotSupportOperator);
+					break;
+				}
 
 				// Push result onto stack
 				stack.push(result.toString());
 			}
 		}
 
-		return stack.pop();
+		if (cr.getErr() == CalError.CErr_OK) {
+			cr.setValue(stack.pop());
+		}
+		
+		return cr;
 	}
-
-	public static String RPNtoCalInteger (String[] tokens) {
+	
+	public static CalResult RPNtoCalInteger (String[] tokens) {
 		Stack<String> stack = new Stack<String>();
-		boolean fgErr = false;
+		CalResult cr = new CalResult(CalError.CErr_OK);
 
 		// For each token
 		for (String token : tokens) {
@@ -208,8 +226,7 @@ public class CalParser
 					result = d1.multiply(d2);
 				} else if (token.compareTo(OP_DIV) == 0) {
 					if (d2.compareTo(BigInteger.ZERO) == 0) {
-						fgErr = true;
-						result = BigInteger.ZERO;
+						cr.setErr(CalError.CErr_DivideZero);
 						break;
 					} else {
 						result = d1.divide(d2);
@@ -221,22 +238,26 @@ public class CalParser
 				} else if (token.compareTo(OP_XOR) == 0) {
 					result = d1.xor(d2);
 				} else {
-					fgErr = true;
-					result = BigInteger.ZERO;
+					cr.setErr(CalError.CErr_NotSupportOperator);
+					break;
 				}
-
+				
 				// Push result onto stack
 				stack.push(result.toString(10));
 			}
 		}
 
-		return stack.pop();
+		if (cr.getErr() == CalError.CErr_OK) {
+			cr.setValue(stack.pop());
+		}
+		
+		return cr;
 	}
 
-	public static CalResult spliteFormulaToSeparator (String instr) {
+	public static CalParseResult spliteFormulaToSeparator (String instr) {
 		StringBuilder sb = new StringBuilder();
-		CalResult result = new CalResult();
-		CalResult.Result emResult =  CalResult.Result.SYNTAX_ERROR;
+		CalParseResult result = new CalParseResult();
+		CalParseResult.Result emResult =  CalParseResult.Result.SYNTAX_ERROR;
 		boolean fgPreviousDelimiter = false;
 		boolean fgPR = false;	/* Parenthesis Right */
 		boolean fgPLStart = false;
@@ -336,7 +357,7 @@ public class CalParser
 			if (numCount == 0) 	break;
 			if (countPLR != 0)	break;
 			
-			emResult = CalResult.Result.PASS;
+			emResult = CalParseResult.Result.PASS;
 			
 		} while (false);
 		
@@ -345,6 +366,38 @@ public class CalParser
 		return result;
 	}
 
+	public static enum CalError { 
+		CErr_Unknown, 
+		CErr_OK, 
+		CErr_DivideZero, 
+		CErr_Overflow, 
+		CErr_Underflow,
+		CErr_NotSupportOperator
+	};
+	public static class CalResult {
+		private CalError	enErr;
+		private String		strValue;
+		public CalResult() {
+			enErr = CalError.CErr_Unknown;
+			strValue = "";
+		}
+		public CalResult (CalError err) {
+			enErr = err;
+			strValue = "";
+		}
+		public void setErr (CalError err) {
+			enErr = err;
+		}
+		public void setValue (String v) {
+			strValue = v;
+		}
+		public CalError getErr() {
+			return enErr;
+		}
+		public String getValue() {
+			return strValue;
+		}
+	}
 	
 //	public static void main(String[] args) {
 ////		String[] input = "( 1 + 2 ) * ( 3 / 4 ) - ( 5 + 6 )".split(" ");

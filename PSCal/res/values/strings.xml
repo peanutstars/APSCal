@@ -50,5 +50,6 @@
     <string name="strNone"></string>
     
     <string name="strErrSyntax">Syntax Error</string>
+    <string name="strInfinity">\u221e</string>
     
 </resources>

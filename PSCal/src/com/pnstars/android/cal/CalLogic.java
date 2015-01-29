@@ -10,6 +10,7 @@ import android.os.Vibrator;
 import com.pnstars.android.R;
 import com.pnstars.android.helper.CalParser;
 import com.pnstars.android.helper.PSDbg;
+import com.pnstars.android.helper.CalParser.CalError;
 
 public class CalLogic {
 	
@@ -330,23 +331,48 @@ public class CalLogic {
 		mOR.numType = mOR.numType.next();
 		return strResult;
 	}
+	public String resultToStringError(CalParser.CalError enErr) {
+		String strResult = "";
+		
+		switch (enErr) {
+		case CErr_DivideZero:
+			strResult = mActivity.getString(R.string.strInfinity);		break;
+//		case CErr_Underflow:
+//			strResult = mACtivity.getString(R.string.strErrUnderflow);	break;
+		default:
+			break;
+		}
+		return strResult;
+	}
 	
 	public String runCalculate(String strFormula) {
 		String [] ci = strFormula.split(" ");
 //		PSDbg.d("ci : " + Arrays.toString(ci));
 		String [] co = CalParser.infixToRPN(ci);
 //		PSDbg.d("co : " + Arrays.toString(co));
+		CalParser.CalResult cResult;
 		String strResult;
-		PSDbg.i(mLS.toString());
 		if (mLS.getIntegerMode() || (mLS.getNumTypes() != BitDecimal)) {
-			strResult = resultToStringInteger(CalParser.RPNtoCalInteger(co));
-		} else {
-			BigDecimal bd = new BigDecimal(CalParser.RPNtoBigDecimal(co));
-			PSDbg.d("Result Decimal : " + bd.toString());
-			if (bd.stripTrailingZeros().scale() <= 0) {
-				strResult = resultToStringInteger(bd.toBigInteger().toString());
+			cResult = CalParser.RPNtoCalInteger(co);
+			if (cResult.getErr() == CalError.CErr_OK) {
+				strResult = resultToStringInteger(cResult.getValue());
 			} else {
-				strResult = mDisplay.convertResultFormatDecimal(bd.toString());
+				strResult = resultToStringError(cResult.getErr());
+			}
+		} else {
+			cResult = CalParser.RPNtoBigDecimal(co);
+			BigDecimal bd;
+			if (cResult.getErr() == CalError.CErr_OK) {
+				bd = new BigDecimal(cResult.getValue());
+				if (bd.stripTrailingZeros().scale() <= 0) {
+					strResult = resultToStringInteger(bd.toBigInteger()
+							.toString());
+				} else {
+					strResult = mDisplay.convertResultFormatDecimal(bd
+							.toString());
+				}
+			} else {
+				strResult = resultToStringError(cResult.getErr());
 			}
 		}
 		return strResult + " ";
@@ -365,8 +391,8 @@ public class CalLogic {
 		} else if (mLS.getErrRadix() != 0) {
 			PSDbg.d("Syntax Err : Radix");
 		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
-			CalResult result = CalParser.spliteFormulaToSeparator(formula);
-			if (result.getResult() == CalResult.Result.PASS)
+			CalParseResult result = CalParser.spliteFormulaToSeparator(formula);
+			if (result.getResult() == CalParseResult.Result.PASS)
 			{
 				String formulaResult = runCalculate(result.getFormula());
 				mCalHistory.addItem(formula, formulaResult);

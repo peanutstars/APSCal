@@ -1,13 +1,13 @@
 package com.pnstars.android.cal;
 
-public class CalResult {
+public class CalParseResult {
 	
 	public enum Result { SYNTAX_ERROR, PASS };
 	
 	private Result	result;
 	private String	formula;
 	
-	public CalResult() {
+	public CalParseResult() {
 		result = Result.SYNTAX_ERROR;
 		formula = "";
 	}
