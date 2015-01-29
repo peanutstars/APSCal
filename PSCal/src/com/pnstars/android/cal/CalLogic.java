@@ -2,7 +2,6 @@ package com.pnstars.android.cal;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -10,7 +9,7 @@ import android.os.Vibrator;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.CalParser;
-import com.pnstars.android.helper.PNSDbg;
+import com.pnstars.android.helper.PSDbg;
 
 public class CalLogic {
 	
@@ -68,7 +67,7 @@ public class CalLogic {
 	}
 	
 	private void appendInput (LogicState copyLS, String v) {
-		PNSDbg.d("PU  " + copyLS.toString() );
+		PSDbg.d("PU  " + copyLS.toString() );
 //		PNSDbg.d("mLS " + mLS.toString());
 		mInputStack.push(copyLS);
 		mDisplay.append(v);
@@ -125,7 +124,7 @@ public class CalLogic {
 					mVib.vibrate(VIBRATOR_MSEC);
 					break;
 				} else {
-					PNSDbg.e("Do not print this message !!");
+					PSDbg.e("Do not print this message !!");
 				}
 				if (CalParser.BITWISE.indexOf(v) != -1) {
 					mLS.setIntegerMode(true);
@@ -154,11 +153,11 @@ public class CalLogic {
 				if (mLS.getDecimals() <= CalParser.INPUT_MAX_DESIMALS) {
 					mLS.incDecimals();
 					mLS.incInputNumbers();
-					PNSDbg.d("inc");
+					PSDbg.d("inc");
 					mLS.setFirstZero(false);
 					appendInput(cLS, v);
 				} else {
-					PNSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
+					PSDbg.d("Input over a " + CalParser.INPUT_MAX_DESIMALS + " decimal");
 				}
 			}
 		}
@@ -172,7 +171,7 @@ public class CalLogic {
 				if (mLS.getInputNumbers() == 0) {
 					mLS.setFirstZero(true);
 					mLS.incInputNumbers();
-					PNSDbg.d("inc");
+					PSDbg.d("inc");
 					mLS.setOperator("");
 					appendInput(cLS, v);
 				} else if (cLS.getFirstZero() == true) {
@@ -180,7 +179,7 @@ public class CalLogic {
 				} else {
 					mLS.setFirstZero(false);
 					mLS.incInputNumbers();
-					PNSDbg.d("inc");
+					PSDbg.d("inc");
 					mLS.setOperator("");
 					appendInput(cLS, v);					
 				}
@@ -227,10 +226,12 @@ public class CalLogic {
 						mLS.setNumType(tmpNT);
 						mLS.setIntegerMode(true);
 						mLS.incInputNumbers();
-						PNSDbg.d("inc");
+						PSDbg.d("inc");
 						mLS.setOperator("");
 						appendInput(cLS, v);
 						break;
+					} else {
+						mLS.setNumTypes(1 << NumType.LS_DECIMAL.ordinal());
 					}
 	
 					if (mLS.getNumType() == NumType.LS_DECIMAL && AcceptDECIMAL.indexOf(v) == -1) {
@@ -254,7 +255,7 @@ public class CalLogic {
 				
 					mLS.setFirstZero(false);
 					mLS.incInputNumbers();
-					PNSDbg.d("inc");
+					PSDbg.d("inc");
 					mLS.setOperator("");
 					if (mLS.getNumType() != NumType.LS_DECIMAL && mLS.getInputNumbers() == 3) {
 						mLS.decErrRadix();
@@ -273,7 +274,7 @@ public class CalLogic {
 			} else if (inputOperator(cLS, v)) {
 			} else if (inputNumber(cLS, v)) {
 			} else {
-				PNSDbg.e("Do not print this message !!");
+				PSDbg.e("Do not print this message !!");
 			}
 	}
 
@@ -281,7 +282,7 @@ public class CalLogic {
 		if (mInputStack.empty() == false) {
 			mLS = mInputStack.pop();
 		}
-		PNSDbg.d("PO Update" + mLS.toString());
+		PSDbg.d("PO Update" + mLS.toString());
 		char delChar = mDisplay.delete();
 		if (NON_DECIMAL.contains(""+delChar)) {
 			delete();
@@ -293,7 +294,7 @@ public class CalLogic {
 		if (mInputStack.empty() == false) {
 			mLS = mInputStack.pop();
 		}
-		PNSDbg.d("PO Update" + mLS.toString());
+		PSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
 		mVib.vibrate(VIBRATOR_MSEC);		
 	}
@@ -332,16 +333,18 @@ public class CalLogic {
 	
 	public String runCalculate(String strFormula) {
 		String [] ci = strFormula.split(" ");
-//		PNSDbg.d("ci : " + Arrays.toString(ci));
+//		PSDbg.d("ci : " + Arrays.toString(ci));
 		String [] co = CalParser.infixToRPN(ci);
-//		PNSDbg.d("co : " + Arrays.toString(co));
+//		PSDbg.d("co : " + Arrays.toString(co));
 		String strResult;
+		PSDbg.i(mLS.toString());
 		if (mLS.getIntegerMode() || (mLS.getNumTypes() != BitDecimal)) {
 			strResult = resultToStringInteger(CalParser.RPNtoCalInteger(co));
 		} else {
 			BigDecimal bd = new BigDecimal(CalParser.RPNtoBigDecimal(co));
+			PSDbg.d("Result Decimal : " + bd.toString());
 			if (bd.stripTrailingZeros().scale() <= 0) {
-				strResult = resultToStringInteger(bd.toString());
+				strResult = resultToStringInteger(bd.toBigInteger().toString());
 			} else {
 				strResult = mDisplay.convertResultFormatDecimal(bd.toString());
 			}
@@ -352,15 +355,15 @@ public class CalLogic {
 	public void enter() {
 		boolean fgErrSyntax = true;
 		String formula = mDisplay.getFormula();
-		PNSDbg.d("Formula : " + formula);
+		PSDbg.d("Formula : " + formula);
 		mVib.vibrate(VIBRATOR_MSEC);
 		
 		if (mLS.operator.length() > 0) { // && CalParser.OPERATOR.indexOf(mLS.operator) == -1) {
-			PNSDbg.d("Syntax Err : Formula is ended with operator.");
+			PSDbg.d("Syntax Err : Formula is ended with operator.");
 //		} else if (mLS.fgDot && mLS.countDecimals <= 1) {
 //			PNSDbg.d("Syntax Err : The last input is Dot and then need more inputs.");
 		} else if (mLS.getErrRadix() != 0) {
-			PNSDbg.d("Syntax Err : Radix");
+			PSDbg.d("Syntax Err : Radix");
 		} else if (mLS.countParenthesis == 0 && formula.length() > 0) {
 			CalResult result = CalParser.spliteFormulaToSeparator(formula);
 			if (result.getResult() == CalResult.Result.PASS)
@@ -374,7 +377,7 @@ public class CalLogic {
 			if (formula.length() == 0) {
 				fgErrSyntax = false;
 			} else {
-				PNSDbg.d("Syntax Err : Caused others ...\n" + mLS.toString());
+				PSDbg.d("Syntax Err : Caused others ...\n" + mLS.toString());
 			}
 		}
 		

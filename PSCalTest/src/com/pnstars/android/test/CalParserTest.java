@@ -9,7 +9,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.pnstars.android.cal.CalResult;
 import com.pnstars.android.helper.CalParser;
-import com.pnstars.android.helper.PNSDbg;
+import com.pnstars.android.helper.PSDbg;
 
 public class CalParserTest extends TestCase {
 
@@ -57,7 +57,7 @@ public class CalParserTest extends TestCase {
 		int count = 0;
 		for (TBFormula tb : testBed ) {
 			CalResult result = CalParser.spliteFormulaToSeparator(tb.inFormula);
-			PNSDbg.d("" + ++count + " : " + tb.inFormula + " : " + result.getFormula());
+			PSDbg.d("" + ++count + " : " + tb.inFormula + " : " + result.getFormula());
 			assertEquals("CalParser.spliteformulaToSeparator Result Error",  tb.exResult,  result.getResult());
 			
 			if (tb.exFormula.length() > 0 && tb.exResult == CalResult.Result.PASS) {

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.pnstars.android.cal.CalMain;
-import com.pnstars.android.helper.PNSDbg;
+import com.pnstars.android.helper.PSDbg;
 
 public class CalMainTest extends
 		ActivityInstrumentationTestCase2<CalMain> {
@@ -131,11 +131,11 @@ public class CalMainTest extends
 			
 			String rvFormula = tvFormula.getText().toString();
 			if (out.equals(rvFormula) == false) {
-				PNSDbg.e("@@@ TestBed I:" + in + " O:" + out);
-				PNSDbg.e("@@@ Result Err  : " + rvFormula);
+				PSDbg.e("@@@ TestBed I:" + in + " O:" + out);
+				PSDbg.e("@@@ Result Err  : " + rvFormula);
 			} else {
-				PNSDbg.d("@@@ TestBed I:" + in + " O:" + out);
-				PNSDbg.d("@@@ Result Pass : " + rvFormula);
+				PSDbg.d("@@@ TestBed I:" + in + " O:" + out);
+				PSDbg.d("@@@ Result Pass : " + rvFormula);
 			}
 			assertEquals("key input test", out, rvFormula);
 			

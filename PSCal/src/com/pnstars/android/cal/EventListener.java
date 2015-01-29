@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.pnstars.android.R;
-import com.pnstars.android.helper.PNSDbg;
+import com.pnstars.android.helper.PSDbg;
 
 
 public class EventListener implements View.OnClickListener
@@ -45,7 +45,7 @@ public class EventListener implements View.OnClickListener
 		default:
 			if (view instanceof Button) {
 				String text = ((Button) view).getText().toString();
-				PNSDbg.d("Input : " + text);
+				PSDbg.d("Input : " + text);
 				mLogic.input (text);
 			}
 		}

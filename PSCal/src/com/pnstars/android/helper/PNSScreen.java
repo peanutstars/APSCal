@@ -18,9 +18,9 @@ public class PNSScreen {
 		this.activity = activity;
 		metrics = activity.getResources().getDisplayMetrics();
 		
-		PNSDbg.i("Display Density : " + metrics.density);
-		PNSDbg.i("Display width(dpi) : " + getWidthDpi());
-		PNSDbg.i("Display height(dpi) : " + getHeightDpi());
+		PSDbg.i("Display Density : " + metrics.density);
+		PSDbg.i("Display width(dpi) : " + getWidthDpi());
+		PSDbg.i("Display height(dpi) : " + getHeightDpi());
 	}
 	
 	public float getDensity() {

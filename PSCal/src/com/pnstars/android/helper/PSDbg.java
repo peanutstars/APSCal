@@ -2,9 +2,9 @@ package com.pnstars.android.helper;
 
 import android.util.Log;
 
-public class PNSDbg {
+public class PSDbg {
 	final static String TAG = "PNStars";
-	public PNSDbg () {
+	public PSDbg () {
 	}
 
 	public static String getTag () {

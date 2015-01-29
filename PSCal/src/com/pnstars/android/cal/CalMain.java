@@ -71,8 +71,6 @@ public class CalMain extends Activity {
 	public void onBackPressed() {
 		if (mLogic.isVisibleHistory()) {
 			mLogic.history();
-		} else {
-			finish();
 		}
 	}
 }

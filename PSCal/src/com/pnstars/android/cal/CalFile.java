@@ -11,7 +11,7 @@ import java.io.OutputStream;
 
 import android.content.Context;
 
-import com.pnstars.android.helper.PNSDbg;
+import com.pnstars.android.helper.PSDbg;
 
 public class CalFile {
 	private static final int LAST_VERSION = 1;
@@ -25,7 +25,7 @@ public class CalFile {
 	}
 	
 	public void load() {
-		PNSDbg.d("load()");
+		PSDbg.d("load()");
 		try {
 			InputStream is = new BufferedInputStream(mContext.openFileInput(CAL_FILE), 8192);
 			DataInputStream in = new DataInputStream(is);
@@ -37,14 +37,14 @@ public class CalFile {
 			mHistory.load(version, in);
 			in.close();
 		} catch (FileNotFoundException e) {
-			PNSDbg.d("" + e);
+			PSDbg.d("" + e);
 		} catch (IOException e) {
-			PNSDbg.d("" + e);
+			PSDbg.d("" + e);
 		}
 	}
 	
 	public void save() {
-		PNSDbg.d("save()");
+		PSDbg.d("save()");
 		try {
 			OutputStream os = new BufferedOutputStream(mContext.openFileOutput(CAL_FILE, 0), 8192);
 			DataOutputStream out = new DataOutputStream(os);
@@ -52,7 +52,7 @@ public class CalFile {
 			mHistory.save (out);
 			out.close();
 		} catch (IOException e) {
-			PNSDbg.d("" + e);
+			PSDbg.d("" + e);
 		}
 	}
 }
