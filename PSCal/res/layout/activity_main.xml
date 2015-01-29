@@ -21,7 +21,9 @@
 
         <EditText
             android:id="@+id/tvFormula"
-            style="@style/styleFormula"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:inputType="textMultiLine|textNoSuggestions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.0"
@@ -29,16 +31,24 @@
             android:text="@string/strFormula"
             android:textStyle="normal"
             android:textSize="28sp" />
-
-        <TextView
+        
+        <EditText
             android:id="@+id/tvResult"
-            style="@style/styleResult"
+            android:gravity="right"
+            android:inputType="textNoSuggestions"
+            android:fadeScrollbars="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:clickable="true"
-            android:gravity="right"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:text="@string/strResult"
+            android:textSize="26sp"
             android:textStyle="italic"
-            android:textSize="28sp" />
+            android:background="#00000000" />
+
     </LinearLayout>
 
     <LinearLayout

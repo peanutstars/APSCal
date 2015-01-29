@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
@@ -25,7 +24,7 @@ public class CalDisplay {
 	
 	private Activity mActivity;
 	private EditText mFormula;
-	private TextView mResult;
+	private EditText mResult;
 	private ListView mLvHistory;
 	private LinearLayout mLFormula;
 	private LinearLayout mLHistory;
@@ -38,7 +37,7 @@ public class CalDisplay {
 		mActivity = activity;
 
 		mFormula = (EditText) mActivity.findViewById(R.id.tvFormula);
-		mResult = (TextView) mActivity.findViewById(R.id.tvResult);
+		mResult = (EditText) mActivity.findViewById(R.id.tvResult);
 		mLvHistory = (ListView) mActivity.findViewById(R.id.lv_history);
 		mLFormula = (LinearLayout) mActivity.findViewById(R.id.layoutFormula);
 		mLHistory = (LinearLayout) mActivity.findViewById(R.id.layoutHistory);
@@ -54,7 +53,9 @@ public class CalDisplay {
 //		mFormula.setVerticalScrollBarEnabled(true);
 		
 		mResult.setText("");
+		mResult.setFocusable(false);
 		mResult.setSingleLine();
+		mResult.setCursorVisible(false);
 		mResult.setTypeface(font);
 	}
 

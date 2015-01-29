@@ -17,15 +17,6 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="styleFormula">
-       <item name="android:gravity">top</item>
-       <item name="android:scrollbars">vertical</item>
-       <item name="android:inputType">textMultiLine|textNoSuggestions</item>
-    </style>
-    <style name="styleResult">
-       <item name="android:layout_width">match_parent</item>
-       <item name="android:layout_height">wrap_content</item>
-    </style>
     <style name="style_btn_small" parent="@android:style/Widget.Button">
        <!-- <item name="android:layout_width">75dp</item>  -->
        <item name="android:layout_weight">1</item>
