@@ -140,15 +140,20 @@
     </style>
 
     <!-- Small Button -->
-    <dimen name="btn_small_text_size">22sp</dimen>
-    <dimen name="btn_small_text_size2">18sp</dimen>
+    <dimen name="text_size_hexa_number">24sp</dimen>
+    <dimen name="text_size_hexa_function_small">18sp</dimen>
+    <dimen name="text_size_hexa_function">22sp</dimen>
+    <dimen name="text_size_history_formula">24sp</dimen>
+    <dimen name="text_size_history_result">20sp</dimen>
+    <dimen name="text_size_formula">28sp</dimen>
+    <dimen name="text_size_result">26sp</dimen>
+    
     
 	<style name="style_sbtn_pale_brown" parent="@android:style/Widget.Button">
        <!-- <item name="android:layout_width">75dp</item>  -->
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">23sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
        <item name="android:shadowColor">#000000</item>
@@ -164,7 +169,6 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">23sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
        <item name="android:shadowColor">#000000</item>
@@ -180,7 +184,6 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">23sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
        <item name="android:shadowColor">#000000</item>
@@ -211,7 +214,6 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">23sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
        <item name="android:shadowColor">#000000</item>
@@ -227,7 +229,6 @@
        <item name="android:layout_weight">1</item>
        <item name="android:layout_width">0dp</item>
        <item name="android:layout_height">wrap_content</item>
-       <item name="android:textSize">23sp</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
        <item name="android:shadowColor">#000000</item>

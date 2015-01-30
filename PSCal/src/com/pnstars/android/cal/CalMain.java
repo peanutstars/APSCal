@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.PNSScreen;
@@ -21,7 +20,7 @@ public class CalMain extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_calmain);
 
 		mScreen = new PNSScreen(this);
 		mHistory = new CalHistory();

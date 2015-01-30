@@ -30,7 +30,7 @@
             android:fadeScrollbars="true"
             android:text="@string/strFormula"
             android:textStyle="normal"
-            android:textSize="28sp" />
+            android:textSize="@dimen/text_size_formula" />
         
         <LinearLayout 
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
 	            android:scrollHorizontally="true"
 	            android:singleLine="true"
 	            android:text="@string/strResult"
-	            android:textSize="26sp"
+	            android:textSize="@dimen/text_size_result"
 	            android:textStyle="italic"
 	            android:background="#00000000" />
 	        <ImageView
@@ -83,11 +83,13 @@
             <Button
                 android:id="@+id/btnHistoryClear"
                 style="@style/style_btn_small"
+                android:textSize="@dimen/text_size_hexa_function"
                 android:text="@string/strHistoryClear" />
 
             <Button
                 android:id="@+id/btnHistoryClose"
                 style="@style/style_btn_small"
+                android:textSize="@dimen/text_size_hexa_function"
                 android:text="@string/strHistoryClose" />
         </LinearLayout>
 
