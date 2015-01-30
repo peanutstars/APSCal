@@ -37,9 +37,10 @@ public class EventListener implements View.OnClickListener
 		case R.id.btnBinary:			mLogic.input("0");		
 										mLogic.input("b");		break;
 		case R.id.btnAC:				mLogic.reset();			break;
-		case R.id.btnDel:			mLogic.delete();			break;
+		case R.id.btnDel:				mLogic.delete();			break;
 		case R.id.btnEnter:			mLogic.enter();			break;
 		case R.id.tvResult:			mLogic.history();			break;
+		case R.id.imgHistory:		mLogic.history();			break;
 		case R.id.btnHistoryClose:	mLogic.history();			break;
 		case R.id.btnHistoryClear:	mLogic.historyClear();	break;
 		default:

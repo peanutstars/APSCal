@@ -32,22 +32,35 @@
             android:textStyle="normal"
             android:textSize="28sp" />
         
-        <EditText
-            android:id="@+id/tvResult"
-            android:gravity="right"
-            android:inputType="textNoSuggestions"
-            android:fadeScrollbars="true"
+        <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:clickable="true"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="@string/strResult"
-            android:textSize="26sp"
-            android:textStyle="italic"
-            android:background="#00000000" />
+            android:orientation="horizontal">
+	        <EditText
+	            android:id="@+id/tvResult"
+	            android:gravity="center_vertical|right"
+	            android:inputType="textNoSuggestions"
+	            android:fadeScrollbars="true"
+	            android:layout_weight="1.0"
+	            android:layout_width="0dp"
+	            android:layout_height="match_parent"
+	            android:layout_marginLeft="4dp"
+	            android:layout_marginRight="4dp"
+	            android:scrollHorizontally="true"
+	            android:singleLine="true"
+	            android:text="@string/strResult"
+	            android:textSize="26sp"
+	            android:textStyle="italic"
+	            android:background="#00000000" />
+	        <ImageView
+	            android:id="@+id/imgHistory"
+	            android:layout_width="25dp"
+	            android:layout_height="wrap_content"
+	            android:contentDescription="@string/strNone"
+	            android:clickable="true"
+	            android:scaleType="fitCenter"
+	            android:src="@drawable/ic_history" />
+        </LinearLayout>
 
     </LinearLayout>
 

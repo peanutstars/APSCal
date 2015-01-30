@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pnstars.android.R;
@@ -63,8 +64,8 @@ public class CalMain extends Activity {
         }
 		btns.recycle();
 		
-		TextView tvResult = (TextView) findViewById(R.id.tvResult);
-		tvResult.setOnClickListener(mListener);
+		ImageView history = (ImageView) findViewById(R.id.imgHistory);
+		history.setOnClickListener(mListener);
 	}
 
 	@Override
