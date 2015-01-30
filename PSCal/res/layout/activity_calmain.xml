@@ -1,67 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/layoutFormula"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/layoutPad"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:layout_weight="3.4"
         android:background="@drawable/round_rect"
         android:orientation="vertical" >
 
         <EditText
             android:id="@+id/tvFormula"
-            android:gravity="top"
-            android:scrollbars="vertical"
-            android:inputType="textMultiLine|textNoSuggestions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.0"
             android:fadeScrollbars="true"
+            android:gravity="top"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbars="vertical"
             android:text="@string/strFormula"
-            android:textStyle="normal"
-            android:textSize="@dimen/text_size_formula" />
-        
-        <LinearLayout 
+            android:textStyle="normal" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-	        <EditText
-	            android:id="@+id/tvResult"
-	            android:gravity="center_vertical|right"
-	            android:inputType="textNoSuggestions"
-	            android:fadeScrollbars="true"
-	            android:layout_weight="1.0"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_marginLeft="4dp"
-	            android:layout_marginRight="4dp"
-	            android:scrollHorizontally="true"
-	            android:singleLine="true"
-	            android:text="@string/strResult"
-	            android:textSize="@dimen/text_size_result"
-	            android:textStyle="italic"
-	            android:background="#00000000" />
-	        <ImageView
-	            android:id="@+id/imgHistory"
-	            android:layout_width="25dp"
-	            android:layout_height="wrap_content"
-	            android:contentDescription="@string/strNone"
-	            android:clickable="true"
-	            android:scaleType="fitCenter"
-	            android:src="@drawable/ic_history" />
-        </LinearLayout>
+            android:orientation="horizontal" >
 
+            <EditText
+                android:id="@+id/tvResult"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1.0"
+                android:background="#00000000"
+                android:fadeScrollbars="true"
+                android:gravity="center_vertical|right"
+                android:inputType="textNoSuggestions"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@string/strResult"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/imgHistory"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/strNone"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_history" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -75,39 +69,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="5dp"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/btnHistoryClear"
-                style="@style/style_btn_small"
-                android:textSize="@dimen/text_size_hexa_function"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/style_btn_history_list"
                 android:text="@string/strHistoryClear" />
 
             <Button
                 android:id="@+id/btnHistoryClose"
-                style="@style/style_btn_small"
-                android:textSize="@dimen/text_size_hexa_function"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/style_btn_history_list"
                 android:text="@string/strHistoryClose" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9.45"
             android:background="@drawable/round_rect" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutPad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+	<include layout="@layout/pad_hexa" />
 
-        <include layout="@layout/pad_hexa" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

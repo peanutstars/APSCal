@@ -3,7 +3,6 @@
 
     <string name="app_name">PSCal</string>
     <string name="hello_world">Hello world!</string>
-    
     <string name="strAC">AC</string>
     <string name="strDgt0">0</string>
     <string name="strDgt1">1</string>
@@ -15,41 +14,35 @@
     <string name="strDgt7">7</string>
     <string name="strDgt8">8</string>
     <string name="strDgt9">9</string>
-    
     <string name="strHexaA">A</string>
     <string name="strHexaB">B</string>
     <string name="strHexaC">C</string>
     <string name="strHexaD">D</string>
     <string name="strHexaE">E</string>
     <string name="strHexaF">F</string>
-    
     <string name="strOpDiv">\u00f7</string>
     <!-- <string name="strOpMul">\u00d7</string> -->
     <string name="strOpMul">*</string>
     <string name="strOpMinus">-</string>
     <string name="strOpPlus">+</string>
-	<string name="strOpAND">AND</string>
-	<string name="strOpOR">OR</string>
-	<string name="strOpXOR">XOR</string>
-
+    <string name="strOpAND">AND</string>
+    <string name="strOpOR">OR</string>
+    <string name="strOpXOR">XOR</string>
     <string name="strPLeft">(</string>
     <string name="strPRight">)</string>
     <string name="strEnter">=</string>
     <string name="strDot">.</string>
     <string name="strDel">Del</string>
-
     <string name="strF16">0x</string>
     <string name="strF8">0o</string>
     <string name="strF2">0b</string>
-    
     <string name="strFormula">Formula</string>
     <string name="strResult">Result</string>
-    
     <string name="strHistoryClear">Clear All</string>
     <string name="strHistoryClose">Close</string>
     <string name="strNone"></string>
-    
     <string name="strErrSyntax">Syntax Error</string>
     <string name="strInfinity">\u221e</string>
-    
+    <string name="title_activity_test">TestActivity</string>
+
 </resources>

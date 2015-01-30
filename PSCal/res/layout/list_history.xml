@@ -15,7 +15,6 @@
         android:paddingBottom="2dp"
         android:textColor="#909090"
         android:textStyle="bold"
-        android:textSize="@dimen/text_size_history_formula"
         android:gravity="left" />
         
     <TextView 
@@ -25,7 +24,6 @@
         android:layout_marginRight="5dp"
         android:paddingBottom="6dp"
         android:textColor="#acacac"
-        android:textSize="@dimen/text_size_history_result"
         android:textStyle="italic"
         android:gravity="right" />
 
