@@ -1,5 +1,6 @@
 package com.pnstars.android.cal;
 
+import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ import android.widget.ListView;
 import com.pnstars.android.R;
 import com.pnstars.android.helper.SwipeDismissListViewTouchListener;
 
-public class CalDisplay {
+public class CalDisplay implements CalFile.FileOp {
 	
 	public enum ResultFormat { RESULT, MESSAGE };
 	public static final String CalFont			= "fonts/Lato-Regular.ttf";
@@ -181,6 +182,10 @@ public class CalDisplay {
 		return mFgVisibleHistory;
 	}
 	
+	@Override
+	public void load(int version, DataInput in) throws IOException {
+	}
+	@Override
 	public void save(DataOutput out) throws IOException {
 		out.writeUTF(getFormula());
 		out.writeUTF(getResult());

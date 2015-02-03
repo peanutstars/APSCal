@@ -2,12 +2,15 @@ package com.pnstars.android.cal;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.content.Context;
 
@@ -17,17 +20,27 @@ public class CalFile {
 	private static final int LAST_VERSION = 2;
 	private static final String CAL_FILE = "pscal.data";
 	private Context mContext;
-	private CalLogic mLogic;
-	private CalHistory mHistory;
-	private CalDisplay mDisplay;
+	private ArrayList<CalFile.FileOp> mFOp;
 	
-	public CalFile (Context context, CalLogic logic, CalHistory history, CalDisplay display) {
+	public CalFile (Context context) {
 		mContext = context;
-		mLogic = logic;
-		mHistory = history;
-		mDisplay = display;
+		mFOp = new ArrayList<CalFile.FileOp>();
+		
+//		mFOp.add(logic);
+//		mFOp.add(display);
+//		mFOp.add(history);
 	}
 	
+	public void register (FileOp obj) {
+		mFOp.add(obj);
+	}
+	
+	public interface FileOp {
+		void load(int version, DataInput in) throws IOException ;
+		void save(DataOutput out) throws IOException ;
+	}
+	
+		
 	public void load() {
 		PSDbg.d("load()");
 		try {
@@ -38,8 +51,9 @@ public class CalFile {
 				in.close();
 				throw new IOException("Data version " + version + "; expected " + LAST_VERSION);
 			}
-			mLogic.load(version, in);
-			mHistory.load(version, in);
+			for (FileOp op : mFOp) {
+				op.load(version, in);
+			}
 			in.close();
 		} catch (FileNotFoundException e) {
 			PSDbg.d("" + e);
@@ -54,8 +68,9 @@ public class CalFile {
 			OutputStream os = new BufferedOutputStream(mContext.openFileOutput(CAL_FILE, 0), 8192);
 			DataOutputStream out = new DataOutputStream(os);
 			out.writeInt(LAST_VERSION);
-			mDisplay.save (out);
-			mHistory.save (out);
+			for (FileOp op : mFOp) {
+				op.save(out);
+			}
 			out.close();
 		} catch (IOException e) {
 			PSDbg.d("" + e);

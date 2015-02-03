@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class CalHistory {
+public class CalHistory implements CalFile.FileOp {
 	public static final int LIST_MAX_SIZE = 50;
 	
 	private LinkedList<CalItem> mListHistory;
@@ -51,6 +51,7 @@ public class CalHistory {
 		
 	}
 	
+	@Override
 	public void load(int version, DataInput in) throws IOException {
 		int size = in.readInt();
 		String formula;
@@ -61,12 +62,12 @@ public class CalHistory {
 			addItem (formula, result);
 		}
 	}
-	
+	@Override
 	public void save(DataOutput out) throws IOException {
 		out.writeInt(mListHistory.size());
 		for (CalItem item : mListHistory) {
 			out.writeUTF(item.getFormula());
 			out.writeUTF(item.getResult());
-		}
+		}		
 	}
 }

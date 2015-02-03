@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.pnstars.android.R;
-import com.pnstars.android.helper.PSDbg;
 import com.pnstars.android.helper.PSScreen;
 
 public class CalMain extends Activity {
@@ -39,8 +38,6 @@ public class CalMain extends Activity {
 //		} else {
 //			PSDbg.e("savedInstanceState == NULL");
 //		}
-		
-		mLogic.initHistory();
 	}
 	
 	@Override

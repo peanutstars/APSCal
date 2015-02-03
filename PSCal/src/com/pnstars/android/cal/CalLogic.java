@@ -1,6 +1,7 @@
 package com.pnstars.android.cal;
 
 import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,10 +13,10 @@ import android.os.Vibrator;
 import com.pnstars.android.R;
 import com.pnstars.android.cal.CalDisplay.ResultFormat;
 import com.pnstars.android.helper.CalParser;
-import com.pnstars.android.helper.PSDbg;
 import com.pnstars.android.helper.CalParser.CalError;
+import com.pnstars.android.helper.PSDbg;
 
-public class CalLogic {
+public class CalLogic implements CalFile.FileOp {
 	
 	public static enum NumType { 
 		LS_DECIMAL, LS_HEXA, LS_BINARY, LS_OCTAL;
@@ -52,7 +53,7 @@ public class CalLogic {
 	private final int VIBRATOR_MSEC = 50;
 	private Activity mActivity;
 	private Stack<LogicState> mInputStack;
-	private CalHistory mCalHistory;
+	private CalHistory mHistory;
 	private CalDisplay mDisplay;
 	private LogicState mLS;
 	private CalFile mFile;
@@ -64,13 +65,18 @@ public class CalLogic {
 	public CalLogic (Activity activity, CalHistory history) {
 		mActivity = activity;
 		mInputStack = new Stack<LogicState>();
-		mCalHistory = history;
+		mHistory = history;
 		mDisplay = new CalDisplay(activity);
 		mLS = new LogicState();
-		mFile = new CalFile(activity, this, history, mDisplay);
+		mFile = new CalFile(activity);
 		mVib = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
 		mOR = new OutputResult();
 		mFgVibEnable = true;
+		
+		mFile.register(this);
+		mFile.register(mDisplay);
+		mFile.register(mHistory);
+		mFile.load();
 	}
 	
 	private void appendInput (LogicState copyLS, String v) {
@@ -426,7 +432,7 @@ public class CalLogic {
 			if (result.getResult() == CalParseResult.Result.PASS)
 			{
 				String formulaResult = runCalculate(result.getFormula());
-				mCalHistory.addItem(formula, formulaResult);
+				mHistory.addItem(formula, formulaResult);
 				mDisplay.setResult(CalDisplay.ResultFormat.RESULT,formulaResult);
 				fgErrSyntax = false;
 			}
@@ -445,11 +451,11 @@ public class CalLogic {
 	
 	public void history() {
 		mVib.vibrate(VIBRATOR_MSEC);
-		mDisplay.history(mCalHistory);
+		mDisplay.history(mHistory);
 	}
 	public void historyClear() {
 		mVib.vibrate(VIBRATOR_MSEC);
-		mDisplay.historyClear(mCalHistory);
+		mDisplay.historyClear(mHistory);
 	}
 	
 	public void save() {
@@ -460,9 +466,7 @@ public class CalLogic {
 		return mDisplay.isVisibleHistory();
 	}
 	
-	public void initHistory () {
-		mFile.load();
-	}
+	@Override
 	public void load(int version, DataInput in) throws IOException {
 		String	formula = in.readUTF();
 		String	result  = in.readUTF();
@@ -470,15 +474,19 @@ public class CalLogic {
 		if (version > 1) {
 			stringInput(MARK_VIB_OFF + formula + MARK_VIB_ON);
 			mDisplay.setResult(ResultFormat.RESULT, result);
-		}
+		}		
 	}
+	@Override
+	public void save(DataOutput out) throws IOException {		
+	}
+	
 	
 	private class LogicState {
 		private int			countParenthesis;
 		private boolean		fgDot;
 		private int			countDecimals;
 		private boolean		fgFirstZero;
-		private int			countInputNumbers;
+		private int			lengthInputNum;
 		private String		operator;
 		private boolean		fgIntegerMode;
 		private NumType		numType;
@@ -490,7 +498,7 @@ public class CalLogic {
 			fgDot = false;
 			countDecimals = 0;
 			fgFirstZero = false;
-			countInputNumbers = 0;
+			lengthInputNum = 0;
 			operator = "";	// new String();
 			fgIntegerMode = false;
 			numType = NumType.LS_DECIMAL;
@@ -502,7 +510,7 @@ public class CalLogic {
 			fgDot = o.fgDot;
 			countDecimals = o.countDecimals;
 			fgFirstZero = o.fgFirstZero;
-			countInputNumbers = o.countInputNumbers;
+			lengthInputNum = o.lengthInputNum;
 			operator = new String(o.operator);
 			fgIntegerMode = o.fgIntegerMode;
 			numType = o.numType;
@@ -528,7 +536,7 @@ public class CalLogic {
 		public String toString() {
 			return "[P:" + countParenthesis +
 					" Dot(" + (fgDot?"T:":"F:") + String.valueOf(countDecimals) + ")" +
-					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(countInputNumbers) +
+					" " + (fgFirstZero?"SZ,":"NZ,") + String.valueOf(lengthInputNum) +
 					" Op(" + operator + ")]" +
 					" NT(" + (fgIntegerMode?"Int:":"Double:") + numTypeToString()+ ":0x"+ String.format("%X",numTypes) +")" +
 					" E(" + String.valueOf(countErrRadix) +")";
@@ -574,7 +582,7 @@ public class CalLogic {
 			return fgFirstZero;
 		}
 		public int getInputNumbers() {
-			return countInputNumbers;
+			return lengthInputNum;
 		}
 		public int getDecimals() {
 			return countDecimals;
@@ -592,10 +600,10 @@ public class CalLogic {
 			countDecimals ++;
 		}
 		public void incInputNumbers() {
-			countInputNumbers ++;
+			lengthInputNum ++;
 		}
 		public void resetForNewNumber() {
-			countInputNumbers = 0;
+			lengthInputNum = 0;
 			fgFirstZero = false;
 			fgDot = false;
 			countDecimals = 0;
