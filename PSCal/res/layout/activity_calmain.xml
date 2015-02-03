@@ -24,6 +24,7 @@
             android:inputType="textMultiLine|textNoSuggestions"
             android:scrollbars="vertical"
             android:text="@string/strFormula"
+            android:textSize="@dimen/tsFormula"
             android:textStyle="normal" />
 
         <LinearLayout
@@ -45,6 +46,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="@string/strResult"
+                android:textSize="@dimen/tsResult"
                 android:textStyle="italic" />
 
             <ImageView
@@ -79,7 +81,7 @@
                 android:id="@+id/btnHistoryClear"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.0"
                 style="@style/style_btn_history_list"
                 android:text="@string/strHistoryClear" />
 

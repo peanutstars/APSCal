@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOpBitwise"
                 android:text="@string/strOpAND" />
 
             <Button
@@ -33,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaA" />
         </LinearLayout>
 
@@ -48,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOpBitwise"
                 android:text="@string/strOpOR" />
 
             <Button
@@ -56,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaB" />
         </LinearLayout>
 
@@ -71,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOpBitwise"
                 android:text="@string/strOpXOR" />
 
             <Button
@@ -79,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaC" />
         </LinearLayout>
 
@@ -94,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strF16" />
 
             <Button
@@ -102,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaD" />
         </LinearLayout>
 
@@ -117,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strF8" />
 
             <Button
@@ -125,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaE" />
         </LinearLayout>
 
@@ -140,6 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strF2" />
 
             <Button
@@ -148,6 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnHexaNum"
                 android:text="@string/strHexaF" />
         </LinearLayout>
     </LinearLayout>
@@ -173,6 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strAC" />
 
             <Button
@@ -181,6 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt7" />
 
             <Button
@@ -189,6 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt4" />
 
             <Button
@@ -197,6 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt1" />
 
             <Button
@@ -205,6 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt0" />
         </LinearLayout>
 
@@ -220,6 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strPLeft" />
 
             <Button
@@ -228,6 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt8" />
 
             <Button
@@ -236,6 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt5" />
 
             <Button
@@ -244,6 +264,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt2" />
 
             <Button
@@ -252,6 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strDot" />
         </LinearLayout>
 
@@ -267,6 +289,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strPRight" />
 
             <Button
@@ -275,6 +298,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt9" />
 
             <Button
@@ -283,6 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt6" />
 
             <Button
@@ -291,6 +316,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDgt3" />
 
             <Button
@@ -299,6 +325,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnNum"
                 android:text="@string/strDel" />
         </LinearLayout>
 
@@ -314,6 +341,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strOpDiv" />
 
             <Button
@@ -322,6 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strOpMul" />
 
             <Button
@@ -330,6 +359,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strOpMinus" />
 
             <Button
@@ -338,6 +368,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strOpPlus" />
 
             <Button
@@ -346,6 +377,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textSize="@dimen/btnOp"
                 android:text="@string/strEnter" />
         </LinearLayout>
     </LinearLayout>

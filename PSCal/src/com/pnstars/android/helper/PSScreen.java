@@ -7,14 +7,14 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-public class PNSScreen {
+public class PSScreen {
 	
 	public static final float		BASE_WIDTH_DP = 360.0f;
 	
 	Activity activity;
 	DisplayMetrics metrics;
 	
-	public PNSScreen (Activity activity) {
+	public PSScreen (Activity activity) {
 		this.activity = activity;
 		metrics = activity.getResources().getDisplayMetrics();
 		

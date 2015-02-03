@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tsFormula">24sp</dimen>
+    <dimen name="tsResult">26sp</dimen>
+    <dimen name="tsHistoryFromula">20sp</dimen>
+    <dimen name="tsHistoryResult">20sp</dimen>
+    <dimen name="btnOpBitwise">18sp</dimen>
+    <dimen name="btnHexaNum">22sp</dimen>
+    <dimen name="btnNum">24sp</dimen>
+    <dimen name="btnOp">28sp</dimen>
+</resources>

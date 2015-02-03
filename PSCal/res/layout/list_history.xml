@@ -13,8 +13,9 @@
         android:paddingTop="4dp"
         android:paddingRight="5dp"
         android:paddingBottom="2dp"
-        android:textColor="#909090"
+        android:textColor="#a9a9a9"
         android:textStyle="bold"
+        android:textSize="@dimen/tsHistoryFromula"
         android:gravity="left" />
         
     <TextView 
@@ -23,8 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:paddingBottom="6dp"
-        android:textColor="#acacac"
+        android:textColor="#a0a0a0"
         android:textStyle="italic"
+        android:textSize="@dimen/tsHistoryResult"
         android:gravity="right" />
 
 </LinearLayout>

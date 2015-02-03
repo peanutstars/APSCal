@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.pnstars.android.R;
-import com.pnstars.android.helper.PNSScreen;
 import com.pnstars.android.helper.PSDbg;
+import com.pnstars.android.helper.PSScreen;
 
 public class CalMain extends Activity {
 
-	private PNSScreen mScreen;
+	private PSScreen mScreen;
 	private EventListener mListener;
 	private CalHistory mHistory;
 	private CalLogic mLogic;
@@ -23,7 +23,7 @@ public class CalMain extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calmain);
 
-		mScreen = new PNSScreen(this);
+		mScreen = new PSScreen(this);
 		mHistory = new CalHistory();
 		mLogic = new CalLogic(this, mHistory);
 		mListener = new EventListener(mLogic);
