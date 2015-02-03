@@ -1,5 +1,7 @@
 package com.pnstars.android.cal;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Stack;
@@ -8,6 +10,7 @@ import android.app.Activity;
 import android.os.Vibrator;
 
 import com.pnstars.android.R;
+import com.pnstars.android.cal.CalDisplay.ResultFormat;
 import com.pnstars.android.helper.CalParser;
 import com.pnstars.android.helper.PSDbg;
 import com.pnstars.android.helper.CalParser.CalError;
@@ -34,9 +37,12 @@ public class CalLogic {
 	public static final int BitHexa				= 1 << NumType.LS_HEXA.ordinal();
 	public static final int BitDecimal			= 1 << NumType.LS_DECIMAL.ordinal();
 	
-	public static final String MARK_HEXA			= "x";
+	public static final String MARK_HEXA		= "x";
 	public static final String MARK_OCTAL		= "o";
-	public static final String MARK_BIN			= "b";
+	public static final String MARK_BIN		= "b";
+	public static final String MARK_VIB_OFF	= "v";
+	public static final String MARK_VIB_ON		= "V";
+
 	public static final String NON_DECIMAL		= MARK_HEXA + MARK_OCTAL + MARK_BIN;
 	public static final String AcceptDECIMAL	= "0123456789";
 	public static final String AcceptHEXA		= "0123456789ABCDEF";
@@ -52,6 +58,7 @@ public class CalLogic {
 	private CalFile mFile;
 	private Vibrator mVib;
 	private OutputResult mOR;
+	private boolean mFgVibEnable;
 	
 	
 	public CalLogic (Activity activity, CalHistory history) {
@@ -60,11 +67,10 @@ public class CalLogic {
 		mCalHistory = history;
 		mDisplay = new CalDisplay(activity);
 		mLS = new LogicState();
-		mFile = new CalFile(activity, history);
+		mFile = new CalFile(activity, this, history, mDisplay);
 		mVib = (Vibrator) activity.getSystemService(Activity.VIBRATOR_SERVICE);
 		mOR = new OutputResult();
-		
-		mFile.load();
+		mFgVibEnable = true;
 	}
 	
 	private void appendInput (LogicState copyLS, String v) {
@@ -72,7 +78,9 @@ public class CalLogic {
 //		PNSDbg.d("mLS " + mLS.toString());
 		mInputStack.push(copyLS);
 		mDisplay.append(v);
-		mVib.vibrate(VIBRATOR_MSEC);
+		if (mFgVibEnable) {
+			mVib.vibrate(VIBRATOR_MSEC);
+		}
 
 		/* Clear Result */
 		mDisplay.resetResult();
@@ -122,7 +130,9 @@ public class CalLogic {
 					}
 					mDisplay.append(v);
 					mLS.operator = new String(v);
-					mVib.vibrate(VIBRATOR_MSEC);
+					if (mFgVibEnable) {
+						mVib.vibrate(VIBRATOR_MSEC);
+					}
 					break;
 				} else {
 					PSDbg.e("Do not print this message !!");
@@ -250,7 +260,9 @@ public class CalLogic {
 						mLS.setFirstZero(false);
 						mDisplay.delete();
 						mDisplay.append(v);
-						mVib.vibrate(VIBRATOR_MSEC);
+						if (mFgVibEnable) {
+							mVib.vibrate(VIBRATOR_MSEC);
+						}
 						break;
 					}
 				
@@ -271,12 +283,25 @@ public class CalLogic {
 	public void input (String v) {
 		LogicState cLS = mLS.copy();
 		
-			if (inputParenthesis(cLS, v)) {
-			} else if (inputOperator(cLS, v)) {
-			} else if (inputNumber(cLS, v)) {
-			} else {
-				PSDbg.e("Do not print this message !!");
-			}
+		if (v.compareTo(MARK_VIB_OFF) == 0) {
+			mFgVibEnable = false;
+			return;
+		} else if (v.compareTo(MARK_VIB_ON) == 0) {
+			mFgVibEnable = true;
+			return;
+		}
+		
+		if (inputParenthesis(cLS, v)) {
+		} else if (inputOperator(cLS, v)) {
+		} else if (inputNumber(cLS, v)) {
+		} else {
+			PSDbg.e("Do not print this message !!");
+		}
+	}
+	public void stringInput (String str) {
+		for (int i=0; i<str.length(); i++) {
+			input("" + str.charAt(i));
+		}
 	}
 
 	public void delete () {
@@ -297,7 +322,9 @@ public class CalLogic {
 		}
 		PSDbg.d("PO Update" + mLS.toString());
 		mDisplay.delete();
-		mVib.vibrate(VIBRATOR_MSEC);		
+		if (mFgVibEnable) {
+			mVib.vibrate(VIBRATOR_MSEC);
+		}
 	}
 
 	public void reset() {
@@ -306,6 +333,10 @@ public class CalLogic {
 		mInputStack.clear();
 		mLS = new LogicState();
 		mVib.vibrate(VIBRATOR_MSEC);
+
+	}
+	public CalDisplay getDisplay() {
+		return mDisplay;
 	}
 	
 	private class OutputResult {
@@ -427,6 +458,19 @@ public class CalLogic {
 	
 	public boolean isVisibleHistory() {
 		return mDisplay.isVisibleHistory();
+	}
+	
+	public void initHistory () {
+		mFile.load();
+	}
+	public void load(int version, DataInput in) throws IOException {
+		String	formula = in.readUTF();
+		String	result  = in.readUTF();
+		
+		if (version > 1) {
+			stringInput(MARK_VIB_OFF + formula + MARK_VIB_ON);
+			mDisplay.setResult(ResultFormat.RESULT, result);
+		}
 	}
 	
 	private class LogicState {

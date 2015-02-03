@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.PNSScreen;
+import com.pnstars.android.helper.PSDbg;
 
 public class CalMain extends Activity {
 
@@ -30,6 +31,16 @@ public class CalMain extends Activity {
 		mScreen.setOrientationPortrait();
 		
 		connectBtnEvent();
+		
+//		if (savedInstanceState != null) {
+//			mLogic.stringInput(savedInstanceState.getString("Formula"));
+//			mLogic.getDisplay().setResult(CalDisplay.ResultFormat.RESULT,
+//					savedInstanceState.getString("Result"));
+//		} else {
+//			PSDbg.e("savedInstanceState == NULL");
+//		}
+		
+		mLogic.initHistory();
 	}
 	
 	@Override
@@ -75,4 +86,17 @@ public class CalMain extends Activity {
 			super.onBackPressed();
 		}
 	}
+	
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		// TODO Auto-generated method stub
+//		super.onSaveInstanceState(outState);
+//		PSDbg.d("enter");
+//		if (outState != null) {
+//			outState.putString("Formula", mLogic.getDisplay().getFormula());
+//			outState.putString("Result", mLogic.getDisplay().getResult());
+//		} else {
+//			PSDbg.e("outState == NULL");
+//		}
+//	}
 }

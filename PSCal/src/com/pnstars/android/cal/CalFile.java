@@ -14,14 +14,18 @@ import android.content.Context;
 import com.pnstars.android.helper.PSDbg;
 
 public class CalFile {
-	private static final int LAST_VERSION = 1;
+	private static final int LAST_VERSION = 2;
 	private static final String CAL_FILE = "pscal.data";
 	private Context mContext;
+	private CalLogic mLogic;
 	private CalHistory mHistory;
+	private CalDisplay mDisplay;
 	
-	public CalFile (Context context, CalHistory history) {
+	public CalFile (Context context, CalLogic logic, CalHistory history, CalDisplay display) {
 		mContext = context;
+		mLogic = logic;
 		mHistory = history;
+		mDisplay = display;
 	}
 	
 	public void load() {
@@ -34,6 +38,7 @@ public class CalFile {
 				in.close();
 				throw new IOException("Data version " + version + "; expected " + LAST_VERSION);
 			}
+			mLogic.load(version, in);
 			mHistory.load(version, in);
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -49,6 +54,7 @@ public class CalFile {
 			OutputStream os = new BufferedOutputStream(mContext.openFileOutput(CAL_FILE, 0), 8192);
 			DataOutputStream out = new DataOutputStream(os);
 			out.writeInt(LAST_VERSION);
+			mDisplay.save (out);
 			mHistory.save (out);
 			out.close();
 		} catch (IOException e) {

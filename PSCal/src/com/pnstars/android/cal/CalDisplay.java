@@ -1,5 +1,7 @@
 package com.pnstars.android.cal;
 
+import java.io.DataOutput;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -123,6 +125,9 @@ public class CalDisplay {
 	public String getFormula() {
 		return mFormula.getText().toString();
 	}
+	public String getResult() {
+		return mResult.getText().toString();
+	}
 	
 	private void fillHistory (CalHistory history) {
 		ArrayList<CalItem> lhistory = history.getHistory();
@@ -174,5 +179,10 @@ public class CalDisplay {
 	
 	public boolean isVisibleHistory() {
 		return mFgVisibleHistory;
+	}
+	
+	public void save(DataOutput out) throws IOException {
+		out.writeUTF(getFormula());
+		out.writeUTF(getResult());
 	}
 }

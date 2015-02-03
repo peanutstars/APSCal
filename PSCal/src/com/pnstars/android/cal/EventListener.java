@@ -25,24 +25,25 @@ public class EventListener implements View.OnClickListener
 		int id = view.getId();
 //		mVib.vibrate(VIBRATOR_MSEC);
 		
+		final String keyHexa   = CalLogic.MARK_VIB_OFF + "0" + CalLogic.MARK_VIB_ON + "x";
+		final String keyOctal  = CalLogic.MARK_VIB_OFF + "0" + CalLogic.MARK_VIB_ON + "o";
+		final String keyBinary = CalLogic.MARK_VIB_OFF + "0" + CalLogic.MARK_VIB_ON + "b";
+		
 		switch (id)
 		{
-		case R.id.btnOpAND:			mLogic.input("&");		break;
-		case R.id.btnOpOR:			mLogic.input("|");		break;
-		case R.id.btnOpXOR:			mLogic.input("^");		break;
-		case R.id.btnHexa:			mLogic.input("0");
-										mLogic.input("x");		break;
-		case R.id.btnOctal:			mLogic.input("0");
-										mLogic.input("o");		break;
-		case R.id.btnBinary:			mLogic.input("0");		
-										mLogic.input("b");		break;
-		case R.id.btnAC:				mLogic.reset();			break;
-		case R.id.btnDel:				mLogic.delete();			break;
-		case R.id.btnEnter:			mLogic.enter();			break;
-		case R.id.tvResult:			mLogic.history();			break;
-		case R.id.imgHistory:		mLogic.history();			break;
-		case R.id.btnHistoryClose:	mLogic.history();			break;
-		case R.id.btnHistoryClear:	mLogic.historyClear();	break;
+		case R.id.btnOpAND:			mLogic.input("&");				break;
+		case R.id.btnOpOR:			mLogic.input("|");				break;
+		case R.id.btnOpXOR:			mLogic.input("^");				break;
+		case R.id.btnHexa:			mLogic.stringInput(keyHexa);	break;
+		case R.id.btnOctal:			mLogic.stringInput(keyOctal);	break;
+		case R.id.btnBinary:			mLogic.stringInput(keyBinary);	break;		
+		case R.id.btnAC:				mLogic.reset();					break;
+		case R.id.btnDel:				mLogic.delete();					break;
+		case R.id.btnEnter:			mLogic.enter();					break;
+		case R.id.tvResult:			mLogic.history();					break;
+		case R.id.imgHistory:		mLogic.history();					break;
+		case R.id.btnHistoryClose:	mLogic.history();					break;
+		case R.id.btnHistoryClear:	mLogic.historyClear();			break;
 		default:
 			if (view instanceof Button) {
 				String text = ((Button) view).getText().toString();
