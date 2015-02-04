@@ -62,4 +62,39 @@
        <item name="android:layout_marginLeft">4dp</item>
        <item name="android:layout_marginRight">4dp</item>
     </style>
+    
+    <!-- Launcher Icon -->
+    <style name="style_launcher_genoa" parent="@android:style/Widget.Button">
+       <item name="android:textColor">#FFFFFF</item>
+       <item name="android:gravity">center</item>
+       <item name="android:shadowColor">#000000</item>
+       <item name="android:shadowDx">1</item>
+       <item name="android:shadowDy">1</item>
+       <item name="android:shadowRadius">0.6</item>
+       <item name="android:background">@drawable/custom_launcher_genoa</item>
+       <item name="android:padding">1dp</item>
+       <item name="android:layout_margin">4dp</item>
+    </style>
+	<style name="style_launcher_orange" parent="@android:style/Widget.Button">
+       <item name="android:textColor">#FFFFFF</item>
+       <item name="android:gravity">center</item>
+       <item name="android:shadowColor">#000000</item>
+       <item name="android:shadowDx">1</item>
+       <item name="android:shadowDy">1</item>
+       <item name="android:shadowRadius">0.6</item>
+       <item name="android:background">@drawable/custom_launcher_orange</item>
+       <item name="android:padding">1dp</item>
+       <item name="android:layout_margin">4dp</item>
+    </style>
+    <style name="style_launcher_sandrift" parent="@android:style/Widget.Button">
+       <item name="android:textColor">#FFFFFF</item>
+       <item name="android:gravity">center</item>
+       <item name="android:shadowColor">#000000</item>
+       <item name="android:shadowDx">1</item>
+       <item name="android:shadowDy">1</item>
+       <item name="android:shadowRadius">0.6</item>
+       <item name="android:background">@drawable/custom_launcher_sandrift</item>
+       <item name="android:padding">1dp</item>
+       <item name="android:layout_margin">4dp</item>
+    </style>
 </resources>
