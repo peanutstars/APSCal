@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.view.View;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,7 +35,7 @@ public class CalDisplay implements CalFile.FileOp {
 	private LinearLayout mLHistory;
 	private CalHistory mCalHistory;
 	private LinearLayout mLPad;
-	private CalListViewAdapter mAdapter;
+	private CalHistoryAdapter mAdapter;
 	private boolean mFgVisibleHistory;
 
 	public CalDisplay (Activity activity) {
@@ -133,7 +135,7 @@ public class CalDisplay implements CalFile.FileOp {
 	private void fillHistory (CalHistory history) {
 		ArrayList<CalItem> lhistory = history.getHistory();
 		mCalHistory = history;
-		mAdapter = new CalListViewAdapter(mActivity, R.layout.list_history, lhistory);
+		mAdapter = new CalHistoryAdapter(mActivity, R.layout.list_history, lhistory);
 		mLvHistory.setAdapter(mAdapter);
 		
 		SwipeDismissListViewTouchListener touchListener = 
@@ -156,6 +158,15 @@ public class CalDisplay implements CalFile.FileOp {
 							}
 						});
 		mLvHistory.setOnTouchListener(touchListener);
+		
+		OnItemClickListener itemClickListener = new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				/* TODO : Insert Code */
+			}
+		};
+		mLvHistory.setOnItemClickListener(itemClickListener);
 	}
 	
 	public void history(CalHistory history) {

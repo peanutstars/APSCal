@@ -13,7 +13,6 @@ import com.pnstars.android.helper.PSDbg;
 public class EventListener implements View.OnClickListener
 										   , View.OnLongClickListener 
 										   {
-	public final String TAG = "PnStars";
 //	private final int VIBRATOR_MSEC = 50;
 	private CalLogic mLogic;
 //	private Vibrator mVib;
@@ -58,13 +57,14 @@ public class EventListener implements View.OnClickListener
 	
 	private boolean longClickFormula() {
 		Activity act = mLogic.getActivity();
+		CalDisplay disp = mLogic.getDisplay();
 		String name = act.getString(R.string.strClipBoardName);
 		StringBuilder value = new StringBuilder();
-		if (mLogic.getDisplay().getFormula().length() > 0) {
-			value.append(mLogic.getDisplay().getFormula());
-			if (mLogic.getDisplay().getResult().length() > 0) {
+		if (disp.getFormula().length() > 0) {
+			value.append(disp.getFormula());
+			if (disp.getResult().length() > 0) {
 				value.append(" = ");
-				value.append(mLogic.getDisplay().getResult());
+				value.append(disp.getResult());
 			}
 			android.content.ClipboardManager cb = (android.content.ClipboardManager)
 					act.getSystemService(Context.CLIPBOARD_SERVICE);
