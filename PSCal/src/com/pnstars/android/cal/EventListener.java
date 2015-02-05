@@ -1,14 +1,17 @@
 package com.pnstars.android.cal;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.pnstars.android.R;
 import com.pnstars.android.helper.PSDbg;
 
 
 public class EventListener implements View.OnClickListener
-										   // , View.OnLongClickListener 
+										   , View.OnLongClickListener 
 										   {
 	public final String TAG = "PnStars";
 //	private final int VIBRATOR_MSEC = 50;
@@ -53,10 +56,37 @@ public class EventListener implements View.OnClickListener
 		}
 	}
 	
-//	@Override
-//	public boolean onLongClick(View view) {
-//		int id = view.getId();
-//		Log.d(TAG, "" + id);
-//		return false;
-//	}
+	private boolean longClickFormula() {
+		Activity act = mLogic.getActivity();
+		String name = act.getString(R.string.strClipBoardName);
+		StringBuilder value = new StringBuilder();
+		if (mLogic.getDisplay().getFormula().length() > 0) {
+			value.append(mLogic.getDisplay().getFormula());
+			if (mLogic.getDisplay().getResult().length() > 0) {
+				value.append(" = ");
+				value.append(mLogic.getDisplay().getResult());
+			}
+			android.content.ClipboardManager cb = (android.content.ClipboardManager)
+					act.getSystemService(Context.CLIPBOARD_SERVICE);
+			android.content.ClipData clip = android.content.ClipData.newPlainText(name, value.toString());
+			cb.setPrimaryClip(clip);
+		} else {
+			Toast.makeText(act, act.getString(R.string.strErrToastClipBoardEmpty), Toast.LENGTH_SHORT).show();
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onLongClick(View view) {
+		boolean rv = false;
+		int id = view.getId();
+		
+		switch (id)
+		{
+		case R.id.tvFormula:			rv = longClickFormula();				break;
+		}
+		
+		return rv;
+	}
 }

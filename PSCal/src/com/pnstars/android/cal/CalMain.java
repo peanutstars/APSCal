@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.pnstars.android.R;
@@ -73,6 +74,9 @@ public class CalMain extends Activity {
 		
 		ImageView history = (ImageView) findViewById(R.id.imgHistory);
 		history.setOnClickListener(mListener);
+		
+		EditText formula = (EditText) findViewById(R.id.tvFormula);
+		formula.setOnLongClickListener(mListener);
 	}
 
 	@Override

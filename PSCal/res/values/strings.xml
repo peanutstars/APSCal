@@ -41,8 +41,14 @@
     <string name="strHistoryClear">Clear All</string>
     <string name="strHistoryClose">Close</string>
     <string name="strNone"></string>
-    <string name="strErrSyntax">Syntax Error</string>
+    
     <string name="strInfinity">\u221e</string>
+    
+    <string name="strErrSyntax">Syntax Error.</string>
+    <string name="strErrToastClipBoardEmpty">No Data.\</string>
+    <string name="strClipBoardName">PSCal Copyed</string>
+    
+    
     <string name="title_activity_test">TestActivity</string>
 
 </resources>

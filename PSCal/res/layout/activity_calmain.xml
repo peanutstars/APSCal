@@ -23,6 +23,7 @@
             android:gravity="top"
             android:inputType="textMultiLine|textNoSuggestions"
             android:scrollbars="vertical"
+            android:clickable="true"
             android:text="@string/strFormula"
             android:textSize="@dimen/tsFormula"
             android:textStyle="normal" />
@@ -99,6 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="9.45"
+            android:fadeScrollbars="true"
             android:background="@drawable/round_rect" />
     </LinearLayout>
 

@@ -344,6 +344,9 @@ public class CalLogic implements CalFile.FileOp {
 	public CalDisplay getDisplay() {
 		return mDisplay;
 	}
+	public Activity getActivity() {
+		return mActivity;
+	}
 	
 	private class OutputResult {
 		NumType numType;
