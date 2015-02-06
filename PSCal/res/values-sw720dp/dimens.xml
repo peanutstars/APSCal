@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tsFormula">48sp</dimen>
-    <dimen name="tsResult">52sp</dimen>
-    <dimen name="tsHistoryFromula">40sp</dimen>
-    <dimen name="tsHistoryResult">40sp</dimen>
-    <dimen name="btnOpBitwise">36sp</dimen>
-    <dimen name="btnHexaNum">44sp</dimen>
-    <dimen name="btnNum">48sp</dimen>
-    <dimen name="btnOp">56sp</dimen>
+    <dimen name="tsFormula">50sp</dimen>
+    <dimen name="tsResult">54sp</dimen>
+    <dimen name="tsHistoryFromula">42sp</dimen>
+    <dimen name="tsHistoryResult">42sp</dimen>
+    <dimen name="btnOpBitwise">38sp</dimen>
+    <dimen name="btnHexaNum">46sp</dimen>
+    <dimen name="btnNum">50sp</dimen>
+    <dimen name="btnOp">58sp</dimen>
 </resources>
